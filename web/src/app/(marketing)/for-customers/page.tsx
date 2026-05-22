@@ -1,0 +1,378 @@
+// For Customers — dedicated onboarding & program detail page
+
+import Link from 'next/link';
+import { Footer } from '@/components/layout/Footer';
+import { LoginButton } from './_components';
+
+// ─── helpers ────────────────────────────────────────────────────────────────
+
+function SectionHeader({ eyebrow, title }: { eyebrow?: string; title: string }) {
+  return (
+    <div className="mb-[48px]">
+      {eyebrow && <div className="caps mb-[16px] opacity-55">{eyebrow}</div>}
+      <h2 className="th text-[36px] font-normal tracking-[-0.02em] m-0 leading-[1.15]">{title}</h2>
+    </div>
+  );
+}
+
+function RewardCell({
+  tag,
+  big,
+  sub,
+  detail,
+}: {
+  tag: string;
+  big: string;
+  sub: string;
+  detail: string;
+}) {
+  return (
+    <div className="p-[40px_32px] border-r border-[var(--rule)]">
+      <div className="mono text-[11px] tracking-[.16em] uppercase opacity-55 mb-[32px]">{tag}</div>
+      <div className="flex items-baseline gap-[12px]">
+        <span className="text-[56px] font-medium tracking-[-0.03em] leading-[1]">{big}</span>
+        <span className="caps opacity-65">{sub}</span>
+      </div>
+      <p className="th mt-[20px] text-[13px] text-[var(--fg-soft)] leading-[1.7]">{detail}</p>
+    </div>
+  );
+}
+
+function RuleCell({ num, lab, sub }: { num: string; lab: string; sub: string }) {
+  return (
+    <div className="p-[28px_24px] border-r border-[var(--rule)]">
+      <div className="flex items-baseline gap-[10px]">
+        <span className="text-[36px] font-medium tracking-[-0.025em] leading-[1] font-[var(--mono)]">
+          {num}
+        </span>
+        <span className="caps opacity-55">{lab}</span>
+      </div>
+      <p className="th mt-[14px] text-[12px] text-[var(--fg-soft)] leading-[1.6]">{sub}</p>
+    </div>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label className="block">
+      <div className="caps opacity-55 mb-[8px]">{label}</div>
+      {children}
+    </label>
+  );
+}
+
+// ─── path steps ──────────────────────────────────────────────────────────────
+
+const PATH_STEPS = [
+  {
+    n: '01',
+    t: 'จบทริปกับ Gography',
+    b: 'ทริปไหนก็ได้ที่จัดโดย Gography — ตั้งแต่ครึ่งวันถึง 14 วัน นับตั้งแต่ปี 2020 เป็นต้นมา',
+    extra: 'ระบบดึงข้อมูลจาก booking records โดยอัตโนมัติ',
+    cta: null as null | { label: string; to: string },
+  },
+  {
+    n: '02',
+    t: 'สร้างบัญชีด้วย Gmail',
+    b: 'ใช้ Gmail เดียวกับที่จองทริป — Editorial teamจะเช็คและ mark สถานะ "Voyageur" ภายใน 7 วัน',
+    extra: null as null | string,
+    cta: { label: 'Login with Gmail', to: '/login' },
+  },
+  {
+    n: '03',
+    t: 'อัพโหลดภาพ — วันละ 1 ภาพ',
+    b: 'เลือกภาพที่ดีที่สุดจากทริป — อัพได้วันละ 1 ภาพต่อบัญชี (รวมทุกหมวด) เพื่อรักษาคุณภาพและลด spam ส่งสะสมได้ตลอดฤดูกาล (4 เดือน)',
+    extra: 'JPEG/PNG/WebP · ขนาดสูงสุด 25MB · reset ทุก 00:00 น. ตามเวลาประเทศไทย',
+    cta: null as null | { label: string; to: string },
+  },
+  {
+    n: '04',
+    t: 'ปลายฤดูกาล: ประกาศผล',
+    b: 'ทีม Editorial คัดเลือกภาพยอดเยี่ยมในแต่ละหมวด — ผู้ชนะได้รับ voucher และ cashback ผ่านระบบโดยอัตโนมัติ',
+    extra: 'ประกาศผลทุกวันที่ 1 ของเดือนถัดไป',
+    cta: null as null | { label: string; to: string },
+  },
+] as const;
+
+// ─── page ────────────────────────────────────────────────────────────────────
+
+export default function Page() {
+  return (
+    <div className="page-fade">
+      {/* Hero */}
+      <section className="pt-[80px] pb-[64px]">
+        <div className="wrap">
+          <div className="caps opacity-55 mb-[24px]">For Gography Customers</div>
+          <div className="grid grid-cols-[1.4fr_1fr] gap-[80px] items-end">
+            <h1 className="display-hero th text-[clamp(56px,6.6vw,96px)] m-0">
+              Your trip photos<br />
+              <em className="not-italic font-medium">are worth more</em>
+            </h1>
+            <p className="th text-[17px] leading-[1.65] text-[var(--fg-soft)] m-0">
+              ลูกค้าทุกคนที่เคยร่วมทริป Gography จะได้รับสถานะ{' '}
+              <strong className="text-[var(--fg)] font-medium">Voyageur</strong> —
+              มีสิทธิ์Submit a photoในหมวดพิเศษ{' '}
+              <strong className="text-[var(--fg)] font-medium">Voyageurs Awards</strong> —
+              แข่งกันเฉพาะลูกค้าด้วยกัน เพื่อชิงรางวัลสูงสุด 50,000 บาท ต่อฤดูกาล
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Reward summary */}
+      <section className="pt-[40px] pb-[56px]">
+        <div className="wrap">
+          <div className="grid grid-cols-[repeat(3,1fr)] border border-[var(--rule)]">
+            <RewardCell
+              tag="Rank 01 · ต่อหมวด"
+              big="50,000"
+              sub="THB Voucher"
+              detail="ใช้แลกทริป Gography ใดก็ได้ ภายใน 24 เดือน"
+            />
+            <RewardCell
+              tag="Rank 02–03"
+              big="15%"
+              sub="Cashback"
+              detail="ส่วนลดทริปครั้งถัดไป สะสมได้ทุกฤดูกาล"
+            />
+            <RewardCell
+              tag="Rank 04–10"
+              big="3–10%"
+              sub="Cashback"
+              detail="ส่วนลดตามลำดับ ระบบคำนวณอัตโนมัติ"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Rules at a glance */}
+      <section className="pt-[24px] pb-[80px]">
+        <div className="wrap">
+          <div className="caps opacity-55 mb-[24px]">Rules at a glance</div>
+          <div className="grid grid-cols-[repeat(4,1fr)] border border-[var(--rule)]">
+            <RuleCell num="1/day" lab="Upload" sub="วันละ 1 ภาพต่อบัญชี รวมทุกหมวด" />
+            <RuleCell
+              num="∞"
+              lab="Vote"
+              sub="โหวตภาพอื่นได้ไม่จำกัด ภาพละ 1 ครั้ง (toggle ได้)"
+            />
+            <RuleCell num="≤25 MB" lab="File size" sub="JPEG · PNG · WebP" />
+            <RuleCell num="4 mo" lab="Season" sub="ภาพอยู่ในประกวดตลอดฤดูกาล" />
+          </div>
+        </div>
+      </section>
+
+      {/* The path — 4 step journey */}
+      <section className="py-[80px] bg-[var(--cream)] rule-top rule-bot">
+        <div className="wrap">
+          <SectionHeader eyebrow="The path" title="The full path" />
+          <div className="grid grid-cols-[180px_1fr] gap-[56px] mt-[32px]">
+            {PATH_STEPS.map((s) => (
+              <>
+                <div
+                  key={`${s.n}-num`}
+                  className="mono text-[64px] font-light tracking-[-0.04em] leading-[1] pt-[4px]"
+                >
+                  {s.n}
+                </div>
+                <div
+                  key={`${s.n}-body`}
+                  className="pb-[48px] border-b border-[var(--rule)]"
+                >
+                  <h3 className="th text-[28px] font-normal tracking-[-0.015em] m-0">{s.t}</h3>
+                  <p className="th text-[16px] leading-[1.7] text-[var(--fg-soft)] mt-[16px] max-w-[560px]">
+                    {s.b}
+                  </p>
+                  {s.extra && (
+                    <div className="mono mt-[16px] text-[11px] opacity-55">{s.extra}</div>
+                  )}
+                  {s.cta && (
+                    <LoginButton
+                      label={s.cta.label}
+                      to={s.cta.to}
+                      className="btn btn-sm mt-[20px]"
+                    />
+                  )}
+                </div>
+              </>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Verification — claim status */}
+      <section id="verify" className="py-[96px]">
+        <div className="wrap">
+          <div className="grid grid-cols-[1fr_1fr] gap-[80px]">
+            <div>
+              <SectionHeader eyebrow="Already a customer?" title="Verify your status" />
+              <p className="th text-[16px] leading-[1.7] text-[var(--fg-soft)]">
+                ถ้าคุณเคยร่วมทริปกับเราแล้ว แต่ยังไม่เห็น Voyageur badge บนโปรไฟล์ —
+                ใช้แบบฟอร์มนี้เพื่อให้Editorial teamตรวจสอบ
+              </p>
+              <div className="mt-[32px] flex flex-col gap-[16px]">
+                <Field label="Gmail ที่ใช้จองทริป">
+                  <input
+                    className="input"
+                    placeholder="your.name@gmail.com"
+                    defaultValue="pim.asanachinda@gmail.com"
+                  />
+                </Field>
+                <Field label="ทริปที่เคยร่วม">
+                  <select className="input">
+                    <option>Gography Patagonia · January 2025</option>
+                    <option>Gography Iceland · November 2024</option>
+                    <option>Gography Atacama · September 2024</option>
+                    <option>อื่นๆ — โปรดระบุในช่องด้านล่าง</option>
+                  </select>
+                </Field>
+                <Field label="หมายเลขการจอง (ถ้าทราบ)">
+                  <input className="input" placeholder="GG-2025-01-1043" />
+                </Field>
+                <Field label="ข้อความเพิ่มเติม (ไม่บังคับ)">
+                  <textarea className="input" rows={3} placeholder="เช่น ชื่อหัวหน้าทริป หรือรายละเอียดเฉพาะของทริป" />
+                </Field>
+                <button className="btn btn-solid mt-[12px] justify-center">
+                  ส่งคำขอVerify your status
+                </button>
+                <p className="mono text-[11px] opacity-55 leading-[1.7] text-center mt-[8px]">
+                  Editorial teamจะตอบกลับภายใน 7 วันทำการ
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <SectionHeader eyebrow="What you get" title="เมื่อได้รับการยืนยัน" />
+              <ul className="list-none p-0 m-0">
+                {(
+                  [
+                    [
+                      'Voyageur badge',
+                      'แสดงบนโปรไฟล์ — เป็น public proof ว่าคุณเคยร่วมทริป Gography',
+                    ],
+                    [
+                      'สิทธิ์ส่งภาพในหมวด Voyageurs Awards',
+                      'แข่งเฉพาะกับ Voyageur ด้วยกัน ไม่ต้องแข่งกับช่างภาพอาชีพ',
+                    ],
+                    [
+                      'Access to Voyageurs section',
+                      'My photosจะปรากฏใน Voyageurs section บนหน้า Landing — เพิ่มโอกาสได้รับ exposure',
+                    ],
+                    [
+                      'Cashback tracking',
+                      'ระบบนับคะแนนสะสมและคำนวณส่วนลดให้อัตโนมัติ',
+                    ],
+                    [
+                      'Early access ทริปใหม่',
+                      'ลูกค้าเก่าได้รับสิทธิ์จองทริปใหม่ก่อนเปิดให้บุคคลทั่วไป 7 วัน',
+                    ],
+                  ] as [string, string][]
+                ).map(([title, body], i) => (
+                  <li
+                    key={i}
+                    className="flex gap-[24px] py-[20px] border-b border-[var(--rule)]"
+                  >
+                    <div className="mono text-[11px] opacity-55 pt-[4px] min-w-[24px]">
+                      {String(i + 1).padStart(2, '0')}
+                    </div>
+                    <div>
+                      <div className="text-[16px] font-medium">{title}</div>
+                      <p className="th text-[13px] leading-[1.7] text-[var(--fg-soft)] m-0 mt-[8px]">
+                        {body}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-[80px] bg-[var(--cream)] rule-top rule-bot">
+        <div className="wrap">
+          <SectionHeader eyebrow="FAQ" title="Frequently asked questions" />
+          <div className="max-w-[800px]">
+            {(
+              [
+                [
+                  'ฉันต้องเป็นช่างภาพอาชีพไหม?',
+                  'ไม่ต้องเลย — โครงการนี้สำหรับลูกค้าทุกคน ไม่ว่ามือใหม่หรือมือสมัครเล่น เกณฑ์การคัดเลือกเน้นที่ "เรื่องราว" และ "ความเป็นตัวเอง" ของภาพ ไม่ใช่ technical perfection',
+                ],
+                [
+                  'ภาพต้องถ่ายจากทริป Gography เท่านั้น?',
+                  'แนะนำให้ส่งภาพจากทริป Gography — แต่หากต้องการส่งภาพอื่นด้วย คุณยังคงเข้าร่วมหมวดทั่วไป (Landscape/Portrait/BW) ได้ เพียงไม่นับเข้า Voyageurs Awards',
+                ],
+                [
+                  'อัพโหลดได้กี่ภาพต่อวัน?',
+                  'วันละ 1 ภาพต่อบัญชี — เกณฑ์เดียวกับทุกคน (รวมหมวด Voyageurs Awards และหมวดทั่วไป) ระบบ reset เวลา 00:00 น. ทุกวัน',
+                ],
+                [
+                  'โหวต (like) ภาพอื่นได้ไม่จำกัดใช่ไหม?',
+                  'ใช่ — โหวตภาพได้ไม่จำกัดจำนวน เพียงภาพละ 1 ครั้ง (toggle ได้ตลอดเวลา) คะแนนของคุณช่วยภาพอื่นไต่อันดับใน Pulse Score',
+                ],
+                [
+                  'Cashback ใช้ได้กับทริปไหนบ้าง?',
+                  'ทริปใดก็ได้ที่จัดโดย Gography — ระบุก่อนชำระเงิน Editorial teamจะหักส่วนลดให้อัตโนมัติ',
+                ],
+                [
+                  'ถ้าฉันไม่เคยใช้ cashback จะหมดอายุไหม?',
+                  'อายุ cashback คือ 24 เดือนนับจากวันประกาศผล — สะสมข้ามฤดูกาลได้สูงสุด 30% ต่อทริป',
+                ],
+                [
+                  'ใครเป็นคนตัดสินว่าฉันชนะ?',
+                  'ทีม Editorial ของ Gography Photo Awards — เกณฑ์เปิดเผยที่หน้า Pulse Score (แต่ Voyageurs Awards เน้นเรื่องราวมากกว่าตัวเลข)',
+                ],
+              ] as [string, string][]
+            ).map(([q, a], i) => (
+              <details
+                key={i}
+                className="border-b border-[var(--rule)]"
+                open={i === 0}
+              >
+                <summary
+                  className="th py-[20px] text-[17px] font-medium cursor-pointer flex justify-between"
+                >
+                  <span>{q}</span>
+                  <span className="mono text-[12px] opacity-55">+</span>
+                </summary>
+                <p
+                  className="th m-0 pb-[20px] text-[15px] text-[var(--fg-soft)] leading-[1.7] max-w-[720px]"
+                >
+                  {a}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-[96px]">
+        <div className="wrap-narrow text-center">
+          <h2 className="th text-[48px] font-normal tracking-[-0.025em] m-0 leading-[1.15]">
+            Ready to send your first photo?
+          </h2>
+          <p className="th mt-[20px] text-[16px] text-[var(--fg-soft)] leading-[1.7]">
+            ฤดูกาลปัจจุบัน{' '}
+            <strong className="text-[var(--fg)] font-medium">Spring 2026</strong>{' '}
+            เปิดรับภาพถึง 30 เมษายน 2569
+          </p>
+          <div className="flex justify-center gap-[16px] mt-[32px]">
+            <LoginButton
+              label="เริ่มต้น — Login with Gmail"
+              to="/login"
+              className="btn btn-solid"
+            />
+            <Link href="/explore" className="btn">
+              ดูภาพในประกวดก่อน
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
