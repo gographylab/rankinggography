@@ -175,15 +175,12 @@ export default function LandingPage() {
             <div className="mono" style={{ fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase' }}>★ #1 PULSE {top.pulse.toFixed(0)}</div>
           </div>
 
-          {/* Viewfinder frame */}
+          {/* Viewfinder frame — corner brackets only, no grid / crosshair / HUD text */}
           <div className="wrap" style={{ paddingBottom: 28 }}>
             <ViewfinderFrame
-              cameraLabel={top.exif.camera}
-              lensLabel={top.exif.focal}
-              isoLabel={`ISO ${top.exif.iso}`}
-              shutterLabel={top.exif.shutter}
-              apertureLabel={top.exif.aperture}
-              recLabel="REC"
+              showGrid={false}
+              showCrosshair={false}
+              showAF={false}
               onClick={() => router.push(`/photo/${top.id}`)}
             >
               <img src={top.src} alt={top.title} style={{ width: '100%', height: 'auto', maxHeight: '78vh', objectFit: 'contain', display: 'block', margin: '0 auto' }} />

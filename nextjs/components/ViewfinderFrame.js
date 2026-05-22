@@ -22,6 +22,7 @@ export function ViewfinderFrame({
   onClick,
   showGrid = true,
   showCrosshair = true,
+  showAF = true,
   cornerInset = 14,
   cornerSize = 28,
   cornerThickness = 1.5,
@@ -142,12 +143,14 @@ export function ViewfinderFrame({
       )}
 
       {/* bottom-right: aperture circle + AF box style hint */}
-      <div style={{ ...stripCommon, bottom: cornerInset + 6, right: cornerInset + 18 }}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ width: 8, height: 8, border: '1px solid rgba(255,255,255,.85)', borderRadius: '50%' }} />
-          <span style={{ opacity: 0.85 }}>AF · S</span>
-        </span>
-      </div>
+      {showAF && (
+        <div style={{ ...stripCommon, bottom: cornerInset + 6, right: cornerInset + 18 }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ width: 8, height: 8, border: '1px solid rgba(255,255,255,.85)', borderRadius: '50%' }} />
+            <span style={{ opacity: 0.85 }}>AF · S</span>
+          </span>
+        </div>
+      )}
     </div>
   );
 }
