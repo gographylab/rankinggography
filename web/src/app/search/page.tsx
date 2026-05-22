@@ -58,9 +58,7 @@ function SearchResults() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="ค้นหาภาพ ช่างภาพ หรือสถานที่"
-              className="th flex-1 bg-transparent border-0 outline-none text-fg font-light tracking-[-.02em]"
-              /* font-size is a fluid clamp value — runtime-fixed but not a Tailwind utility */
-              style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontFamily: 'var(--font-noto-thai), var(--font-inter), sans-serif' }}
+              className="th font-thai flex-1 bg-transparent border-0 outline-none text-fg font-light tracking-[-.02em] text-[clamp(36px,5vw,64px)]"
             />
             <span className="mono text-[11px] opacity-55">
               {q ? `${photoResults.length + photographerResults.length} results` : 'Type to search'}
