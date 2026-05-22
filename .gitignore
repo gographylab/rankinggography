@@ -1,0 +1,19 @@
+# Local Claude Code state (per-user permissions, history)
+.claude/
+
+# Supabase CLI local state (project link, version cache)
+supabase/.temp/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Local env files (root-level — nextjs/ has its own .gitignore)
+.env
+.env.local
+.env.*.local
