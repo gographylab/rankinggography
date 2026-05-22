@@ -8,6 +8,7 @@ import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
 import { useApp } from '@/components/AppProvider';
+import { PageCover } from '@/components/PageCover';
 
 // ===== Ported from pages/me.jsx =====
 // User Account pages (/me/*) — wraps all sub-pages with a sticky left sidebar
@@ -36,6 +37,15 @@ function PageMe({ section = 'dashboard', userState = 'user' }) {
 
   return (
     <div className="page-fade">
+      <PageCover
+        photoId="p013"
+        eyebrow="Your account"
+        title="Your dashboard"
+        subtitle="ภาพของคุณ คะแนน favorites ทริปกับ Gography — รวมที่เดียว"
+        height="38vh"
+        minHeight={300}
+        maxHeight={420}
+      />
       <div className="wrap" style={{ padding: '48px 40px 96px', display: 'grid', gridTemplateColumns: '240px 1fr', gap: 56, alignItems: 'start' }}>
         {/* ============ SIDEBAR ============ */}
         <aside style={{ position: 'sticky', top: 96, alignSelf: 'start' }}>

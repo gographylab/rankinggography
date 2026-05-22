@@ -7,6 +7,7 @@ import { PHOTOS, PHOTOGRAPHERS, AMBASSADORS, SEASONS, COMMENTS, pulseScore, find
 import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
+import { PageCover } from '@/components/PageCover';
 
 // ===== Ported from pages/search.jsx =====
 // Search page — query input + filtered results
@@ -130,7 +131,17 @@ function PageSearch() {
 // Simple login page for /login route
 function PageLogin() {
   return (
-    <div className="page-fade" style={{ minHeight: 'calc(100vh - 70px)', display: 'grid', placeItems: 'center', padding: '64px 0' }}>
+    <div className="page-fade">
+      <PageCover
+        photoId="p004"
+        eyebrow="Sign in"
+        title={<>Sign in to vote<br />and save photos</>}
+        subtitle="ใช้ Gmail เพื่อยืนยันตัวตน — 1 บัญชี = 1 คะแนน ต่อภาพ"
+        height="44vh"
+        minHeight={360}
+        maxHeight={460}
+      />
+      <div style={{ display: 'grid', placeItems: 'center', padding: '80px 0' }}>
       <div style={{ maxWidth: 380, width: '100%', textAlign: 'center', padding: '0 40px' }}>
         <div className="logo" style={{ justifyContent: 'center', marginBottom: 48 }}>
           <span className="mark">G</span>
@@ -156,6 +167,7 @@ function PageLogin() {
           BY SIGNING IN YOU AGREE TO OUR<br />
           <a href="#" style={{ borderBottom: '1px solid currentColor' }}>TERMS</a> AND <a href="#" style={{ borderBottom: '1px solid currentColor' }}>PRIVACY POLICY</a>
         </p>
+      </div>
       </div>
     </div>
   );

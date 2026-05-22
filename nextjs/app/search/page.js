@@ -7,6 +7,7 @@ import { PHOTOS, PHOTOGRAPHERS, AMBASSADORS, SEASONS, COMMENTS, pulseScore, find
 import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
+import { PageCover } from '@/components/PageCover';
 
 // ===== Ported from pages/search.jsx =====
 // Search page — query input + filtered results
@@ -33,6 +34,15 @@ function PageSearch() {
 
   return (
     <div className="page-fade">
+      <PageCover
+        photoId="p007"
+        eyebrow="Search"
+        title="Find your photo"
+        subtitle="ค้นจากชื่อภาพ ชื่อช่างภาพ สถานที่ หรือหมวดหมู่"
+        height="36vh"
+        minHeight={300}
+        maxHeight={420}
+      />
       <section style={{ padding: '64px 0' }}>
         <div className="wrap">
           <div className="caps" style={{ opacity: .55, marginBottom: 24 }}>Search</div>

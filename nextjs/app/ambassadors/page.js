@@ -6,6 +6,7 @@ import { PHOTOS, PHOTOGRAPHERS, AMBASSADORS, SEASONS, COMMENTS, pulseScore, find
 import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
+import { PageCover } from '@/components/PageCover';
 
 // ===== Ported from pages/ambassadors.jsx =====
 // Ambassadors — list of trusted curators (invite-only)
@@ -14,19 +15,12 @@ function PageAmbassadors() {
   const router = useRouter();
   return (
     <div className="page-fade">
-      <section style={{ padding: '80px 0 64px' }}>
-        <div className="wrap">
-          <div className="caps" style={{ opacity: .55, marginBottom: 24 }}>Curators</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 80, alignItems: 'end' }}>
-            <h1 className="display-hero th" style={{ fontSize: 'clamp(60px, 7vw, 104px)', margin: 0 }}>
-              Ambassadors
-            </h1>
-            <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--fg-soft)', margin: 0 }} className="th">
-              ช่างภาพรับเชิญที่ Gography ไว้วางใจให้คัดเลือก "Ambassador Pick" — เพิ่ม Pulse Score +50 ต่อภาพ
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageCover
+        photoId="p002"
+        eyebrow="Curators"
+        title="Ambassadors"
+        subtitle="ช่างภาพรับเชิญที่ Gography ไว้วางใจให้คัดเลือก Ambassador Pick — เพิ่ม Pulse Score +50 ต่อภาพ"
+      />
 
       <section style={{ padding: '40px 0 96px' }} className="rule-top">
         <div className="wrap">

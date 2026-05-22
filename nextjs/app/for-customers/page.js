@@ -8,6 +8,7 @@ import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
 import { SectionHeader } from '@/components/Shared';
+import { PageCover } from '@/components/PageCover';
 
 // ===== Ported from pages/for-customers.jsx =====
 // For Customers — dedicated onboarding & program detail page
@@ -18,21 +19,12 @@ function PageForCustomers() {
   const customerPhoto = PHOTOS.find(p => p.id === 'p015');
   return (
     <div className="page-fade">
-      {/* Hero */}
-      <section style={{ padding: '80px 0 64px' }}>
-        <div className="wrap">
-          <div className="caps" style={{ opacity: .55, marginBottom: 24 }}>For Gography Customers</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 80, alignItems: 'end' }}>
-            <h1 className="display-hero th" style={{ fontSize: 'clamp(56px, 6.6vw, 96px)', margin: 0 }}>
-              Your trip photos<br />
-              <em style={{ fontStyle: 'normal', fontWeight: 500 }}>are worth more</em>
-            </h1>
-            <p style={{ fontSize: 17, lineHeight: 1.65, color: 'var(--fg-soft)', margin: 0 }} className="th">
-              ลูกค้าทุกคนที่เคยร่วมทริป Gography จะได้รับสถานะ <strong style={{ color: 'var(--fg)', fontWeight: 500 }}>Voyageur</strong> — มีสิทธิ์Submit a photoในหมวดพิเศษ <strong style={{ color: 'var(--fg)', fontWeight: 500 }}>Voyageurs Awards</strong> — แข่งกันเฉพาะลูกค้าด้วยกัน เพื่อชิงรางวัลสูงสุด 50,000 บาท ต่อฤดูกาล
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageCover
+        photoId="p015"
+        eyebrow="For Voyageurs"
+        title={<>Your trip photos<br />are worth more</>}
+        subtitle="ลูกค้า Gography ทุกคนได้สถานะ Voyageur — Submit ภาพในหมวดพิเศษ Voyageurs Awards — แข่งกันเฉพาะลูกค้าด้วยกัน รางวัลสูงสุด 50,000 บาท ต่อฤดูกาล"
+      />
 
       {/* Reward summary */}
       <section style={{ padding: '40px 0 56px' }}>

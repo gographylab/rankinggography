@@ -7,6 +7,7 @@ import { PHOTOS, PHOTOGRAPHERS, AMBASSADORS, SEASONS, COMMENTS, pulseScore, find
 import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
+import { PageCover } from '@/components/PageCover';
 
 // ===== Ported from pages/photographer.jsx =====
 // Photographer profile — cover + bio + tabbed gallery
@@ -18,9 +19,25 @@ function PagePhotographer({ username }) {
   const [tab, setTab] = React.useState('photos');
   const router = useRouter();
 
+  const eyebrowParts = [
+    photographer.isAmbassador ? 'Ambassador' : null,
+    photographer.isCustomer ? 'Voyageur' : 'Photographer',
+    `@${photographer.username}`,
+  ].filter(Boolean).join(' · ');
+
   return (
     <div className="page-fade">
-      {/* Identity header — typography-first, no cover image (Aesop / 1x.com aesthetic) */}
+      <PageCover
+        src={photographer.cover}
+        eyebrow={eyebrowParts}
+        title={photographer.name}
+        subtitle={photographer.bio}
+        credit={`${photographer.loc} · ${myPhotos.length} photos · ${photographer.followers.toLocaleString()} followers`}
+        height="50vh"
+        minHeight={380}
+        maxHeight={560}
+      />
+      {/* Identity header — typography-first */}
       <section style={{ padding: '64px 0 48px', borderBottom: '1px solid var(--rule)' }}>
         <div className="wrap">
           {/* Top eyebrow row */}

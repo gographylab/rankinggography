@@ -6,6 +6,7 @@ import { PHOTOS, PHOTOGRAPHERS, AMBASSADORS, SEASONS, COMMENTS, pulseScore, find
 import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
+import { PageCover } from '@/components/PageCover';
 
 // ===== Ported from pages/hall-of-fame.jsx =====
 // Hall of Fame — past Best Photo of Season winners
@@ -14,20 +15,12 @@ import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/co
 function PageHallOfFame() {
   return (
     <div className="page-fade">
-      {/* Hero */}
-      <section style={{ padding: '80px 0 64px' }}>
-        <div className="wrap">
-          <div className="caps" style={{ opacity: .55, marginBottom: 24 }}>Awards Archive</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 80, alignItems: 'end' }}>
-            <h1 className="display-hero th" style={{ fontSize: 'clamp(64px, 7vw, 104px)', margin: 0 }}>
-              Hall of Fame
-            </h1>
-            <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--fg-soft)', margin: 0 }} className="th">
-              Every four months, Gography selects the best photo of the season in each category. Winners receive a 50,000 THB voucher and a permanent place in the Hall of Fame.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageCover
+        photoId="p010"
+        eyebrow="Awards Archive"
+        title="Hall of Fame"
+        subtitle="ทุก 4 เดือน Gography คัดเลือกภาพแห่งฤดูกาลในแต่ละหมวด — ผู้ชนะรับ Voucher 50,000 THB และที่ใน Hall of Fame ตลอดไป"
+      />
 
       {/* Cashback program ribbon */}
       <section style={{ padding: '48px 0', background: 'var(--cream)' }} className="rule-top rule-bot">

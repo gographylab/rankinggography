@@ -8,6 +8,7 @@ import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
 import { PhotographerCard } from '@/components/Shared';
+import { PageCover } from '@/components/PageCover';
 
 // ===== Ported from pages/photographers.jsx =====
 // All photographers index — public directory of every photographer on the platform
@@ -27,22 +28,22 @@ function PagePhotographers({ initialFilter }) {
   else if (sort === 'photos') list.sort((a,b) => b.photos - a.photos);
   else if (sort === 'newest') list.sort((a,b) => b.joined.localeCompare(a.joined));
 
+  const coverPhotoId = filter === 'voyageurs' ? 'p015' : filter === 'ambassadors' ? 'p002' : 'p018';
+  const coverTitle = filter === 'voyageurs' ? 'Voyageurs' : filter === 'ambassadors' ? 'Ambassadors' : 'All photographers';
+  const coverSubtitle = filter === 'voyageurs'
+    ? 'ลูกค้า Gography ที่เคยร่วมทริปและมีภาพอยู่บนเวที'
+    : filter === 'ambassadors'
+    ? 'ช่างภาพรับเชิญที่ Gography ไว้วางใจให้คัดเลือกภาพ'
+    : 'รวมช่างภาพและ Voyageurs ที่อยู่บนเวที Gography Photo Awards';
+
   return (
     <div className="page-fade">
-      {/* Hero */}
-      <section style={{ padding: '80px 0 32px' }}>
-        <div className="wrap">
-          <div className="caps" style={{ opacity: .55, marginBottom: 24 }}>Directory</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 80, alignItems: 'end' }}>
-            <h1 className="display-hero th" style={{ fontSize: 'clamp(56px, 6.6vw, 96px)', margin: 0 }}>
-              All photographers
-            </h1>
-            <p style={{ fontSize: 16, lineHeight: 1.65, color: 'var(--fg-soft)', margin: 0 }} className="th">
-              รวมช่างภาพและ Voyageurs ที่อยู่บนเวที Gography Photo Awards — แยกตามสถานะหรือเรียงตามที่คุณต้องการ
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageCover
+        photoId={coverPhotoId}
+        eyebrow="Directory"
+        title={coverTitle}
+        subtitle={coverSubtitle}
+      />
 
       {/* Filter / Sort bar */}
       <section style={{ padding: '32px 0', borderTop: '1px solid var(--rule)', borderBottom: '1px solid var(--rule)' }}>

@@ -8,6 +8,7 @@ import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
 import { useApp } from '@/components/AppProvider';
+import { PageCover } from '@/components/PageCover';
 
 // ===== Ported from pages/upload.jsx =====
 // Upload page — single photo upload form with daily limit
@@ -52,6 +53,12 @@ function PageUpload({ userState }) {
 
   return (
     <div className="page-fade">
+      <PageCover
+        photoId="p019"
+        eyebrow="Upload"
+        title="Submit a photo"
+        subtitle="1 ภาพต่อวัน — JPEG/PNG/WebP สูงสุด 25 MB · ภาพต้องเป็นผลงานของคุณ"
+      />
       <section style={{ padding: '48px 0 32px' }}>
         <div className="wrap">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 28, borderBottom: '1px solid var(--rule)' }}>

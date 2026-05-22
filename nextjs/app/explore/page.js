@@ -7,6 +7,7 @@ import { PHOTOS, PHOTOGRAPHERS, AMBASSADORS, SEASONS, COMMENTS, pulseScore, find
 import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
+import { PageCover } from '@/components/PageCover';
 
 // ===== Ported from pages/explore.jsx =====
 // Explore page — masonry grid + filters (category, sort, time range)
@@ -38,8 +39,20 @@ function PageExplore({ category }) {
   ];
   const router = useRouter();
 
+  const coverPhotoId = catKey === 'Landscape' ? 'p010' : catKey === 'Portrait' ? 'p004' : catKey === 'BW' ? 'p002' : 'p013';
+  const coverTitle = catKey === 'BW' ? 'Black & White' : (catKey || 'Every photo');
+  const coverSubtitle = catKey
+    ? `เลือกชมหมวด ${catKey === 'BW' ? 'Black & White' : catKey} — เรียงตามอันดับ ภาพล่าสุด หรือยอดโหวต`
+    : 'เลือกชมภาพถ่ายทั้งหมด — กรองตามหมวด เวลา และอันดับ';
+
   return (
     <div className="page-fade">
+      <PageCover
+        photoId={coverPhotoId}
+        eyebrow={catKey ? 'Category' : 'Explore'}
+        title={coverTitle}
+        subtitle={coverSubtitle}
+      />
       {/* Header */}
       <section style={{ padding: '64px 0 40px' }}>
         <div className="wrap">

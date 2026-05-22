@@ -7,6 +7,7 @@ import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
 import { SectionHeader } from '@/components/Shared';
+import { PageCover } from '@/components/PageCover';
 
 // ===== Ported from pages/about-ranking.jsx =====
 // About Ranking — explains Pulse Score formula. Transparency is the differentiator.
@@ -15,18 +16,12 @@ function PageAboutRanking() {
   const sample = PHOTOS[0];
   return (
     <div className="page-fade">
-      {/* Hero */}
-      <section style={{ padding: '96px 0 64px' }}>
-        <div className="wrap">
-          <div className="caps" style={{ opacity: .55, marginBottom: 24 }}>Transparency</div>
-          <h1 className="display-hero th" style={{ fontSize: 'clamp(60px, 7vw, 104px)', margin: 0, maxWidth: '14ch' }}>
-            How the ranking<br />is calculated
-          </h1>
-          <p style={{ fontSize: 18, color: 'var(--fg-soft)', maxWidth: 560, marginTop: 32, lineHeight: 1.6 }} className="th">
-            We believe every user should understand why one photo ranks above another. The formula below is the entire algorithm we use — nothing hidden.
-          </p>
-        </div>
-      </section>
+      <PageCover
+        photoId="p001"
+        eyebrow="Pulse Score"
+        title={<>How the ranking<br />is calculated</>}
+        subtitle="ทุก user ควรเข้าใจว่าทำไมภาพหนึ่งจัดอันดับสูงกว่าอีกภาพ — Pulse score คือทั้งหมดที่เราใช้ ไม่มี algorithm ดำมืด"
+      />
 
       {/* The formula */}
       <section style={{ padding: '40px 0 96px' }}>

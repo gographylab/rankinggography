@@ -7,6 +7,7 @@ import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
 import { SectionHeader } from '@/components/Shared';
+import { PageCover } from '@/components/PageCover';
 
 // ===== Ported from pages/about.jsx =====
 // About — manifesto-style page
@@ -14,14 +15,12 @@ import { SectionHeader } from '@/components/Shared';
 function PageAbout() {
   return (
     <div className="page-fade">
-      <section style={{ padding: '120px 0 96px' }}>
-        <div className="wrap-narrow">
-          <div className="caps" style={{ opacity: .55, marginBottom: 24, textAlign: 'center' }}>Gography Photo Awards</div>
-          <h1 className="display-hero th" style={{ fontSize: 'clamp(48px, 6vw, 88px)', margin: 0, textAlign: 'center' }}>
-            A platform for photographers<br />who never stop travelling
-          </h1>
-        </div>
-      </section>
+      <PageCover
+        photoId="p013"
+        eyebrow="About"
+        title={<>A platform for photographers<br />who never stop travelling</>}
+        subtitle="Gography Photo Awards — เวทีสำหรับช่างภาพและนักเดินทาง ภาพต้องหายใจได้ ไม่ใช่ภาพที่ algorithm จัดการ"
+      />
 
       <section style={{ padding: '0 0 96px' }}>
         <div className="wrap-narrow">

@@ -6,6 +6,7 @@ import { PHOTOS, PHOTOGRAPHERS, voyageurUsernames } from '@/lib/data';
 import { PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, RewardIcon } from '@/components/Icons';
+import { ViewfinderFrame } from '@/components/ViewfinderFrame';
 import { useApp } from '@/components/AppProvider';
 
 function CategoryChips({ value, onChange, showVoyageurs = false }) {
@@ -166,31 +167,39 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Cover of the week */}
-        <div style={{ padding: '80px 0 24px' }}>
-          <div className="wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 24 }}>
-            <div className="caps" style={{ opacity: .55 }}>Cover of the week</div>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .55 }}>★ #1 Pulse {top.pulse.toFixed(0)}</div>
+        {/* Cover of the week — viewfinder treatment on black */}
+        <div style={{ background: '#000', color: '#fff', padding: '80px 0' }}>
+          {/* Viewfinder top strip — frame/aperture/shutter metadata */}
+          <div className="wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 24, color: 'rgba(255,255,255,.65)' }}>
+            <div className="caps" style={{ opacity: .85 }}>Cover of the week</div>
+            <div className="mono" style={{ fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase' }}>★ #1 PULSE {top.pulse.toFixed(0)}</div>
           </div>
-        </div>
-        <div style={{ padding: '0 0 24px' }}>
-          <div className="wrap">
-            <div style={{ cursor: 'pointer', background: 'var(--tile)', overflow: 'hidden' }} onClick={() => router.push(`/photo/${top.id}`)}>
+
+          {/* Viewfinder frame */}
+          <div className="wrap" style={{ paddingBottom: 28 }}>
+            <ViewfinderFrame
+              cameraLabel={top.exif.camera}
+              lensLabel={top.exif.focal}
+              isoLabel={`ISO ${top.exif.iso}`}
+              shutterLabel={top.exif.shutter}
+              apertureLabel={top.exif.aperture}
+              recLabel="REC"
+              onClick={() => router.push(`/photo/${top.id}`)}
+            >
               <img src={top.src} alt={top.title} style={{ width: '100%', height: 'auto', maxHeight: '78vh', objectFit: 'contain', display: 'block', margin: '0 auto' }} />
-            </div>
+            </ViewfinderFrame>
           </div>
-        </div>
-        <div style={{ padding: '0 0 80px' }}>
+
           <div className="wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 40 }}>
             <div>
-              <h2 className="th" style={{ fontSize: 'clamp(36px, 4.4vw, 64px)', fontWeight: 400, letterSpacing: '-.02em', margin: 0, lineHeight: 1.05 }}>"{top.title}"</h2>
+              <h2 className="th" style={{ fontSize: 'clamp(36px, 4.4vw, 64px)', fontWeight: 400, letterSpacing: '-.02em', margin: 0, lineHeight: 1.05, color: '#fff' }}>"{top.title}"</h2>
               <div style={{ marginTop: 16, display: 'flex', gap: 20, alignItems: 'center' }} className="caps">
-                <span style={{ opacity: .7 }}>by {PHOTOGRAPHERS.find(p => p.username === top.by)?.name}</span>
-                <span style={{ opacity: .35 }}>·</span>
-                <span style={{ opacity: .55 }}>{top.exif.camera} · {top.exif.focal}</span>
+                <span style={{ opacity: .8 }}>by {PHOTOGRAPHERS.find(p => p.username === top.by)?.name}</span>
+                <span style={{ opacity: .4 }}>·</span>
+                <span style={{ opacity: .6 }}>{top.exif.camera} · {top.exif.focal}</span>
               </div>
             </div>
-            <button onClick={() => router.push(`/photo/${top.id}`)} className="caps" style={{ cursor: 'pointer', borderBottom: '1px solid var(--fg)', paddingBottom: 4, flexShrink: 0 }}>View photo →</button>
+            <button onClick={() => router.push(`/photo/${top.id}`)} className="caps" style={{ cursor: 'pointer', borderBottom: '1px solid rgba(255,255,255,.85)', paddingBottom: 4, flexShrink: 0, color: '#fff' }}>View photo →</button>
           </div>
         </div>
       </section>

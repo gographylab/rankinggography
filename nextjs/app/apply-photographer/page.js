@@ -7,6 +7,7 @@ import { PHOTOS, PHOTOGRAPHERS, AMBASSADORS, SEASONS, COMMENTS, pulseScore, find
 import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
+import { PageCover } from '@/components/PageCover';
 
 // ===== Ported from pages/apply-photographer.jsx =====
 // Apply as Photographer — portfolio submission form
@@ -47,20 +48,12 @@ function PageApplyPhotographer() {
 
   return (
     <div className="page-fade">
-      {/* Hero */}
-      <section style={{ padding: '64px 0 32px' }}>
-        <div className="wrap">
-          <div className="caps" style={{ opacity: .55, marginBottom: 14 }}>Apply as photographer</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 80, alignItems: 'end' }}>
-            <h1 className="display-hero th" style={{ fontSize: 'clamp(48px, 6vw, 88px)', margin: 0 }}>
-              Submit your portfolio<br />for upload access
-            </h1>
-            <p style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--fg-soft)', margin: 0 }} className="th">
-              เราเปิดรับช่างภาพมือสมัครเล่นและอาชีพ — ทีม Editorial จะตรวจสอบ portfolio ของคุณก่อนอนุมัติสิทธิ์อัพโหลด (ภายใน 7 วัน)
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageCover
+        photoId="p005"
+        eyebrow="Apply"
+        title={<>Submit your portfolio<br />for upload access</>}
+        subtitle="เราเปิดรับช่างภาพมือสมัครเล่นและอาชีพ — ทีม Editorial จะตรวจสอบ portfolio ของคุณก่อนอนุมัติสิทธิ์อัพโหลด (ภายใน 7 วัน)"
+      />
 
       {/* Progress */}
       <section style={{ padding: '32px 0', borderTop: '1px solid var(--rule)', borderBottom: '1px solid var(--rule)' }}>
