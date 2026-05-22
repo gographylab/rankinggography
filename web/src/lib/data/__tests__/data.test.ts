@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   getPhotos, getPhoto, getPhotographer, getAmbassadors,
-  getSeasons, getCommentsFor, getVoyageurUsernames,
+  getSeasons, getCommentsFor, getVoyageurUsernames, getPhotographers,
 } from '@/lib/data';
 
 describe('data access', () => {
@@ -32,5 +32,33 @@ describe('data access', () => {
   });
   it('exposes seasons', () => {
     expect(getSeasons().some((s) => s.status === 'live')).toBe(true);
+  });
+
+  it('returns default comments for an unknown photo id', () => {
+    const fallback = getCommentsFor('p999');
+    expect(fallback.length).toBeGreaterThan(0);
+    expect(getCommentsFor('also-unknown')).toEqual(fallback);
+    expect(getCommentsFor('p004')).not.toEqual(fallback);
+  });
+
+  it('filters by photographer username', () => {
+    const photos = getPhotos({ by: 'kanthorn' });
+    expect(photos.length).toBeGreaterThan(0);
+    expect(photos.every((p) => p.by === 'kanthorn')).toBe(true);
+  });
+
+  it('sorts by recency (date desc) and by likes desc', () => {
+    const byRecent = getPhotos({ sort: 'recent' });
+    for (let i = 1; i < byRecent.length; i++) {
+      expect(byRecent[i - 1]!.date.localeCompare(byRecent[i]!.date)).toBeGreaterThanOrEqual(0);
+    }
+    const byLikes = getPhotos({ sort: 'likes' });
+    for (let i = 1; i < byLikes.length; i++) {
+      expect(byLikes[i - 1]!.likes).toBeGreaterThanOrEqual(byLikes[i]!.likes);
+    }
+  });
+
+  it('returns all photographers', () => {
+    expect(getPhotographers()).toHaveLength(11);
   });
 });
