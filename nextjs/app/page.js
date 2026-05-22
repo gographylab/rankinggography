@@ -7,6 +7,9 @@ import { PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, RewardIcon } from '@/components/Icons';
 import { ViewfinderFrame } from '@/components/ViewfinderFrame';
+import { Marquee } from '@/components/Marquee';
+import { SectionNumber } from '@/components/SectionNumber';
+import { PulseCountUp } from '@/components/PulseCountUp';
 import { useApp } from '@/components/AppProvider';
 
 function CategoryChips({ value, onChange, showVoyageurs = false }) {
@@ -172,7 +175,9 @@ export default function LandingPage() {
           {/* Viewfinder top strip — frame/aperture/shutter metadata */}
           <div className="wrap" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 24, color: 'rgba(255,255,255,.65)' }}>
             <div className="caps" style={{ opacity: .85 }}>Cover of the week</div>
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase' }}>★ #1 PULSE {top.pulse.toFixed(0)}</div>
+            <div className="mono" style={{ fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase' }}>
+              ★ #1 PULSE <PulseCountUp value={top.pulse} decimals={0} />
+            </div>
           </div>
 
           {/* Viewfinder frame — corner brackets only, no grid / crosshair / HUD text */}
@@ -201,16 +206,26 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Marquee — top photos ticker */}
+      <Marquee
+        speedSec={70}
+        items={PHOTOS.slice(0, 12).map((p, i) => ({
+          num: String(i + 1).padStart(2, '0'),
+          title: p.title,
+          by: PHOTOGRAPHERS.find(pp => pp.username === p.by)?.name?.toUpperCase() || p.by.toUpperCase(),
+        }))}
+      />
+
       {/* Pulse Leaderboard */}
-      <section style={{ padding: '40px 0 80px' }}>
+      <section style={{ padding: '64px 0 80px' }}>
         <div className="wrap">
+          <SectionNumber n={1} label="Pulse Leaderboard · This week" />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', paddingBottom: 24, marginBottom: 24, borderBottom: '1px solid var(--rule)' }}>
             <div>
-              <div className="caps" style={{ opacity: .55, marginBottom: 14 }}>This week</div>
               <h2 className="th" style={{ fontSize: 48, fontWeight: 400, letterSpacing: '-.025em', margin: 0, lineHeight: 1 }}>Pulse Leaderboard</h2>
             </div>
-            <button onClick={() => router.push(leaderCat === 'Voyageurs' ? '/photographers/voyageurs' : leaderCat === 'All' ? '/explore' : `/explore/${leaderCat.toLowerCase()}`)} className="caps" style={{ cursor: 'pointer', borderBottom: '1px solid var(--fg)', paddingBottom: 4 }}>
-              See all →
+            <button onClick={() => router.push(leaderCat === 'Voyageurs' ? '/photographers/voyageurs' : leaderCat === 'All' ? '/explore' : `/explore/${leaderCat.toLowerCase()}`)} className="link-arrow">
+              See all <span className="arr">→</span>
             </button>
           </div>
           <CategoryChips value={leaderCat} onChange={setLeaderCat} showVoyageurs />
@@ -223,15 +238,15 @@ export default function LandingPage() {
       {/* All-time */}
       <section style={{ padding: '0 0 80px' }}>
         <div className="wrap">
+          <SectionNumber n={2} label="All-time · Beyond this week" />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', paddingBottom: 24, marginBottom: 24, borderBottom: '1px solid var(--rule)' }}>
             <div>
-              <div className="caps" style={{ opacity: .55, marginBottom: 14 }}>Beyond this week</div>
               <h2 className="th" style={{ fontSize: 48, fontWeight: 400, letterSpacing: '-.025em', margin: 0, lineHeight: 1 }}>All-time</h2>
               <p className="th" style={{ marginTop: 14, fontSize: 13, color: 'var(--fg-soft)', maxWidth: 540, lineHeight: 1.6 }}>
                 Photos older than 1 week — ranked by lifetime engagement (likes + favorites), without time decay
               </p>
             </div>
-            <button onClick={() => router.push('/explore')} className="caps" style={{ cursor: 'pointer', borderBottom: '1px solid var(--fg)', paddingBottom: 4 }}>See archive →</button>
+            <button onClick={() => router.push('/explore')} className="link-arrow">See archive <span className="arr">→</span></button>
           </div>
           <CategoryChips value={alltimeCat} onChange={setAlltimeCat} showVoyageurs />
           <div style={{ marginTop: 32 }}>
@@ -243,13 +258,13 @@ export default function LandingPage() {
       {/* Featured Photographers */}
       <section style={{ padding: '40px 0 96px' }}>
         <div className="wrap">
+          <SectionNumber n={3} label="Featured Photographers · Week 12" />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 28, marginBottom: 32, borderBottom: '1px solid var(--rule)' }}>
             <div>
-              <div className="caps" style={{ opacity: .55, marginBottom: 12 }}>Featured Photographers · Week 12</div>
               <h2 className="th" style={{ fontSize: 'clamp(36px, 4.2vw, 56px)', fontWeight: 400, letterSpacing: '-.025em', margin: 0, lineHeight: 1 }}>Featured Photographers</h2>
             </div>
-            <button onClick={() => router.push('/photographers')} className="caps" style={{ cursor: 'pointer', borderBottom: '1px solid var(--fg)', paddingBottom: 4 }}>
-              View all photographers →
+            <button onClick={() => router.push('/photographers')} className="link-arrow">
+              View all <span className="arr">→</span>
             </button>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>

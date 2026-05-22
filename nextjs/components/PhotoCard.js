@@ -11,7 +11,26 @@ export function PhotoCard({ photo, showRank = false, showRankDelta = false, lead
     <div className="pcard" onClick={() => router.push(`/photo/${photo.id}`)}>
       <div className="pimg" style={{ aspectRatio: uniform ? '4/5' : `${photo.w}/${photo.h}` }}>
         <img src={photo.src} alt={photo.title} loading="lazy" />
+
+        {/* Hover overlay: photo metadata fades in from bottom */}
+        <div className="pimg-overlay">
+          <div className="pimg-overlay-grad" />
+          <div className="pimg-overlay-content">
+            <div className="pimg-overlay-cat">{photo.cat}</div>
+            <div className="pimg-overlay-title">{photo.title}</div>
+            <div className="pimg-overlay-meta">
+              <span>{photographer ? photographer.name : photo.by}</span>
+              <span className="pimg-overlay-sep">·</span>
+              <span>{photo.exif.camera}</span>
+            </div>
+            <div className="pimg-overlay-pulse">
+              <span className="pimg-overlay-pulse-num">{photo.pulse.toFixed(0)}</span>
+              <span className="pimg-overlay-pulse-lab">PULSE</span>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div className="pmeta">
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flex: 1, minWidth: 0 }}>
           {showRank && <span className="rank" style={{ flexShrink: 0 }}>{String(photo.rank).padStart(2,'0')}</span>}
@@ -52,17 +71,19 @@ export function PhotoGrid({ photos, cols = 3, showRank = false, showRankDelta = 
   const leaderTopScore = (showRankDelta && photos.length > 0) ? Math.max(...photos.map(p => p.pulse)) : null;
   if (uniform) {
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 24 }}>
-        {photos.map(p => (
-          <PhotoCard key={p.id} photo={p} showRank={showRank} showRankDelta={showRankDelta} leaderTopScore={leaderTopScore} uniform pulseLabel={pulseLabel} />
+      <div className="pgrid pgrid-stagger" style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 24 }}>
+        {photos.map((p, i) => (
+          <div key={p.id} style={{ '--i': i }}>
+            <PhotoCard photo={p} showRank={showRank} showRankDelta={showRankDelta} leaderTopScore={leaderTopScore} uniform pulseLabel={pulseLabel} />
+          </div>
         ))}
       </div>
     );
   }
   return (
-    <div style={{ columnCount: cols, columnGap: 24 }}>
-      {photos.map(p => (
-        <div key={p.id} style={{ breakInside: 'avoid', marginBottom: 32 }}>
+    <div className="pgrid pgrid-stagger" style={{ columnCount: cols, columnGap: 24 }}>
+      {photos.map((p, i) => (
+        <div key={p.id} style={{ breakInside: 'avoid', marginBottom: 32, '--i': i }}>
           <PhotoCard photo={p} showRank={showRank} showRankDelta={showRankDelta} leaderTopScore={leaderTopScore} pulseLabel={pulseLabel} />
         </div>
       ))}
