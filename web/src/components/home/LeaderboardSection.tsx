@@ -27,7 +27,7 @@ export function LeaderboardSection({ allPhotos, voyageurUsernames }: Leaderboard
         <div className="flex justify-between items-end pb-6 mb-6 border-b border-[var(--rule)]">
           <div>
             <div className="caps opacity-55 mb-[14px]">This week</div>
-            <h2 className="th text-[48px] font-normal leading-none m-0" style={{ letterSpacing: '-.025em' }}> {/* dynamic: specific non-scale size */}
+            <h2 className="th text-[48px] font-normal leading-none m-0 tracking-[-.025em]">
               Pulse Leaderboard
             </h2>
           </div>

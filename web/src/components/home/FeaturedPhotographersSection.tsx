@@ -22,8 +22,7 @@ export function FeaturedPhotographersSection({
           <div>
             <div className="caps opacity-55 mb-3">Featured Photographers · Week 12</div>
             <h2
-              className="th font-normal m-0 leading-none"
-              style={{ fontSize: 'clamp(36px, 4.2vw, 56px)', letterSpacing: '-.025em' }} // dynamic: clamp fluid font
+              className="th font-normal m-0 leading-none text-[clamp(36px,4.2vw,56px)] tracking-[-.025em]"
             >
               Featured Photographers
             </h2>

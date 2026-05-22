@@ -17,7 +17,7 @@ function RewardBadge({ icon, label, sub }: RewardBadgeProps) {
         <RewardIcon kind={icon} size={20} />
       </div>
       <div className="text-left">
-        <div className="mono text-[14px] font-medium leading-[1.1]" style={{ letterSpacing: '-.01em' }}> {/* dynamic: non-scale letter-spacing */}
+        <div className="mono text-[14px] font-medium leading-[1.1] tracking-[-.01em]">
           {label}
         </div>
         <div className="caps opacity-55 text-[9.5px] mt-1">{sub}</div>
@@ -37,8 +37,7 @@ function Step({ n, t, b }: StepProps) {
     <div>
       <div className="mono text-[11px] tracking-[.16em] uppercase opacity-55">{n}</div>
       <h3
-        className="th font-medium mt-3 mb-0 leading-[1.25]"
-        style={{ fontSize: 22, letterSpacing: '-.01em' }} // dynamic: specific non-scale size
+        className="th font-medium mt-3 mb-0 leading-[1.25] text-[22px] tracking-[-.01em]"
       >
         {t}
       </h3>
@@ -65,14 +64,12 @@ export function VoyageursSection({ featuredPhoto }: VoyageursSectionProps) {
         </div>
 
         <div
-          className="grid items-center"
-          style={{ gridTemplateColumns: '1.1fr 1fr', gap: 80 }} // dynamic: non-standard column ratio and gap
+          className="grid items-center grid-cols-[1.1fr_1fr] gap-20"
         >
           {/* Left: copy */}
           <div>
             <h2
-              className="th font-normal m-0 leading-[1.05]"
-              style={{ fontSize: 'clamp(40px, 4.6vw, 64px)', letterSpacing: '-.025em' }} // dynamic: clamp fluid font
+              className="th font-normal m-0 leading-[1.05] text-[clamp(40px,4.6vw,64px)] tracking-[-.025em]"
             >
               Travelled with us?<br />Become a{' '}
               <em className="not-italic font-medium">Voyageur</em>
@@ -102,8 +99,7 @@ export function VoyageursSection({ featuredPhoto }: VoyageursSectionProps) {
           <div>
             <div className="relative">
               <div
-                className="pimg overflow-hidden cursor-pointer"
-                style={{ aspectRatio: '4/5' }} // dynamic: non-standard aspect ratio
+                className="pimg overflow-hidden cursor-pointer aspect-[4/5]"
                 onClick={() => router.push('/photo/p015')}
               >
                 {featuredPhoto && (

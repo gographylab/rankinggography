@@ -32,15 +32,15 @@ export function CategoryChips({ value, onChange, showVoyageurs = false }: Catego
         {cats.map((c) => {
           const active = value === c.v;
           const lux = !!c.luxury;
-          // Dynamic: button colors depend on active/luxury state — runtime computed
-          const bg = active ? (lux ? GOLD : 'var(--fg)') : 'transparent'; // dynamic
-          const border = lux ? GOLD : active ? 'var(--fg)' : 'var(--rule)'; // dynamic
-          const fg = active ? (lux ? '#fff' : 'var(--bg)') : lux ? GOLD : 'var(--fg)'; // dynamic
+          // dynamic: colors from runtime active/luxury state
+          const bg = active ? (lux ? GOLD : 'var(--fg)') : 'transparent';
+          const border = lux ? GOLD : active ? 'var(--fg)' : 'var(--rule)';
+          const fg = active ? (lux ? '#fff' : 'var(--bg)') : lux ? GOLD : 'var(--fg)';
           return (
             <div key={c.v} className="flex">
               <button
                 onClick={() => onChange(c.v)}
-                style={{ background: bg, borderColor: border, color: fg }} // dynamic
+                style={{ background: bg, borderColor: border, color: fg }} // dynamic: colors from runtime active/luxury state
                 className="px-[14px] py-[9px] border text-[11px] tracking-[.14em] uppercase font-medium cursor-pointer inline-flex items-center gap-2"
               >
                 {lux && <CrownIcon />}
@@ -55,7 +55,7 @@ export function CategoryChips({ value, onChange, showVoyageurs = false }: Catego
                         : `/explore/${c.v.toLowerCase()}`,
                     )
                   }
-                  style={{ background: lux ? GOLD : 'var(--fg)', borderColor: lux ? GOLD : 'var(--fg)', color: lux ? '#fff' : 'var(--bg)' }} // dynamic
+                  style={{ background: lux ? GOLD : 'var(--fg)', borderColor: lux ? GOLD : 'var(--fg)', color: lux ? '#fff' : 'var(--bg)' }} // dynamic: colors from runtime active/luxury state
                   className="px-[10px] py-[9px] border border-l-0 text-[11px] tracking-[.1em] uppercase font-medium cursor-pointer"
                 >
                   ↗

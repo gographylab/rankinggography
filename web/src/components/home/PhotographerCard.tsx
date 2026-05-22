@@ -25,7 +25,7 @@ export function PhotographerCard({
     <div
       onClick={() => router.push(`/photographer/${photographer.username}`)}
       className="cursor-pointer border border-[var(--rule)] p-4 flex flex-col"
-      style={{ background: variant === 'voyageur' ? 'var(--cream)' : 'transparent' }} // dynamic
+      style={{ background: variant === 'voyageur' ? 'var(--cream)' : 'transparent' }} // dynamic: background depends on runtime variant prop
     >
       <div className="relative grid grid-cols-2 gap-1">
         {theirPhotos.slice(0, 4).map((p, i) => (
@@ -41,7 +41,7 @@ export function PhotographerCard({
         ))}
         <div
           className="absolute left-1/2 -bottom-7 -translate-x-1/2 w-14 h-14 rounded-full overflow-hidden bg-[var(--tile)]"
-          style={{ border: `3px solid ${variant === 'voyageur' ? 'var(--cream)' : 'var(--bg)'}` }} // dynamic
+          style={{ border: `3px solid ${variant === 'voyageur' ? 'var(--cream)' : 'var(--bg)'}` }} // dynamic: border color depends on runtime variant prop
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img

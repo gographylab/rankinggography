@@ -16,15 +16,13 @@ export function HeroSection({ banner, top, bannerPhotographer, topPhotographer }
     <section className="relative">
       {/* Full-bleed banner */}
       <div
-        className="relative overflow-hidden bg-black"
-        style={{ height: '68vh', minHeight: 520, maxHeight: 760 }} // dynamic: viewport-relative height
+        className="relative overflow-hidden bg-black h-[68vh] min-h-[520px] max-h-[760px]"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={banner.src} alt={banner.title} className="w-full h-full object-cover" />
         {/* Gradient overlay */}
         <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.08) 35%, rgba(0,0,0,.1) 65%, rgba(0,0,0,.65) 100%)' }} // dynamic: multi-stop gradient
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.45)_0%,rgba(0,0,0,.08)_35%,rgba(0,0,0,.1)_65%,rgba(0,0,0,.65)_100%)]"
         />
         {/* Top bar */}
         <div className="absolute top-8 left-10 right-10 flex justify-between items-baseline text-white">
@@ -37,10 +35,9 @@ export function HeroSection({ banner, top, bannerPhotographer, topPhotographer }
         </div>
         {/* Bottom copy */}
         <div className="absolute left-10 right-10 bottom-12 text-white">
-          <div className="wrap" style={{ padding: 0, maxWidth: 'none' }}> {/* dynamic: override wrap padding */}
+          <div className="wrap !p-0 !max-w-none">
             <h1
-              className="th font-light leading-[.92] text-white m-0 max-w-[14ch]"
-              style={{ fontSize: 'clamp(64px, 8vw, 128px)', letterSpacing: '-.035em' }} // dynamic: clamp fluid font
+              className="th font-light leading-[.92] text-white m-0 max-w-[14ch] text-[clamp(64px,8vw,128px)] tracking-[-.035em]"
             >
               Photographs<br />that tell stories
             </h1>
@@ -57,8 +54,7 @@ export function HeroSection({ banner, top, bannerPhotographer, topPhotographer }
                 </button>
                 <button
                   onClick={() => router.push('/about-ranking')}
-                  className="px-[22px] py-3 text-[11px] tracking-[.14em] uppercase font-medium cursor-pointer"
-                  style={{ background: 'rgba(255,255,255,.08)', color: '#fff', border: '1px solid rgba(255,255,255,.45)' }} // dynamic: translucent tint
+                  className="px-[22px] py-3 text-[11px] tracking-[.14em] uppercase font-medium cursor-pointer bg-[rgba(255,255,255,.08)] text-white border border-[rgba(255,255,255,.45)]"
                 >
                   How Pulse works
                 </button>
@@ -95,8 +91,7 @@ export function HeroSection({ banner, top, bannerPhotographer, topPhotographer }
             <img
               src={top.src}
               alt={top.title}
-              className="w-full h-auto block mx-auto object-contain"
-              style={{ maxHeight: '78vh' }} // dynamic: viewport-relative constraint
+              className="w-full h-auto block mx-auto object-contain max-h-[78vh]"
             />
           </div>
         </div>
@@ -107,8 +102,7 @@ export function HeroSection({ banner, top, bannerPhotographer, topPhotographer }
         <div className="wrap flex justify-between items-end gap-10">
           <div>
             <h2
-              className="th font-normal m-0 leading-[1.05]"
-              style={{ fontSize: 'clamp(36px, 4.4vw, 64px)', letterSpacing: '-.02em' }} // dynamic: clamp fluid font
+              className="th font-normal m-0 leading-[1.05] text-[clamp(36px,4.4vw,64px)] tracking-[-.02em]"
             >
               &quot;{top.title}&quot;
             </h2>
