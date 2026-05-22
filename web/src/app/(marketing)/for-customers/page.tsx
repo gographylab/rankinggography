@@ -1,5 +1,6 @@
 // For Customers — dedicated onboarding & program detail page
 
+import { Fragment } from 'react';
 import Link from 'next/link';
 import { Footer } from '@/components/layout/Footer';
 import { LoginButton } from './_components';
@@ -168,15 +169,13 @@ export default function Page() {
           <SectionHeader eyebrow="The path" title="The full path" />
           <div className="grid grid-cols-[180px_1fr] gap-[56px] mt-[32px]">
             {PATH_STEPS.map((s) => (
-              <>
+              <Fragment key={s.n}>
                 <div
-                  key={`${s.n}-num`}
                   className="mono text-[64px] font-light tracking-[-0.04em] leading-[1] pt-[4px]"
                 >
                   {s.n}
                 </div>
                 <div
-                  key={`${s.n}-body`}
                   className="pb-[48px] border-b border-[var(--rule)]"
                 >
                   <h3 className="th text-[28px] font-normal tracking-[-0.015em] m-0">{s.t}</h3>
@@ -194,7 +193,7 @@ export default function Page() {
                     />
                   )}
                 </div>
-              </>
+              </Fragment>
             ))}
           </div>
         </div>
