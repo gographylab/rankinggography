@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -6,6 +7,7 @@ import { PHOTOS, PHOTOGRAPHERS, AMBASSADORS, SEASONS, COMMENTS, pulseScore, find
 import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
+import { PhotographerCard } from '@/components/Shared';
 
 // ===== Ported from pages/photographers.jsx =====
 // All photographers index — public directory of every photographer on the platform

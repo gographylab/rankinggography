@@ -6,6 +6,7 @@ import { PHOTOS, PHOTOGRAPHERS, AMBASSADORS, SEASONS, COMMENTS, pulseScore, find
 import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
+import { SectionHeader } from '@/components/Shared';
 
 // ===== Ported from pages/about-ranking.jsx =====
 // About Ranking — explains Pulse Score formula. Transparency is the differentiator.

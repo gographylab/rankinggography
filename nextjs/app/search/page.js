@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -71,7 +72,7 @@ function PageSearch() {
                 <div className="caps" style={{ opacity: .55, marginBottom: 20 }}>Trending photographers</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 32 }}>
                   {PHOTOGRAPHERS.slice(0, 4).map(p => (
-                    <Link key={p.username} to={`/photographer/${p.username}`}>
+                    <Link key={p.username} href={`/photographer/${p.username}`}>
                       <div style={{ aspectRatio: '1', background: 'var(--tile)', overflow: 'hidden' }}>
                         <img src={p.avatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       </div>
@@ -91,7 +92,7 @@ function PageSearch() {
                   <div className="caps" style={{ opacity: .55, marginBottom: 20 }}>Photographers · {photographerResults.length}</div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
                     {photographerResults.map(p => (
-                      <Link key={p.username} to={`/photographer/${p.username}`} style={{ display: 'flex', gap: 16, alignItems: 'center', padding: 16, border: '1px solid var(--rule)' }}>
+                      <Link key={p.username} href={`/photographer/${p.username}`} style={{ display: 'flex', gap: 16, alignItems: 'center', padding: 16, border: '1px solid var(--rule)' }}>
                         <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--tile)', overflow: 'hidden', flexShrink: 0 }}>
                           <img src={p.avatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         </div>
