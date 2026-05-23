@@ -27,9 +27,9 @@ function PageForCustomers() {
       />
 
       {/* Reward summary */}
-      <section style={{ padding: '40px 0 56px' }}>
+      <section className="py-8 md:py-10 lg:py-14">
         <div className="wrap">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, border: '1px solid var(--rule)' }}>
+          <div className="grid grid-cols-1 md:grid-cols-3" style={{ border: '1px solid var(--rule)' }}>
             <RewardCell tag="Rank 01 · Best Photo of Season" big="50,000" sub="THB Voucher" detail="ภาพคะแนนสูงสุดรวมทุกหมวด · ใช้แลกทริป GOGRAPHY ใดก็ได้ ภายใน 24 เดือน" />
             <RewardCell tag="Rank 02–03" big="15%" sub="Cashback" detail="ส่วนลดทริปครั้งถัดไป สะสมได้ทุกฤดูกาล" />
             <RewardCell tag="Rank 04–10" big="3–10%" sub="Cashback" detail="ส่วนลดตามลำดับ ระบบคำนวณอัตโนมัติ" />
@@ -38,10 +38,10 @@ function PageForCustomers() {
       </section>
 
       {/* Rules at a glance */}
-      <section style={{ padding: '24px 0 80px' }}>
+      <section className="py-6 md:py-8 lg:py-20 pb-12 md:pb-16 lg:pb-20">
         <div className="wrap">
-          <div className="caps" style={{ opacity: .55, marginBottom: 24 }}>Rules at a glance</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--rule)' }}>
+          <div className="caps mb-5 md:mb-6" style={{ opacity: .55 }}>Rules at a glance</div>
+          <div className="grid grid-cols-2 md:grid-cols-4" style={{ border: '1px solid var(--rule)' }}>
             <RuleCell num="1/day" lab="Upload" sub="วันละ 1 ภาพต่อบัญชี รวมทุกหมวด" />
             <RuleCell num="∞" lab="Vote" sub="โหวตภาพอื่นได้ไม่จำกัด ภาพละ 1 ครั้ง (toggle ได้)" />
             <RuleCell num="≤25 MB" lab="File size" sub="JPEG · PNG · WebP" />
@@ -51,10 +51,10 @@ function PageForCustomers() {
       </section>
 
       {/* The path — 4 step journey */}
-      <section style={{ padding: '80px 0', background: 'var(--cream)' }} className="rule-top rule-bot">
+      <section className="py-10 md:py-16 lg:py-20 rule-top rule-bot" style={{ background: 'var(--cream)' }}>
         <div className="wrap">
           <SectionHeader eyebrow="The path" title="The full path" />
-          <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 56, marginTop: 32 }}>
+          <div className="grid grid-cols-1 md:grid-cols-[140px_1fr] lg:grid-cols-[180px_1fr] gap-x-8 md:gap-x-12 lg:gap-x-14 gap-y-4 md:gap-y-8 mt-6 md:mt-8">
             {[
               { n: '01', t: 'จบทริปกับ GOGRAPHY', b: 'ทริปไหนก็ได้ที่จัดโดย GOGRAPHY — ตั้งแต่ครึ่งวันถึง 14 วัน นับตั้งแต่ปี 2020 เป็นต้นมา', extra: 'ระบบดึงข้อมูลจาก booking records โดยอัตโนมัติ' },
               { n: '02', t: 'สร้างบัญชีด้วย Gmail', b: 'ใช้ Gmail เดียวกับที่จองทริป — Editorial teamจะเช็คและ mark สถานะ "Voyageur" ภายใน 7 วัน', cta: { label: 'Login with Gmail', to: '/login' } },
@@ -62,12 +62,12 @@ function PageForCustomers() {
               { n: '04', t: 'ปลายฤดูกาล: ประกาศผล', b: 'ทีม Editorial คัดเลือกภาพยอดเยี่ยมในแต่ละหมวด — ผู้ชนะได้รับ voucher และ cashback ผ่านระบบโดยอัตโนมัติ', extra: 'ประกาศผลทุกวันที่ 1 ของเดือนถัดไป' },
             ].map(s => (
               <React.Fragment key={s.n}>
-                <div className="mono" style={{ fontSize: 64, fontWeight: 300, letterSpacing: '-.04em', lineHeight: 1, paddingTop: 4 }}>{s.n}</div>
-                <div style={{ paddingBottom: 48, borderBottom: '1px solid var(--rule)' }}>
-                  <h3 style={{ fontSize: 28, fontWeight: 400, letterSpacing: '-.015em', margin: 0 }} className="th">{s.t}</h3>
-                  <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--fg-soft)', marginTop: 16, maxWidth: 560 }} className="th">{s.b}</p>
-                  {s.extra && <div className="mono" style={{ marginTop: 16, fontSize: 11, opacity: .55 }}>{s.extra}</div>}
-                  {s.cta && <button onClick={() => router.push(s.cta.to)} className="btn btn-sm" style={{ marginTop: 20 }}>{s.cta.label}</button>}
+                <div className="mono text-[40px] md:text-[56px] lg:text-[64px] font-light leading-none pt-1" style={{ letterSpacing: '-.04em' }}>{s.n}</div>
+                <div className="pb-8 md:pb-12" style={{ borderBottom: '1px solid var(--rule)' }}>
+                  <h3 className="th text-[20px] md:text-[24px] lg:text-[28px] font-normal m-0" style={{ letterSpacing: '-.015em' }}>{s.t}</h3>
+                  <p className="th text-[14px] md:text-[16px] mt-3 md:mt-4" style={{ lineHeight: 1.7, color: 'var(--fg-soft)', maxWidth: 560 }}>{s.b}</p>
+                  {s.extra && <div className="mono mt-3 md:mt-4 text-[11px]" style={{ opacity: .55 }}>{s.extra}</div>}
+                  {s.cta && <button onClick={() => router.push(s.cta.to)} className="btn btn-sm mt-5">{s.cta.label}</button>}
                 </div>
               </React.Fragment>
             ))}
@@ -76,9 +76,9 @@ function PageForCustomers() {
       </section>
 
       {/* Verification — claim status */}
-      <section id="verify" style={{ padding: '96px 0' }}>
+      <section id="verify" className="py-12 md:py-16 lg:py-24">
         <div className="wrap">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80 }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-14 lg:gap-20">
             <div>
               <SectionHeader eyebrow="Already a customer?" title="Verify your status" />
               <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--fg-soft)' }} className="th">

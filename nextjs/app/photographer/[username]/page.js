@@ -55,40 +55,36 @@ function PagePhotographer({ username }) {
         maxHeight={560}
       />
       {/* Identity header — typography-first */}
-      <section style={{ padding: '64px 0 48px', borderBottom: '1px solid var(--rule)' }}>
+      <section className="py-8 md:py-12 lg:py-16" style={{ borderBottom: '1px solid var(--rule)' }}>
         <div className="wrap">
           {/* Top eyebrow row */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 48 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div className="flex flex-wrap justify-between items-center gap-3 mb-8 md:mb-12">
+            <div className="flex items-center gap-2.5 flex-wrap">
               {photographer.isAmbassador && (
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '5px 11px', background: '#b08e54', color: '#fff', fontSize: 10.5, letterSpacing: '.16em', textTransform: 'uppercase', fontWeight: 500 }}>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10.5px] uppercase font-medium" style={{ background: '#b08e54', color: '#fff', letterSpacing: '.16em' }}>
                   <CrownIcon /> Ambassador
                 </span>
               )}
               {photographer.isCustomer && (
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '5px 11px', background: 'var(--fg)', color: 'var(--bg)', fontSize: 10.5, letterSpacing: '.16em', textTransform: 'uppercase', fontWeight: 500 }}>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10.5px] uppercase font-medium" style={{ background: 'var(--fg)', color: 'var(--bg)', letterSpacing: '.16em' }}>
                   <VoyageurMark size={7} /> Voyageur
                 </span>
               )}
-              <span className="mono" style={{ fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .55 }}>@{photographer.username}</span>
+              <span className="mono text-[11px] uppercase" style={{ letterSpacing: '.18em', opacity: .55 }}>@{photographer.username}</span>
             </div>
-            <div style={{ display: 'flex', gap: 10 }}>
+            <div className="flex gap-2.5">
               <button className="btn btn-sm">Message</button>
               <button className="btn btn-sm btn-solid">Follow</button>
             </div>
           </div>
 
           {/* Big name + avatar composition */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 48, alignItems: 'end' }}>
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 md:gap-12 items-start md:items-end">
             <div>
-              <h1 className="th" style={{
-                fontSize: 'clamp(72px, 8.4vw, 128px)',
-                fontWeight: 300,
-                letterSpacing: '-.035em',
-                margin: 0,
-                lineHeight: .92,
-              }}>{photographer.name}</h1>
-              <div style={{ marginTop: 24, display: 'flex', gap: 28, alignItems: 'center' }} className="caps">
+              <h1 className="th text-[clamp(40px,11vw,128px)] m-0 font-light" style={{ letterSpacing: '-.035em', lineHeight: .92 }}>
+                {photographer.name}
+              </h1>
+              <div className="caps mt-4 md:mt-6 flex gap-3 md:gap-7 items-center flex-wrap">
                 <span style={{ opacity: .65 }}>{photographer.loc}</span>
                 <span style={{ opacity: .35 }}>·</span>
                 <span style={{ opacity: .65 }}>Joined {photographer.joined}</span>
@@ -96,13 +92,13 @@ function PagePhotographer({ username }) {
                 <span style={{ opacity: .65 }}>{photographer.cameras[0]}</span>
               </div>
             </div>
-            <div style={{ width: 140, height: 140, borderRadius: '50%', overflow: 'hidden', background: 'var(--tile)', flexShrink: 0 }}>
-              <img src={photographer.avatar} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div className="w-24 h-24 md:w-[140px] md:h-[140px] rounded-full overflow-hidden flex-shrink-0" style={{ background: 'var(--tile)' }}>
+              <img src={photographer.avatar} alt="" className="w-full h-full object-cover" />
             </div>
           </div>
 
           {/* Bio */}
-          <p className="th" style={{ marginTop: 28, fontSize: 17, lineHeight: 1.55, maxWidth: 720, color: 'var(--fg-soft)', marginBottom: 0 }}>
+          <p className="th mt-5 md:mt-7 text-[15px] md:text-[17px] mb-0" style={{ lineHeight: 1.55, maxWidth: 720, color: 'var(--fg-soft)' }}>
             {photographer.bio}
           </p>
         </div>
@@ -112,8 +108,11 @@ function PagePhotographer({ username }) {
       <section>
         <div className="wrap">
 
-          {/* Stat strip */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 32, padding: '32px 0', borderBottom: '1px solid var(--rule)' }} className="mono">
+          {/* Stat strip — 2-col on phone with Pulse spanning both, 5-col on desktop */}
+          <div
+            className="mono grid grid-cols-2 sm:grid-cols-5 gap-4 sm:gap-8 py-6 md:py-8 [&>*:nth-child(4)]:col-span-2 [&>*:nth-child(4)]:sm:col-span-1"
+            style={{ borderBottom: '1px solid var(--rule)' }}
+          >
             <ProfileStat label="Photos" val={photographer.photos} />
             <ProfileStat label="Followers" val={photographer.followers.toLocaleString()} />
             <ProfileStat label="Following" val="142" />
@@ -121,8 +120,8 @@ function PagePhotographer({ username }) {
             <ProfileStat label="Editor picks" val={myPhotos.filter(p => p.picks.includes('editor')).length} />
           </div>
 
-          {/* Tabs */}
-          <div style={{ display: 'flex', gap: 32, borderBottom: '1px solid var(--rule)' }}>
+          {/* Tabs — horizontal scroll on small screens */}
+          <div className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar" style={{ borderBottom: '1px solid var(--rule)' }}>
             {[
               ['photos', 'Photos', myPhotos.length],
               ['favorites', 'Favorites', likedPhotos.length],
@@ -202,36 +201,39 @@ function PagePhotographer({ username }) {
           {tab === 'about' && (
             <div>
               {photographer.isCustomer && (
-                <div style={{ padding: '32px 36px', background: 'var(--cream)', border: '1px solid var(--rule)', marginBottom: 48, display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 48, alignItems: 'center' }}>
+                <div
+                  className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-8 md:gap-12 items-start lg:items-center p-6 md:p-9 mb-8 md:mb-12"
+                  style={{ background: 'var(--cream)', border: '1px solid var(--rule)' }}
+                >
                   <div>
-                    <div className="caps" style={{ opacity: .55, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}><VoyageurMark size={9} /> Voyageur</div>
-                    <h3 className="th" style={{ fontSize: 26, fontWeight: 400, letterSpacing: '-.015em', margin: 0, lineHeight: 1.25 }}>
+                    <div className="caps mb-3 flex items-center gap-2" style={{ opacity: .55 }}><VoyageurMark size={9} /> Voyageur</div>
+                    <h3 className="th text-[22px] md:text-[26px] m-0 font-normal" style={{ letterSpacing: '-.015em', lineHeight: 1.25 }}>
                       ลูกค้าทริป GOGRAPHY — มีสิทธิ์ลุ้นรางวัล Voyageurs Awards
                     </h3>
-                    <div className="mono" style={{ marginTop: 20, fontSize: 12, lineHeight: 1.9 }}>
-                      <div style={{ opacity: .55, marginBottom: 8 }}>TRIPS COMPLETED</div>
+                    <div className="mono mt-5 text-[12px]" style={{ lineHeight: 1.9 }}>
+                      <div className="mb-2" style={{ opacity: .55 }}>TRIPS COMPLETED</div>
                       {(photographer.customerTrips || []).map(t => (
                         <div key={t}>· {t}</div>
                       ))}
                     </div>
                   </div>
-                  <div style={{ borderLeft: '1px solid var(--rule)', paddingLeft: 32 }}>
-                    <div className="caps" style={{ opacity: .55, marginBottom: 12 }}>Voyageurs · Spring 2026</div>
-                    <div style={{ fontSize: 13, lineHeight: 1.7 }} className="th">
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid var(--rule)' }}>
-                        <span>Photos submitted</span><span className="mono" style={{ fontWeight: 500 }}>3</span>
+                  <div className="lg:pl-8 lg:border-l pt-6 lg:pt-0" style={{ borderColor: 'var(--rule)', borderTop: '1px solid var(--rule)' }}>
+                    <div className="caps mb-3" style={{ opacity: .55 }}>Voyageurs · Spring 2026</div>
+                    <div className="th text-[13px]" style={{ lineHeight: 1.7 }}>
+                      <div className="flex justify-between py-2" style={{ borderBottom: '1px solid var(--rule)' }}>
+                        <span>Photos submitted</span><span className="mono font-medium">3</span>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid var(--rule)' }}>
-                        <span>Current rank (Landscape)</span><span className="mono" style={{ fontWeight: 500 }}>#7</span>
+                      <div className="flex justify-between py-2" style={{ borderBottom: '1px solid var(--rule)' }}>
+                        <span>Current rank (Landscape)</span><span className="mono font-medium">#7</span>
                       </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0' }}>
-                        <span>Cashback tier</span><span className="mono" style={{ fontWeight: 500 }}>5% ✓</span>
+                      <div className="flex justify-between py-2">
+                        <span>Cashback tier</span><span className="mono font-medium">5% ✓</span>
                       </div>
                     </div>
                   </div>
                 </div>
               )}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, paddingTop: 16 }}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 lg:gap-20 pt-4">
                 <div>
                   <h3 style={{ fontSize: 24, fontWeight: 400, letterSpacing: '-.015em', margin: '0 0 20px' }} className="th">เกี่ยวกับ {photographer.name}</h3>
                   <p style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--fg-soft)' }} className="th">{photographer.bio}</p>

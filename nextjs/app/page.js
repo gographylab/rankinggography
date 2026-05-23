@@ -285,47 +285,47 @@ export default function LandingPage() {
       </section>
 
       {/* Voyageurs activation */}
-      <section style={{ padding: '96px 0', background: 'var(--cream)' }} className="rule-top rule-bot">
+      <section className="py-12 md:py-16 lg:py-24 rule-top rule-bot" style={{ background: 'var(--cream)' }}>
         <div className="wrap">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 32, borderBottom: '1px solid var(--rule)', marginBottom: 56 }}>
-            <div className="caps" style={{ opacity: .55, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div className="flex justify-between items-baseline pb-6 md:pb-8 mb-10 md:mb-14 gap-3 flex-wrap" style={{ borderBottom: '1px solid var(--rule)' }}>
+            <div className="caps flex items-center gap-2" style={{ opacity: .55 }}>
               <VoyageurMark size={9} /> The Voyageurs Programme
             </div>
-            <div className="mono" style={{ fontSize: 11, opacity: .55 }}>EXCLUSIVE · CUSTOMERS ONLY</div>
+            <div className="mono text-[11px]" style={{ opacity: .55 }}>EXCLUSIVE · CUSTOMERS ONLY</div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 80, alignItems: 'center' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-10 md:gap-14 lg:gap-20 items-center">
             <div>
-              <h2 className="th" style={{ fontSize: 'clamp(40px, 4.6vw, 64px)', fontWeight: 400, letterSpacing: '-.025em', margin: 0, lineHeight: 1.05 }}>
+              <h2 className="th text-[clamp(32px,7vw,64px)] font-normal m-0" style={{ letterSpacing: '-.025em', lineHeight: 1.05 }}>
                 Travelled with us?<br />Become a <em style={{ fontStyle: 'normal', fontWeight: 500 }}>Voyageur</em>
               </h2>
-              <p style={{ marginTop: 28, fontSize: 17, lineHeight: 1.65, color: 'var(--fg-soft)', maxWidth: 520 }} className="th">
+              <p className="th mt-5 md:mt-7 text-[15px] md:text-[17px]" style={{ lineHeight: 1.65, color: 'var(--fg-soft)', maxWidth: 520 }}>
                 Customers who have travelled with GOGRAPHY earn <strong style={{ color: 'var(--fg)', fontWeight: 500 }}>Voyageur</strong> status — eligible to submit photos in a customer-only category. Each season the winner receives a 50,000 THB voucher, and the top 10 receive cashback on their next trip.
               </p>
-              <div style={{ display: 'flex', gap: 12, marginTop: 32, flexWrap: 'wrap' }}>
+              <div className="flex gap-3 mt-6 md:mt-8 flex-wrap">
                 <RewardBadge icon="voucher" label="50,000 THB" sub="Voucher · Best Photo of Season" />
                 <RewardBadge icon="cashback" label="3–15%" sub="Cashback · Top 10" />
                 <RewardBadge icon="star" label="Voyageur" sub="Public badge · ตลอดชีพ" />
               </div>
-              <div style={{ display: 'flex', gap: 12, marginTop: 40, flexWrap: 'wrap' }}>
+              <div className="flex gap-3 mt-8 md:mt-10 flex-wrap">
                 <button className="btn btn-solid" onClick={() => router.push('/for-customers')}>How to join Voyageurs</button>
                 <Link href="/hall-of-fame" className="btn">Past winners</Link>
               </div>
             </div>
             <div>
               <div style={{ position: 'relative' }}>
-                <div className="pimg" style={{ aspectRatio: '4/5', overflow: 'hidden', cursor: 'pointer' }} onClick={() => router.push('/photo/p015')}>
-                  <img src={PHOTOS.find(p => p.id === 'p015').src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div className="pimg cursor-pointer overflow-hidden aspect-[4/5]" onClick={() => router.push('/photo/p015')}>
+                  <img src={PHOTOS.find(p => p.id === 'p015').src} alt="" className="w-full h-full object-cover" />
                 </div>
-                <div style={{ position: 'absolute', top: 16, left: 16, background: 'var(--bg)', padding: '6px 10px', display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div className="absolute top-3 left-3 px-2.5 py-1.5 flex items-center gap-1.5" style={{ background: 'var(--bg)' }}>
                   <VoyageurMark size={8} />
-                  <div className="caps" style={{ fontSize: 9 }}>Voyageur Pick</div>
+                  <div className="caps text-[9px]">Voyageur Pick</div>
                 </div>
               </div>
             </div>
           </div>
-          <div style={{ marginTop: 80, paddingTop: 56, borderTop: '1px solid var(--rule)' }}>
-            <div className="caps" style={{ opacity: .55, marginBottom: 32 }}>How it works · 3 steps</div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 56 }}>
+          <div className="mt-14 md:mt-20 pt-10 md:pt-14" style={{ borderTop: '1px solid var(--rule)' }}>
+            <div className="caps mb-6 md:mb-8" style={{ opacity: .55 }}>How it works · 3 steps</div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 lg:gap-14">
               <Step n="01" t="รับการยืนยันสถานะ" b="หลังจบทริป ทีม GOGRAPHY จะ mark บัญชีของคุณเป็น Voyageur ภายใน 7 วัน" />
               <Step n="02" t="อัพโหลดภาพจากทริป" b="ส่งได้วันละ 1 รูปต่อบัญชี · ส่งสะสมต่อเนื่องตลอดฤดูกาล (4 เดือน)" />
               <Step n="03" t="ลุ้นรางวัล" b="ปลายฤดูกาล ทีมงานเลือกภาพคะแนนสูงสุดของฤดูกาล (รวมทุกหมวด) — ผู้ชนะ 50,000 THB voucher และ Top 10 ได้ cashback 3–15%" />

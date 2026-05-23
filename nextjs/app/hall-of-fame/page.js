@@ -23,9 +23,9 @@ function PageHallOfFame() {
       />
 
       {/* Cashback program ribbon */}
-      <section style={{ padding: '48px 0', background: 'var(--cream)' }} className="rule-top rule-bot">
+      <section className="py-8 md:py-12 rule-top rule-bot" style={{ background: 'var(--cream)' }}>
         <div className="wrap">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 48 }}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
             <CashbackTier rank="1" label="Best Photo" detail="Voucher 50,000 THB · คะแนนสูงสุดของฤดูกาล" />
             <CashbackTier rank="2–3" label="Cashback 15%" detail="ส่วนลดทริปครั้งถัดไป" />
             <CashbackTier rank="4–10" label="Cashback 3–10%" detail="ส่วนลดทริปครั้งถัดไป" />
@@ -37,14 +37,14 @@ function PageHallOfFame() {
       </section>
 
       {/* Seasons */}
-      <section style={{ padding: '80px 0' }}>
+      <section className="py-10 md:py-16 lg:py-20">
         <div className="wrap">
           {SEASONS.map((season, idx) => (
-            <div key={season.id} style={{ marginBottom: 80 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 24, marginBottom: 32, borderBottom: '1px solid var(--fg)' }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 24 }}>
-                  <span className="mono" style={{ fontSize: 11, letterSpacing: '.16em', textTransform: 'uppercase', opacity: .55 }}>{String(idx + 1).padStart(2,'0')}</span>
-                  <h2 style={{ fontSize: 56, fontWeight: 400, letterSpacing: '-.025em', margin: 0, lineHeight: 1 }}>{season.name}</h2>
+            <div key={season.id} className="mb-12 md:mb-20">
+              <div className="flex flex-wrap justify-between items-baseline gap-3 pb-4 md:pb-6 mb-6 md:mb-8" style={{ borderBottom: '1px solid var(--fg)' }}>
+                <div className="flex items-baseline gap-3 md:gap-6 flex-wrap">
+                  <span className="mono text-[11px] uppercase" style={{ letterSpacing: '.16em', opacity: .55 }}>{String(idx + 1).padStart(2,'0')}</span>
+                  <h2 className="text-[clamp(28px,6.5vw,56px)] font-normal m-0" style={{ letterSpacing: '-.025em', lineHeight: 1 }}>{season.name}</h2>
                   <span className="caps th" style={{ opacity: .55 }}>{season.range}</span>
                 </div>
                 <div>
@@ -66,29 +66,29 @@ function PageHallOfFame() {
                 const photographer = photo && PHOTOGRAPHERS.find(g => g.username === photo.by);
                 if (!photo) return null;
                 return (
-                  <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 56, alignItems: 'center' }}>
-                    <div style={{ aspectRatio: '4/5', background: 'var(--tile)', overflow: 'hidden', position: 'relative', cursor: 'pointer' }}>
-                      <img src={photo.src} alt={photo.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      <div style={{ position: 'absolute', top: 12, left: 12, background: 'var(--bg)', padding: '6px 10px' }}>
-                        <div className="caps" style={{ fontSize: 9 }}>{photo.cat === 'BW' ? 'Black & White' : photo.cat}</div>
+                  <div className="grid grid-cols-1 md:grid-cols-[1.1fr_1fr] gap-6 md:gap-14 items-start md:items-center">
+                    <div className="aspect-[4/5] overflow-hidden relative cursor-pointer" style={{ background: 'var(--tile)' }}>
+                      <img src={photo.src} alt={photo.title} className="w-full h-full object-cover" />
+                      <div className="absolute top-3 left-3 px-2.5 py-1.5" style={{ background: 'var(--bg)' }}>
+                        <div className="caps text-[9px]">{photo.cat === 'BW' ? 'Black & White' : photo.cat}</div>
                       </div>
                     </div>
                     <div>
-                      <div className="mono" style={{ fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .55 }}>
+                      <div className="mono text-[11px] uppercase" style={{ letterSpacing: '.18em', opacity: .55 }}>
                         Best Photo of the Season
                       </div>
-                      <h3 className="th" style={{ fontSize: 'clamp(36px, 4vw, 56px)', fontWeight: 400, letterSpacing: '-.022em', margin: '20px 0 0', lineHeight: 1.1 }}>
+                      <h3 className="th text-[clamp(28px,5vw,56px)] font-normal mt-5 mb-0" style={{ letterSpacing: '-.022em', lineHeight: 1.1 }}>
                         {photo.title}
                       </h3>
-                      <div style={{ marginTop: 18, fontSize: 16, color: 'var(--fg-soft)' }} className="th">
+                      <div className="th mt-4 text-[14px] md:text-[16px]" style={{ color: 'var(--fg-soft)' }}>
                         by {photographer?.name}
                       </div>
-                      <div style={{ marginTop: 36, paddingTop: 24, borderTop: '1px solid var(--rule)', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                      <div className="mt-8 md:mt-9 pt-5 md:pt-6 flex justify-between items-baseline" style={{ borderTop: '1px solid var(--rule)' }}>
                         <div>
-                          <div className="caps" style={{ opacity: .55, marginBottom: 6 }}>Prize</div>
-                          <div className="mono" style={{ fontSize: 22, fontWeight: 500, letterSpacing: '-.01em' }}>{w.voucher}</div>
+                          <div className="caps mb-1.5" style={{ opacity: .55 }}>Prize</div>
+                          <div className="mono text-[18px] md:text-[22px] font-medium" style={{ letterSpacing: '-.01em' }}>{w.voucher}</div>
                         </div>
-                        <div className="mono" style={{ fontSize: 11, opacity: .55 }}>
+                        <div className="mono text-[11px]" style={{ opacity: .55 }}>
                           PULSE {photo.pulse.toFixed(0)}
                         </div>
                       </div>

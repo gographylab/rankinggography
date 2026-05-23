@@ -32,53 +32,35 @@ export function PageCover({
     || (photo && photographer ? `"${photo.title}" by ${photographer.name}` : null);
 
   const textAlign = align === 'center' ? 'center' : 'left';
-  const wrapJustify = align === 'center' ? 'center' : 'flex-start';
+  const alignItems = align === 'center' ? 'items-center' : 'items-start';
 
   return (
-    <section style={{ position: 'relative' }}>
+    <section className="relative">
       <div
-        style={{
-          position: 'relative',
-          height,
-          minHeight,
-          maxHeight,
-          overflow: 'hidden',
-          background: '#000',
-        }}
+        className="relative overflow-hidden bg-black"
+        style={{ height, minHeight, maxHeight }}
       >
         <img
           src={imgSrc}
           alt={photo?.title || title || ''}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          className="w-full h-full object-cover"
         />
         {/* gradient overlay top→bottom for legibility */}
         <div
+          className="absolute inset-0 pointer-events-none"
           style={{
-            position: 'absolute',
-            inset: 0,
             background:
               'linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.15) 40%, rgba(0,0,0,.2) 60%, rgba(0,0,0,.7) 100%)',
           }}
         />
 
         {/* top strip — eyebrow + spring marker */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 28,
-            left: 40,
-            right: 40,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'baseline',
-            color: '#fff',
-          }}
-        >
-          <div className="mono" style={{ fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase', opacity: 0.85 }}>
+        <div className="absolute top-4 sm:top-7 left-4 right-4 sm:left-10 sm:right-10 flex justify-between items-baseline text-white">
+          <div className="mono uppercase opacity-85 text-[10px] sm:text-[11px] tracking-[.18em] sm:tracking-[.22em]">
             GOGRAPHY Photo Awards
           </div>
           {eyebrow && (
-            <div className="mono" style={{ fontSize: 11, letterSpacing: '.22em', textTransform: 'uppercase', opacity: 0.85 }}>
+            <div className="mono uppercase opacity-85 text-[10px] sm:text-[11px] tracking-[.18em] sm:tracking-[.22em]">
               {eyebrow}
             </div>
           )}
@@ -86,30 +68,18 @@ export function PageCover({
 
         {/* main text block */}
         <div
-          style={{
-            position: 'absolute',
-            left: 40,
-            right: 40,
-            bottom: 56,
-            color: '#fff',
-            textAlign,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: align === 'center' ? 'center' : 'flex-start',
-            gap: 20,
-          }}
+          className={`absolute bottom-6 sm:bottom-14 left-4 right-4 sm:left-10 sm:right-10 text-white flex flex-col gap-5 ${alignItems}`}
+          style={{ textAlign }}
         >
-          <div className="wrap" style={{ padding: 0, maxWidth: 'none', display: 'flex', flexDirection: 'column', alignItems: align === 'center' ? 'center' : 'flex-start', textAlign }}>
+          <div className={`wrap flex flex-col ${alignItems}`} style={{ padding: 0, maxWidth: 'none', textAlign }}>
             {title && (
               <h1
-                className="th"
+                className="th text-white m-0"
                 style={{
-                  fontSize: 'clamp(48px, 6.5vw, 96px)',
+                  fontSize: 'clamp(34px, 9vw, 96px)',
                   fontWeight: 300,
                   letterSpacing: '-.03em',
-                  margin: 0,
-                  lineHeight: 0.95,
-                  color: '#fff',
+                  lineHeight: 1.02,
                   maxWidth: align === 'center' ? '20ch' : '16ch',
                 }}
               >
@@ -118,12 +88,11 @@ export function PageCover({
             )}
             {subtitle && (
               <p
-                className="th"
+                className="th text-[14px] sm:text-[16px] leading-[1.55] mt-4 sm:mt-5"
                 style={{
-                  fontSize: 16,
-                  lineHeight: 1.55,
                   color: 'rgba(255,255,255,.85)',
-                  margin: '20px 0 0',
+                  margin: 0,
+                  marginTop: 16,
                   maxWidth: 540,
                 }}
               >
@@ -132,13 +101,7 @@ export function PageCover({
             )}
             {children && (
               <div
-                style={{
-                  marginTop: 28,
-                  display: 'flex',
-                  gap: 10,
-                  flexWrap: 'wrap',
-                  justifyContent: wrapJustify,
-                }}
+                className={`mt-6 sm:mt-7 flex flex-wrap gap-2.5 ${align === 'center' ? 'justify-center' : 'justify-start'}`}
               >
                 {children}
               </div>
@@ -148,22 +111,8 @@ export function PageCover({
 
         {/* credit line — bottom right, small mono */}
         {creditLine && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 12,
-              right: 40,
-              color: 'rgba(255,255,255,.55)',
-            }}
-          >
-            <div
-              className="mono"
-              style={{
-                fontSize: 10,
-                letterSpacing: '.18em',
-                textTransform: 'uppercase',
-              }}
-            >
+          <div className="absolute bottom-2 right-4 sm:right-10 text-white/55">
+            <div className="mono uppercase text-[9px] sm:text-[10px] tracking-[.16em] sm:tracking-[.18em]">
               {creditLine}
             </div>
           </div>
