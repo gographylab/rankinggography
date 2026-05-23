@@ -31,7 +31,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="logo justify-center mb-[48px]">
           <span className="mark">G</span>
-          <span>Gography</span>
+          <span>GOGRAPHY</span>
           <small>Photo Awards</small>
         </div>
 

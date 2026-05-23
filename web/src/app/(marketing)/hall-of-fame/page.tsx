@@ -51,7 +51,7 @@ export default function Page() {
             <CashbackTier rank="4–10" label="Cashback 3–10%" detail="ส่วนลดทริปครั้งถัดไป" />
           </div>
           <p className="th mt-[32px] text-[12px] text-[var(--fg-soft)] max-w-[720px] leading-[1.7]">
-            รางวัลเฉพาะลูกค้าทริป Gography ที่ได้รับการรับรองโดยEditorial team —
+            รางวัลเฉพาะลูกค้าทริป GOGRAPHY ที่ได้รับการรับรองโดยEditorial team —
             ตรวจสอบสถานะลูกค้าได้ที่หน้าโปรไฟล์ของคุณ
           </p>
         </div>

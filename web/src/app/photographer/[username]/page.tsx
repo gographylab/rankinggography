@@ -227,7 +227,7 @@ export default function PhotographerProfilePage({ params }: { params: { username
                           <VoyageurMark size={9} /> Voyageur
                         </div>
                         <h3 className="th text-[26px] font-normal tracking-[-0.015em] m-0 leading-[1.25]">
-                          ลูกค้าทริป Gography — มีสิทธิ์ลุ้นรางวัล Voyageurs Awards
+                          ลูกค้าทริป GOGRAPHY — มีสิทธิ์ลุ้นรางวัล Voyageurs Awards
                         </h3>
                         <div className="mono mt-5 text-[12px] leading-[1.9]">
                           <div className="opacity-55 mb-2">TRIPS COMPLETED</div>

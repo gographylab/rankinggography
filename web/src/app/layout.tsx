@@ -12,7 +12,7 @@ const plexMono = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400', '500'], var
 const notoThai = Noto_Sans_Thai({ subsets: ['thai'], weight: ['300', '400', '500', '600', '700'], variable: '--font-noto-thai', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: 'Gography Photo Awards — Ranking',
+  title: 'GOGRAPHY Photo Awards — Ranking',
   description: 'A photography ranking platform by photographers and travellers',
 };
 

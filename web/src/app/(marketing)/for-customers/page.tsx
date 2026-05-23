@@ -68,8 +68,8 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 const PATH_STEPS = [
   {
     n: '01',
-    t: 'จบทริปกับ Gography',
-    b: 'ทริปไหนก็ได้ที่จัดโดย Gography — ตั้งแต่ครึ่งวันถึง 14 วัน นับตั้งแต่ปี 2020 เป็นต้นมา',
+    t: 'จบทริปกับ GOGRAPHY',
+    b: 'ทริปไหนก็ได้ที่จัดโดย GOGRAPHY — ตั้งแต่ครึ่งวันถึง 14 วัน นับตั้งแต่ปี 2020 เป็นต้นมา',
     extra: 'ระบบดึงข้อมูลจาก booking records โดยอัตโนมัติ',
     cta: null as null | { label: string; to: string },
   },
@@ -116,7 +116,7 @@ export default function Page() {
               tag="Rank 01 · ต่อหมวด"
               big="50,000"
               sub="THB Voucher"
-              detail="ใช้แลกทริป Gography ใดก็ได้ ภายใน 24 เดือน"
+              detail="ใช้แลกทริป GOGRAPHY ใดก็ได้ ภายใน 24 เดือน"
             />
             <RewardCell
               tag="Rank 02–03"
@@ -207,9 +207,9 @@ export default function Page() {
                 </Field>
                 <Field label="ทริปที่เคยร่วม">
                   <select className="input">
-                    <option>Gography Patagonia · January 2025</option>
-                    <option>Gography Iceland · November 2024</option>
-                    <option>Gography Atacama · September 2024</option>
+                    <option>GOGRAPHY Patagonia · January 2025</option>
+                    <option>GOGRAPHY Iceland · November 2024</option>
+                    <option>GOGRAPHY Atacama · September 2024</option>
                     <option>อื่นๆ — โปรดระบุในช่องด้านล่าง</option>
                   </select>
                 </Field>
@@ -235,7 +235,7 @@ export default function Page() {
                   [
                     [
                       'Voyageur badge',
-                      'แสดงบนโปรไฟล์ — เป็น public proof ว่าคุณเคยร่วมทริป Gography',
+                      'แสดงบนโปรไฟล์ — เป็น public proof ว่าคุณเคยร่วมทริป GOGRAPHY',
                     ],
                     [
                       'สิทธิ์ส่งภาพในหมวด Voyageurs Awards',
@@ -288,8 +288,8 @@ export default function Page() {
                   'ไม่ต้องเลย — โครงการนี้สำหรับลูกค้าทุกคน ไม่ว่ามือใหม่หรือมือสมัครเล่น เกณฑ์การคัดเลือกเน้นที่ "เรื่องราว" และ "ความเป็นตัวเอง" ของภาพ ไม่ใช่ technical perfection',
                 ],
                 [
-                  'ภาพต้องถ่ายจากทริป Gography เท่านั้น?',
-                  'แนะนำให้ส่งภาพจากทริป Gography — แต่หากต้องการส่งภาพอื่นด้วย คุณยังคงเข้าร่วมหมวดทั่วไป (Landscape/Portrait/BW) ได้ เพียงไม่นับเข้า Voyageurs Awards',
+                  'ภาพต้องถ่ายจากทริป GOGRAPHY เท่านั้น?',
+                  'แนะนำให้ส่งภาพจากทริป GOGRAPHY — แต่หากต้องการส่งภาพอื่นด้วย คุณยังคงเข้าร่วมหมวดทั่วไป (Landscape/Portrait/BW) ได้ เพียงไม่นับเข้า Voyageurs Awards',
                 ],
                 [
                   'อัพโหลดได้กี่ภาพต่อวัน?',
@@ -301,7 +301,7 @@ export default function Page() {
                 ],
                 [
                   'Cashback ใช้ได้กับทริปไหนบ้าง?',
-                  'ทริปใดก็ได้ที่จัดโดย Gography — ระบุก่อนชำระเงิน Editorial teamจะหักส่วนลดให้อัตโนมัติ',
+                  'ทริปใดก็ได้ที่จัดโดย GOGRAPHY — ระบุก่อนชำระเงิน Editorial teamจะหักส่วนลดให้อัตโนมัติ',
                 ],
                 [
                   'ถ้าฉันไม่เคยใช้ cashback จะหมดอายุไหม?',
@@ -309,7 +309,7 @@ export default function Page() {
                 ],
                 [
                   'ใครเป็นคนตัดสินว่าฉันชนะ?',
-                  'ทีม Editorial ของ Gography Photo Awards — เกณฑ์เปิดเผยที่หน้า Pulse Score (แต่ Voyageurs Awards เน้นเรื่องราวมากกว่าตัวเลข)',
+                  'ทีม Editorial ของ GOGRAPHY Photo Awards — เกณฑ์เปิดเผยที่หน้า Pulse Score (แต่ Voyageurs Awards เน้นเรื่องราวมากกว่าตัวเลข)',
                 ],
               ] as [string, string][]
             ).map(([q, a], i) => (

@@ -232,7 +232,7 @@ export default function Page() {
                 ],
                 [
                   "Editor's Pick เลือกอย่างไร?",
-                  "Editorial team Gography คัดเลือกจากภาพที่มี composition และเล่าเรื่องโดดเด่น — ไม่ขึ้นกับจำนวน like",
+                  "Editorial team GOGRAPHY คัดเลือกจากภาพที่มี composition และเล่าเรื่องโดดเด่น — ไม่ขึ้นกับจำนวน like",
                 ],
                 [
                   'ถ้าภาพถูกซ่อน จะยังนับใน Pulse?',

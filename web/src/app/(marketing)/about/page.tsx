@@ -40,7 +40,7 @@ export default function Page() {
           <p
             className="th text-[22px] leading-[1.6] tracking-[-0.005em] text-[var(--fg)]"
           >
-            Gography เริ่มต้นจากบริษัททัวร์ — เราออกแบบทริปถ่ายภาพในที่ที่นักเดินทางไม่กี่คนได้ไป
+            GOGRAPHY เริ่มต้นจากบริษัททัวร์ — เราออกแบบทริปถ่ายภาพในที่ที่นักเดินทางไม่กี่คนได้ไป
             Patagonia, Iceland, Atacama, Mongolia เราอยากเห็นภาพเหล่านั้นมารวมตัวอยู่ในที่เดียว
           </p>
           <div className="magrule my-[48px]" />
@@ -51,7 +51,7 @@ export default function Page() {
               เราเห็นช่องว่าง — ที่สำหรับภาพถ่ายที่ทำด้วยใจ ไม่ใช่ algorithm
             </p>
             <p className="th text-[15px] leading-[1.8] text-[var(--fg-soft)]">
-              Gography Photo Awards คือเวทีที่นั่น คะแนนจัดอันดับเปิดเผยทั้งหมด
+              GOGRAPHY Photo Awards คือเวทีที่นั่น คะแนนจัดอันดับเปิดเผยทั้งหมด
               ทุก 4 เดือนเราเลือกภาพที่ดีที่สุดของฤดูกาล มอบ Voucher 50,000 บาท
               และเก็บไว้ใน Hall of Fame ตลอดไป
             </p>
@@ -78,7 +78,7 @@ export default function Page() {
               [
                 { name: 'Anan Khamthuan', role: 'Editor in Chief', loc: 'Bangkok' },
                 { name: 'Sasin Phongphan', role: 'Curation Director', loc: 'Chiang Mai' },
-                { name: 'Vichai Sasiprapha', role: 'Travel Lead, Gography', loc: 'Bangkok' },
+                { name: 'Vichai Sasiprapha', role: 'Travel Lead, GOGRAPHY', loc: 'Bangkok' },
                 { name: 'Naree Suwannapong', role: 'Community', loc: 'Bangkok' },
               ] as { name: string; role: string; loc: string }[]
             ).map((p) => (
@@ -105,7 +105,7 @@ export default function Page() {
           </h2>
           <div className="flex justify-center gap-[16px] mt-[32px]">
             <button className="btn btn-solid">Apply as photographer</button>
-            <button className="btn">Travel with Gography</button>
+            <button className="btn">Travel with GOGRAPHY</button>
           </div>
         </div>
       </section>

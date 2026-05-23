@@ -75,7 +75,7 @@ export function VoyageursSection({ featuredPhoto }: VoyageursSectionProps) {
               <em className="not-italic font-medium">Voyageur</em>
             </h2>
             <p className="th mt-7 text-[17px] leading-[1.65] text-[var(--fg-soft)] max-w-[520px]">
-              Customers who have travelled with Gography earn{' '}
+              Customers who have travelled with GOGRAPHY earn{' '}
               <strong className="text-[var(--fg)] font-medium">Voyageur</strong> status — eligible
               to submit photos in a customer-only category. Each season the winner receives a 50,000
               THB voucher, and the top 10 receive cashback on their next trip.
@@ -126,7 +126,7 @@ export function VoyageursSection({ featuredPhoto }: VoyageursSectionProps) {
             <Step
               n="01"
               t="รับการยืนยันสถานะ"
-              b="หลังจบทริป ทีม Gography จะ mark บัญชีของคุณเป็น Voyageur ภายใน 7 วัน"
+              b="หลังจบทริป ทีม GOGRAPHY จะ mark บัญชีของคุณเป็น Voyageur ภายใน 7 วัน"
             />
             <Step
               n="02"
