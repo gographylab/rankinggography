@@ -10,9 +10,47 @@ const LINKS = [
   { to: '/explore', label: 'Explore' },
   { to: '/hall-of-fame', label: 'Hall of Fame' },
   { to: '/for-customers', label: 'For Customers' },
-  { to: '/about-ranking', label: 'Pulse Score' },
+  { to: '/photographers', label: 'Photographers' },
   { to: '/about', label: 'About' },
 ];
+
+function ThemeToggle() {
+  const { theme, setTheme } = useApp();
+  const isDark = theme === 'dark';
+  return (
+    <button
+      type="button"
+      className={'nav-theme-toggle ' + (isDark ? 'is-dark' : '')}
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+    >
+      <span className="nav-theme-toggle-track-icon sun" aria-hidden="true">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 3 V5 M12 19 V21 M3 12 H5 M19 12 H21 M5.5 5.5 L6.9 6.9 M17.1 17.1 L18.5 18.5 M5.5 18.5 L6.9 17.1 M17.1 6.9 L18.5 5.5" />
+        </svg>
+      </span>
+      <span className="nav-theme-toggle-track-icon moon" aria-hidden="true">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">
+          <path d="M20 14 A8 8 0 0 1 10 4 A8 8 0 1 0 20 14 Z" />
+        </svg>
+      </span>
+      <span className="nav-theme-toggle-knob">
+        {isDark ? (
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">
+            <path d="M20 14 A8 8 0 0 1 10 4 A8 8 0 1 0 20 14 Z" />
+          </svg>
+        ) : (
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 3 V5 M12 19 V21 M3 12 H5 M19 12 H21 M5.5 5.5 L6.9 6.9 M17.1 17.1 L18.5 18.5 M5.5 18.5 L6.9 17.1 M17.1 6.9 L18.5 5.5" />
+          </svg>
+        )}
+      </span>
+    </button>
+  );
+}
 
 export function Nav() {
   const pathname = usePathname();
@@ -69,6 +107,7 @@ export function Nav() {
               <Link key={l.to} href={l.to} className={'nav-link ' + (isActive(l.to) ? 'active' : '')}>{l.label}</Link>
             ))}
             <button className="nav-link" onClick={() => router.push('/search')}>Search</button>
+            <ThemeToggle />
             {userState === 'guest' ? (
               <Link href="/login" className="btn btn-sm" style={{ marginLeft: 8 }}>Sign in</Link>
             ) : (

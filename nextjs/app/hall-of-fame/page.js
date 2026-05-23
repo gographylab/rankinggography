@@ -19,14 +19,14 @@ function PageHallOfFame() {
         photoId="p010"
         eyebrow="Awards Archive"
         title="Hall of Fame"
-        subtitle="ทุก 4 เดือน GOGRAPHY คัดเลือกภาพแห่งฤดูกาลในแต่ละหมวด — ผู้ชนะรับ Voucher 50,000 THB และที่ใน Hall of Fame ตลอดไป"
+        subtitle="ทุก 4 เดือน GOGRAPHY คัดเลือกภาพแห่งฤดูกาล — 1 ภาพคะแนนสูงสุดรวมทุกหมวด ได้รับ Voucher 50,000 THB และที่ใน Hall of Fame ตลอดไป"
       />
 
       {/* Cashback program ribbon */}
       <section style={{ padding: '48px 0', background: 'var(--cream)' }} className="rule-top rule-bot">
         <div className="wrap">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 48 }}>
-            <CashbackTier rank="1" label="Best Photo" detail="Voucher 50,000 THB ต่อหมวด" />
+            <CashbackTier rank="1" label="Best Photo" detail="Voucher 50,000 THB · คะแนนสูงสุดของฤดูกาล" />
             <CashbackTier rank="2–3" label="Cashback 15%" detail="ส่วนลดทริปครั้งถัดไป" />
             <CashbackTier rank="4–10" label="Cashback 3–10%" detail="ส่วนลดทริปครั้งถัดไป" />
           </div>
@@ -60,33 +60,42 @@ function PageHallOfFame() {
                     ฤดูกาลปัจจุบันยังเปิดอยู่ — ผลรางวัลจะประกาศในเดือนเมษายน 2569
                   </p>
                 </div>
-              ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 32 }}>
-                  {Object.entries(season.winners).map(([cat, w], wi) => {
-                    const photo = PHOTOS.find(p => p.id === w.photoId);
-                    const photographer = PHOTOGRAPHERS.find(g => g.username === photo?.by);
-                    if (!photo) return null;
-                    return (
-                      <div key={cat} style={{ cursor: 'pointer' }}>
-                        <div style={{ aspectRatio: '4/5', background: 'var(--tile)', overflow: 'hidden', position: 'relative' }}>
-                          <img src={photo.src} alt={photo.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                          <div style={{ position: 'absolute', top: 12, left: 12, background: 'var(--bg)', padding: '6px 10px' }}>
-                            <div className="caps" style={{ fontSize: 9 }}>{cat === 'BW' ? 'Black & White' : cat}</div>
-                          </div>
+              ) : (() => {
+                const w = season.winner;
+                const photo = w && PHOTOS.find(p => p.id === w.photoId);
+                const photographer = photo && PHOTOGRAPHERS.find(g => g.username === photo.by);
+                if (!photo) return null;
+                return (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 56, alignItems: 'center' }}>
+                    <div style={{ aspectRatio: '4/5', background: 'var(--tile)', overflow: 'hidden', position: 'relative', cursor: 'pointer' }}>
+                      <img src={photo.src} alt={photo.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <div style={{ position: 'absolute', top: 12, left: 12, background: 'var(--bg)', padding: '6px 10px' }}>
+                        <div className="caps" style={{ fontSize: 9 }}>{photo.cat === 'BW' ? 'Black & White' : photo.cat}</div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="mono" style={{ fontSize: 11, letterSpacing: '.18em', textTransform: 'uppercase', opacity: .55 }}>
+                        Best Photo of the Season
+                      </div>
+                      <h3 className="th" style={{ fontSize: 'clamp(36px, 4vw, 56px)', fontWeight: 400, letterSpacing: '-.022em', margin: '20px 0 0', lineHeight: 1.1 }}>
+                        {photo.title}
+                      </h3>
+                      <div style={{ marginTop: 18, fontSize: 16, color: 'var(--fg-soft)' }} className="th">
+                        by {photographer?.name}
+                      </div>
+                      <div style={{ marginTop: 36, paddingTop: 24, borderTop: '1px solid var(--rule)', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                        <div>
+                          <div className="caps" style={{ opacity: .55, marginBottom: 6 }}>Prize</div>
+                          <div className="mono" style={{ fontSize: 22, fontWeight: 500, letterSpacing: '-.01em' }}>{w.voucher}</div>
                         </div>
-                        <div style={{ marginTop: 20 }}>
-                          <div className="caps" style={{ opacity: .55, marginBottom: 8 }}>Winner</div>
-                          <h3 style={{ fontSize: 24, fontWeight: 400, letterSpacing: '-.015em', margin: 0 }} className="th">{photo.title}</h3>
-                          <div style={{ marginTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                            <div style={{ fontSize: 13, color: 'var(--fg-soft)' }}>{photographer?.name}</div>
-                            <div className="mono" style={{ fontSize: 11, opacity: .6 }}>{w.voucher}</div>
-                          </div>
+                        <div className="mono" style={{ fontSize: 11, opacity: .55 }}>
+                          PULSE {photo.pulse.toFixed(0)}
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-              )}
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
           ))}
         </div>

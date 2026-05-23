@@ -30,7 +30,7 @@ function PageForCustomers() {
       <section style={{ padding: '40px 0 56px' }}>
         <div className="wrap">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0, border: '1px solid var(--rule)' }}>
-            <RewardCell tag="Rank 01 · ต่อหมวด" big="50,000" sub="THB Voucher" detail="ใช้แลกทริป GOGRAPHY ใดก็ได้ ภายใน 24 เดือน" />
+            <RewardCell tag="Rank 01 · Best Photo of Season" big="50,000" sub="THB Voucher" detail="ภาพคะแนนสูงสุดรวมทุกหมวด · ใช้แลกทริป GOGRAPHY ใดก็ได้ ภายใน 24 เดือน" />
             <RewardCell tag="Rank 02–03" big="15%" sub="Cashback" detail="ส่วนลดทริปครั้งถัดไป สะสมได้ทุกฤดูกาล" />
             <RewardCell tag="Rank 04–10" big="3–10%" sub="Cashback" detail="ส่วนลดตามลำดับ ระบบคำนวณอัตโนมัติ" />
           </div>

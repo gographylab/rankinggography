@@ -17,7 +17,24 @@ function PagePhotographer({ username }) {
   const photographer = PHOTOGRAPHERS.find(p => p.username === username) || PHOTOGRAPHERS[0];
   const myPhotos = PHOTOS.filter(p => p.by === photographer.username);
   const [tab, setTab] = React.useState('photos');
+  const [catFilter, setCatFilter] = React.useState('all');
   const router = useRouter();
+
+  // Photos tab — category filter (chips). Mirrors the Explore filter logic.
+  const catCounts = {
+    all: myPhotos.length,
+    Landscape: myPhotos.filter(p => p.cat === 'Landscape').length,
+    Portrait: myPhotos.filter(p => p.cat === 'Portrait').length,
+    BW: myPhotos.filter(p => p.cat === 'BW').length,
+  };
+  const filteredPhotos = catFilter === 'all'
+    ? myPhotos
+    : myPhotos.filter(p => p.cat === catFilter);
+
+  // Favorites = photos this photographer has liked.
+  // Until Supabase is wired we mock with a deterministic slice of PHOTOS
+  // (excluding their own work).
+  const likedPhotos = PHOTOS.filter(p => p.by !== photographer.username).slice(0, 9);
 
   const eyebrowParts = [
     photographer.isAmbassador ? 'Ambassador' : null,
@@ -108,8 +125,7 @@ function PagePhotographer({ username }) {
           <div style={{ display: 'flex', gap: 32, borderBottom: '1px solid var(--rule)' }}>
             {[
               ['photos', 'Photos', myPhotos.length],
-              ['galleries', 'Galleries', 3],
-              ['favorites', 'Favorites', 28],
+              ['favorites', 'Favorites', likedPhotos.length],
               ['about', 'About', null],
             ].map(([id, label, count]) => (
               <button key={id} onClick={() => setTab(id)} style={{
@@ -132,37 +148,54 @@ function PagePhotographer({ username }) {
       <section style={{ padding: '48px 0 80px' }}>
         <div className="wrap">
           {tab === 'photos' && (
-            myPhotos.length > 0
-              ? <PhotoGrid photos={myPhotos} cols={3} />
-              : <ProfileEmpty msg="ยังไม่มีภาพในโปรไฟล์นี้" />
-          )}
-
-          {tab === 'galleries' && (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 32 }}>
-              {[
-                { title: 'Mae Hong Son Loop', count: 18, cover: myPhotos[0]?.src },
-                { title: 'Studio sessions', count: 12, cover: PHOTOS.find(p => p.cat === 'Portrait')?.src },
-                { title: 'B/W only', count: 8, cover: PHOTOS.find(p => p.cat === 'BW')?.src },
-              ].map((g, i) => (
-                <div key={i} style={{ cursor: 'pointer' }}>
-                  <div style={{ aspectRatio: '4/3', background: 'var(--tile)', overflow: 'hidden' }}>
-                    {g.cover && <img src={g.cover} alt={g.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
-                  </div>
-                  <div style={{ marginTop: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                    <div style={{ fontSize: 18, fontWeight: 500, letterSpacing: '-.01em' }}>{g.title}</div>
-                    <span className="mono" style={{ fontSize: 11, opacity: .55 }}>{g.count} photos</span>
-                  </div>
+            myPhotos.length > 0 ? (
+              <>
+                {/* Category filter chips — same pattern as Explore */}
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 32 }}>
+                  {[
+                    { v: 'all', l: 'All' },
+                    { v: 'Landscape', l: 'Landscape' },
+                    { v: 'Portrait', l: 'Portrait' },
+                    { v: 'BW', l: 'Black & White' },
+                  ].map(c => {
+                    const active = catFilter === c.v;
+                    const n = catCounts[c.v];
+                    if (c.v !== 'all' && n === 0) return null;
+                    return (
+                      <button
+                        key={c.v}
+                        onClick={() => setCatFilter(c.v)}
+                        style={{
+                          padding: '9px 16px',
+                          border: '1px solid ' + (active ? 'var(--fg)' : 'var(--rule)'),
+                          background: active ? 'var(--fg)' : 'transparent',
+                          color: active ? 'var(--bg)' : 'var(--fg)',
+                          fontSize: 11, letterSpacing: '.14em', textTransform: 'uppercase', fontWeight: 500,
+                          cursor: 'pointer',
+                          display: 'inline-flex', alignItems: 'center', gap: 8,
+                        }}
+                      >
+                        <span>{c.l}</span>
+                        <span style={{ opacity: .55, fontFamily: 'var(--mono)' }}>{n}</span>
+                      </button>
+                    );
+                  })}
                 </div>
-              ))}
-            </div>
+                {filteredPhotos.length > 0
+                  ? <PhotoGrid photos={filteredPhotos} cols={3} />
+                  : <ProfileEmpty msg="ยังไม่มีภาพในหมวดนี้" />}
+              </>
+            ) : <ProfileEmpty msg="ยังไม่มีภาพในโปรไฟล์นี้" />
           )}
 
           {tab === 'favorites' && (
             <div>
               <p className="th" style={{ fontSize: 14, color: 'var(--fg-soft)', marginTop: 0, marginBottom: 32, maxWidth: 600 }}>
-                ภาพที่ {photographer.name.split(' ')[0]} เลือกบันทึกไว้ — ตั้งเป็น public โดยช่างภาพ
+                ภาพที่ {photographer.name.split(' ')[0]} กด Like ไว้ — แสดงรสนิยมและสายตาในการดูภาพของช่างภาพคนนี้
               </p>
-              <PhotoGrid photos={PHOTOS.slice(0, 6)} cols={3} />
+              {likedPhotos.length > 0
+                ? <PhotoGrid photos={likedPhotos} cols={3} />
+                : <ProfileEmpty msg="ยังไม่มีภาพที่ Like" />}
             </div>
           )}
 

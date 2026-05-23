@@ -10,6 +10,7 @@ import { ViewfinderFrame } from '@/components/ViewfinderFrame';
 import { Marquee } from '@/components/Marquee';
 import { SectionNumber } from '@/components/SectionNumber';
 import { PulseCountUp } from '@/components/PulseCountUp';
+import { TrendingPhotographers } from '@/components/TrendingPhotographers';
 import { useApp } from '@/components/AppProvider';
 
 function CategoryChips({ value, onChange, showVoyageurs = false }) {
@@ -158,7 +159,7 @@ export default function LandingPage() {
                 </p>
                 <div style={{ display: 'flex', gap: 10, flexShrink: 0 }}>
                   <button onClick={() => router.push('/explore')} style={{ padding: '12px 22px', background: '#fff', color: '#000', fontSize: 11, letterSpacing: '.14em', textTransform: 'uppercase', cursor: 'pointer', fontWeight: 500, border: 0 }}>Explore the gallery</button>
-                  <button onClick={() => router.push('/about-ranking')} style={{ padding: '12px 22px', background: 'rgba(255,255,255,.08)', color: '#fff', fontSize: 11, letterSpacing: '.14em', textTransform: 'uppercase', cursor: 'pointer', fontWeight: 500, border: '1px solid rgba(255,255,255,.45)' }}>How Pulse works</button>
+                  <button onClick={() => router.push('/photographers')} style={{ padding: '12px 22px', background: 'rgba(255,255,255,.08)', color: '#fff', fontSize: 11, letterSpacing: '.14em', textTransform: 'uppercase', cursor: 'pointer', fontWeight: 500, border: '1px solid rgba(255,255,255,.45)' }}>View photographers</button>
                 </div>
               </div>
             </div>
@@ -216,21 +217,26 @@ export default function LandingPage() {
         }))}
       />
 
-      {/* Pulse Leaderboard */}
+      {/* Pulse Leaderboard — with Trending Photographers sidebar */}
       <section style={{ padding: '64px 0 80px' }}>
         <div className="wrap">
-          <SectionNumber n={1} label="Pulse Leaderboard · This week" />
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', paddingBottom: 24, marginBottom: 24, borderBottom: '1px solid var(--rule)' }}>
-            <div>
-              <h2 className="th" style={{ fontSize: 48, fontWeight: 400, letterSpacing: '-.025em', margin: 0, lineHeight: 1 }}>Pulse Leaderboard</h2>
+          <div className="with-trending">
+            <div className="with-trending-main">
+              <SectionNumber n={1} label="Pulse Leaderboard · This week" />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', paddingBottom: 24, marginBottom: 24, borderBottom: '1px solid var(--rule)' }}>
+                <div>
+                  <h2 className="th" style={{ fontSize: 48, fontWeight: 400, letterSpacing: '-.025em', margin: 0, lineHeight: 1 }}>Pulse Leaderboard</h2>
+                </div>
+                <button onClick={() => router.push(leaderCat === 'Voyageurs' ? '/photographers/voyageurs' : leaderCat === 'All' ? '/explore' : `/explore/${leaderCat.toLowerCase()}`)} className="link-arrow">
+                  See all <span className="arr">→</span>
+                </button>
+              </div>
+              <CategoryChips value={leaderCat} onChange={setLeaderCat} showVoyageurs />
+              <div style={{ marginTop: 32 }}>
+                <PhotoGrid photos={leaderboard.slice(0, 6)} cols={3} showRank showRankDelta uniform />
+              </div>
             </div>
-            <button onClick={() => router.push(leaderCat === 'Voyageurs' ? '/photographers/voyageurs' : leaderCat === 'All' ? '/explore' : `/explore/${leaderCat.toLowerCase()}`)} className="link-arrow">
-              See all <span className="arr">→</span>
-            </button>
-          </div>
-          <CategoryChips value={leaderCat} onChange={setLeaderCat} showVoyageurs />
-          <div style={{ marginTop: 32 }}>
-            <PhotoGrid photos={leaderboard} cols={4} showRank showRankDelta uniform />
+            <TrendingPhotographers limit={8} title="Trending now" />
           </div>
         </div>
       </section>
@@ -255,23 +261,26 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Featured Photographers */}
+      {/* Fresh photos — newest uploads */}
       <section style={{ padding: '40px 0 96px' }}>
         <div className="wrap">
-          <SectionNumber n={3} label="Featured Photographers · Week 12" />
+          <SectionNumber n={3} label="Fresh photos · Just uploaded" />
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 28, marginBottom: 32, borderBottom: '1px solid var(--rule)' }}>
             <div>
-              <h2 className="th" style={{ fontSize: 'clamp(36px, 4.2vw, 56px)', fontWeight: 400, letterSpacing: '-.025em', margin: 0, lineHeight: 1 }}>Featured Photographers</h2>
+              <h2 className="th" style={{ fontSize: 'clamp(36px, 4.2vw, 56px)', fontWeight: 400, letterSpacing: '-.025em', margin: 0, lineHeight: 1 }}>Fresh photos</h2>
+              <p className="th" style={{ marginTop: 14, fontSize: 13, color: 'var(--fg-soft)', maxWidth: 540, lineHeight: 1.6 }}>
+                ภาพล่าสุดที่อัพโหลดเข้าเวที — เรียงตามเวลา ใหม่ที่สุดอยู่ก่อน
+              </p>
             </div>
-            <button onClick={() => router.push('/photographers')} className="link-arrow">
+            <button onClick={() => router.push('/explore')} className="link-arrow">
               View all <span className="arr">→</span>
             </button>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
-            {PHOTOGRAPHERS.filter(p => !p.isCustomer).slice(0, 4).map(p => (
-              <PhotographerCard key={p.username} photographer={p} variant="general" />
-            ))}
-          </div>
+          <PhotoGrid
+            photos={PHOTOS.slice().sort((a, b) => a.hours - b.hours).slice(0, 4)}
+            cols={4}
+            uniform
+          />
         </div>
       </section>
 
@@ -293,7 +302,7 @@ export default function LandingPage() {
                 Customers who have travelled with GOGRAPHY earn <strong style={{ color: 'var(--fg)', fontWeight: 500 }}>Voyageur</strong> status — eligible to submit photos in a customer-only category. Each season the winner receives a 50,000 THB voucher, and the top 10 receive cashback on their next trip.
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 32, flexWrap: 'wrap' }}>
-                <RewardBadge icon="voucher" label="50,000 THB" sub="Voucher · ต่อหมวด" />
+                <RewardBadge icon="voucher" label="50,000 THB" sub="Voucher · Best Photo of Season" />
                 <RewardBadge icon="cashback" label="3–15%" sub="Cashback · Top 10" />
                 <RewardBadge icon="star" label="Voyageur" sub="Public badge · ตลอดชีพ" />
               </div>
@@ -319,7 +328,7 @@ export default function LandingPage() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 56 }}>
               <Step n="01" t="รับการยืนยันสถานะ" b="หลังจบทริป ทีม GOGRAPHY จะ mark บัญชีของคุณเป็น Voyageur ภายใน 7 วัน" />
               <Step n="02" t="อัพโหลดภาพจากทริป" b="ส่งได้วันละ 1 รูปต่อบัญชี · ส่งสะสมต่อเนื่องตลอดฤดูกาล (4 เดือน)" />
-              <Step n="03" t="ลุ้นรางวัล" b="ปลายฤดูกาล ทีมงานเลือกภาพดีที่สุดต่อหมวด — ผู้ชนะ 50,000 THB voucher และ Top 10 ได้ cashback 3–15%" />
+              <Step n="03" t="ลุ้นรางวัล" b="ปลายฤดูกาล ทีมงานเลือกภาพคะแนนสูงสุดของฤดูกาล (รวมทุกหมวด) — ผู้ชนะ 50,000 THB voucher และ Top 10 ได้ cashback 3–15%" />
             </div>
           </div>
         </div>

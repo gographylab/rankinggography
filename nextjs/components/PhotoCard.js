@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { PHOTOGRAPHERS } from '@/lib/data';
 import { PickBadge } from './Icons';
@@ -7,10 +8,43 @@ export function PhotoCard({ photo, showRank = false, showRankDelta = false, lead
   const router = useRouter();
   const photographer = PHOTOGRAPHERS.find(p => p.username === photo.by);
   const delta = (showRankDelta && leaderTopScore != null && photo.rank > 1) ? (photo.pulse - leaderTopScore) : null;
+
+  // Like state — persisted in localStorage, will swap to Supabase later.
+  const [liked, setLiked] = useState(false);
+  useEffect(() => {
+    try {
+      const map = JSON.parse(localStorage.getItem('gpa-liked') || '{}');
+      setLiked(Boolean(map[photo.id]));
+    } catch {}
+  }, [photo.id]);
+  const toggleLike = (e) => {
+    e.stopPropagation();
+    const next = !liked;
+    setLiked(next);
+    try {
+      const map = JSON.parse(localStorage.getItem('gpa-liked') || '{}');
+      map[photo.id] = next;
+      localStorage.setItem('gpa-liked', JSON.stringify(map));
+    } catch {}
+  };
+
   return (
     <div className="pcard" onClick={() => router.push(`/photo/${photo.id}`)}>
       <div className="pimg" style={{ aspectRatio: uniform ? '4/5' : `${photo.w}/${photo.h}` }}>
         <img src={photo.src} alt={photo.title} loading="lazy" />
+
+        {/* Floating like button — top-left, visible on every card */}
+        <button
+          className={'pcard-heart ' + (liked ? 'is-liked' : '')}
+          onClick={toggleLike}
+          aria-label={liked ? 'Unlike photo' : 'Like photo'}
+          title="โหวตภาพนี้ — 1 ภาพต่อ 1 ครั้ง"
+        >
+          <svg viewBox="0 0 24 24" fill={liked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path d="M12 21s-7-4.5-9.5-9.5C0 6 4 2 7.5 2c2 0 3.5 1 4.5 2.5C13 3 14.5 2 16.5 2 20 2 24 6 21.5 11.5 19 16.5 12 21 12 21z" />
+          </svg>
+          <span>{(photo.likes + (liked ? 1 : 0)).toLocaleString()}</span>
+        </button>
 
         {/* Hover overlay: photo metadata fades in from bottom */}
         <div className="pimg-overlay">

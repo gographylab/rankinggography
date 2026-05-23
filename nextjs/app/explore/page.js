@@ -8,6 +8,7 @@ import { PhotoCard, PhotoGrid } from '@/components/PhotoCard';
 import { Footer } from '@/components/Footer';
 import { VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge } from '@/components/Icons';
 import { PageCover } from '@/components/PageCover';
+import { TrendingPhotographers } from '@/components/TrendingPhotographers';
 
 // ===== Ported from pages/explore.jsx =====
 // Explore page — masonry grid + filters (category, sort, time range)
@@ -28,7 +29,6 @@ function PageExplore({ category }) {
   if (showPicksOnly) photos = photos.filter(p => p.picks.length > 0);
 
   if (sort === 'recent') photos.sort((a,b) => a.hours - b.hours);
-  else if (sort === 'likes') photos.sort((a,b) => b.likes - a.likes);
   else photos.sort((a,b) => b.pulse - a.pulse);
 
   const tabs = [
@@ -92,14 +92,12 @@ function PageExplore({ category }) {
             })}
           </div>
 
+          {/* Block sort toggle — prominent 2-option selector */}
+          <SortBlocks value={sort} onChange={setSort} />
+
           {/* Filter bar */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 0', borderBottom: '1px solid var(--rule)' }}>
             <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
-              <FilterDropdown label="Sort" value={sort} options={[
-                { v: 'pulse', l: 'Pulse score' },
-                { v: 'recent', l: 'Most recent' },
-                { v: 'likes', l: 'Most liked' },
-              ]} onChange={setSort} />
               <FilterDropdown label="Time" value={timeRange} options={[
                 { v: 'day', l: '24 hours' },
                 { v: 'week', l: 'This week' },
@@ -119,14 +117,19 @@ function PageExplore({ category }) {
         </div>
       </section>
 
-      {/* Grid */}
+      {/* Grid — with Trending Photographers sidebar */}
       <section style={{ padding: '40px 0 80px' }}>
         <div className="wrap">
-          {photos.length === 0 ? (
-            <EmptyState />
-          ) : (
-            <PhotoGrid photos={photos} cols={3} showRank={sort === 'pulse'} />
-          )}
+          <div className="with-trending">
+            <div className="with-trending-main">
+              {photos.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <PhotoGrid photos={photos} cols={2} showRank={sort === 'pulse'} />
+              )}
+            </div>
+            <TrendingPhotographers limit={10} title="Trending now" />
+          </div>
         </div>
       </section>
 
@@ -138,6 +141,67 @@ function PageExplore({ category }) {
       )}
 
       <Footer />
+    </div>
+  );
+}
+
+function SortBlocks({ value, onChange }) {
+  const BLOCKS = [
+    {
+      v: 'pulse',
+      label: 'Hirest',
+      sub: 'คะแนนสูงสุด · Highest Pulse score',
+      // Trophy/peak symbol
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round">
+          <path d="M3 19 L9 9 L13 14 L16 10 L21 19 Z" />
+        </svg>
+      ),
+    },
+    {
+      v: 'recent',
+      label: 'Fresh',
+      sub: 'รูปภาพใหม่ · Newest uploads',
+      // Spark / sun-burst
+      icon: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 3 V5 M12 19 V21 M3 12 H5 M19 12 H21 M5.5 5.5 L6.9 6.9 M17.1 17.1 L18.5 18.5 M5.5 18.5 L6.9 17.1 M17.1 6.9 L18.5 5.5" />
+        </svg>
+      ),
+    },
+  ];
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, padding: '24px 0 0' }}>
+      {BLOCKS.map((b) => {
+        const active = value === b.v;
+        return (
+          <button
+            key={b.v}
+            onClick={() => onChange(b.v)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 18,
+              padding: '20px 22px',
+              border: '1px solid ' + (active ? 'var(--fg)' : 'var(--rule)'),
+              background: active ? 'var(--fg)' : 'transparent',
+              color: active ? 'var(--bg)' : 'var(--fg)',
+              cursor: 'pointer',
+              textAlign: 'left',
+              transition: 'background .2s ease, color .2s ease, border-color .2s ease',
+            }}
+          >
+            <span style={{ flexShrink: 0, opacity: active ? 1 : .8 }}>{b.icon}</span>
+            <span style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
+              <span style={{ fontSize: 18, fontWeight: 500, letterSpacing: '-.01em' }}>{b.label}</span>
+              <span style={{ fontSize: 11, letterSpacing: '.06em', opacity: active ? .75 : .55 }} className="th">
+                {b.sub}
+              </span>
+            </span>
+          </button>
+        );
+      })}
     </div>
   );
 }

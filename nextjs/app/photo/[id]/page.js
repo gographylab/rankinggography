@@ -109,11 +109,6 @@ function PagePhoto({ id }) {
                   } />
                   <BreakdownStat label="Hours since" val={photo.hours} mult="÷" />
                 </div>
-                <div style={{ marginTop: 16 }}>
-                  <Link href="/about-ranking" className="mono" style={{ fontSize: 11, letterSpacing: '.14em', textTransform: 'uppercase', opacity: .65, borderBottom: '1px solid var(--rule)', paddingBottom: 2 }}>
-                    How Pulse is calculated →
-                  </Link>
-                </div>
               </div>
 
               {/* Comments */}
