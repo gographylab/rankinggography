@@ -90,6 +90,49 @@ npm run dev          # http://localhost:3000
 
 Fish shell note: bundled nvm is `nvm.fish`; run `nvm use 24`. If the binary is missing, prefix commands with `export PATH="$HOME/.nvm/versions/node/v24.16.0/bin:$PATH"`.
 
+## Git workflow
+
+Branch hierarchy:
+
+```
+main                       ← production-ready; deploy target; never commit/push directly
+ └── dev                   ← integration branch; PRs from feat/* and chore/* land here
+      ├── feat/<topic>     ← new features
+      ├── fix/<topic>      ← bug fixes
+      └── chore/<topic>    ← housekeeping (cleanup, deps, docs, refactors)
+```
+
+Default flow when starting work:
+
+1. `git checkout dev && git pull` — get latest integration state.
+2. `git checkout -b feat/<short-kebab-name>` (or `fix/…` / `chore/…`).
+3. Work in small, focused commits as you go.
+4. Push with `git push -u origin <branch>` when ready.
+5. Open a PR targeting `dev` (never `main`).
+6. After review, the PR merges into `dev`. `dev → main` happens as a separate, deliberate merge when the user calls a release.
+
+**Branch naming**: lower-case kebab, scope-first (`feat/photographer-filters`, `fix/lightbox-keyboard-nav`, `chore/upgrade-next`). Avoid timestamps or initials.
+
+**Commit messages**: imperative present tense, ~70-char subject focused on the *why*, no trailing period. Body (optional) explains motivation when not obvious. End every commit with the Co-Authored-By line:
+
+```
+Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+```
+
+Pass multi-line messages via heredoc (`git commit -m "$(cat <<'EOF' … EOF )"`) so formatting stays intact.
+
+**Never (without an explicit ask):**
+- commit or push directly to `main` or `dev`
+- force-push (`--force`, `--force-with-lease`) — especially to `main` / `dev`
+- amend a commit that's already been pushed
+- skip hooks (`--no-verify`) or signing
+- delete a branch with unmerged work
+- `git reset --hard`, `git checkout --`, or anything else that discards uncommitted changes
+
+**When the user says "merge"**: confirm direction before acting (`feat → dev` vs `dev → main`). When the user says "push": confirm the target branch. These are visible to others — always verify scope first.
+
+**Verification before committing**: run the post-change suite (`typecheck → lint → test → build`) so commits stay green. Don't commit broken state hoping to fix it next commit.
+
 ## Locked design conventions — do not violate without asking
 
 These are brand-level rules from the handoff brief. If a request implies breaking one, surface it before acting.
