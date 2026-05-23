@@ -1,27 +1,36 @@
-# Local Claude Code state (per-user permissions, history)
-.claude/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Supabase CLI local state (project link, version cache)
-supabase/.temp/
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
 
-# OS / editor
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
 .DS_Store
-Thumbs.db
-.vscode/
-.idea/
+*.pem
 
-# Logs
-*.log
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Local env files (root-level — nextjs/ has its own .gitignore)
-.env
-.env.local
-.env.*.local
+# local env files
+.env*.local
 
-# MCP server config — contains API keys (Context7, Supabase PATs, etc.)
-# Each developer maintains their own .mcp.json locally
-.mcp.json
+# vercel
+.vercel
 
-# Temp commit message files
-.commit-msg*.txt
-
+# typescript
+*.tsbuildinfo
+next-env.d.ts

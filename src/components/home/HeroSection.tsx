@@ -1,0 +1,122 @@
+'use client';
+import { useRouter } from 'next/navigation';
+import type { Photo, Photographer } from '@/lib/types';
+import { ViewfinderFrame } from '@/components/photo/ViewfinderFrame';
+import { PulseCountUp } from '@/components/editorial/PulseCountUp';
+
+interface HeroSectionProps {
+  banner: Photo;
+  top: Photo;
+  bannerPhotographer: Photographer | undefined;
+  topPhotographer: Photographer | undefined;
+}
+
+export function HeroSection({ banner, top, bannerPhotographer, topPhotographer }: HeroSectionProps) {
+  const router = useRouter();
+
+  return (
+    <section className="relative">
+      {/* Full-bleed banner */}
+      <div
+        className="relative overflow-hidden bg-black h-[68vh] min-h-[520px] max-h-[760px]"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={banner.src} alt={banner.title} className="w-full h-full object-cover" />
+        {/* Gradient overlay */}
+        <div
+          className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.45)_0%,rgba(0,0,0,.08)_35%,rgba(0,0,0,.1)_65%,rgba(0,0,0,.65)_100%)]"
+        />
+        {/* Top bar */}
+        <div className="absolute top-8 left-10 right-10 flex justify-between items-baseline text-white">
+          <div className="mono text-[11px] tracking-[.22em] uppercase opacity-85">
+            GOGRAPHY Photo Awards
+          </div>
+          <div className="mono text-[11px] tracking-[.22em] uppercase opacity-85">
+            Spring 2026 · Live
+          </div>
+        </div>
+        {/* Bottom copy */}
+        <div className="absolute left-10 right-10 bottom-12 text-white">
+          <div className="wrap !p-0 !max-w-none">
+            <h1
+              className="th font-light leading-[.92] text-white m-0 max-w-[14ch] text-[clamp(64px,8vw,128px)] tracking-[-.035em]"
+            >
+              Photographs<br />that tell stories
+            </h1>
+            <div className="mt-7 flex items-end justify-between gap-10">
+              <p className="th text-[16px] leading-[1.55] max-w-[460px] text-white/85 m-0">
+                A photography ranking platform by photographers and travellers — vote, discover, and help choose the photo of the season.
+              </p>
+              <div className="flex gap-[10px] shrink-0">
+                <button
+                  onClick={() => router.push('/explore')}
+                  className="px-[22px] py-3 bg-white text-black text-[11px] tracking-[.14em] uppercase font-medium cursor-pointer border-0"
+                >
+                  Explore the gallery
+                </button>
+                <button
+                  onClick={() => router.push('/about-ranking')}
+                  className="px-[22px] py-3 text-[11px] tracking-[.14em] uppercase font-medium cursor-pointer bg-[rgba(255,255,255,.08)] text-white border border-[rgba(255,255,255,.45)]"
+                >
+                  How Pulse works
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Banner credit */}
+        <div className="absolute bottom-3 right-10 text-white/55">
+          <div className="mono text-[10px] tracking-[.18em] uppercase">
+            Banner: &quot;{banner.title}&quot; by {bannerPhotographer?.name}
+          </div>
+        </div>
+      </div>
+
+      {/* Cover of the week — viewfinder treatment on black */}
+      <div className="bg-black text-white py-20">
+        {/* Viewfinder top strip — frame/aperture/shutter metadata */}
+        <div className="wrap flex justify-between items-baseline pb-6 text-white/65">
+          <div className="caps opacity-85">Cover of the week</div>
+          <div className="mono text-[11px] tracking-[.18em] uppercase">
+            ★ #1 PULSE <PulseCountUp value={top.pulse} decimals={0} />
+          </div>
+        </div>
+
+        {/* Viewfinder frame — corner brackets only, no grid / crosshair / HUD text */}
+        <div className="wrap pb-7">
+          <ViewfinderFrame
+            showGrid={false}
+            showCrosshair={false}
+            showAF={false}
+            onClick={() => router.push(`/photo/${top.id}`)}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={top.src}
+              alt={top.title}
+              loading="lazy"
+              className="w-full max-h-[80vh] object-cover"
+            />
+          </ViewfinderFrame>
+        </div>
+
+        <div className="wrap">
+          <h2 className="th text-[clamp(36px,4.4vw,64px)] font-normal tracking-[-.02em] m-0 leading-[1.05] text-white">
+            &quot;{top.title}&quot;
+          </h2>
+          <div className="mono text-[12px] tracking-[.12em] uppercase mt-4 flex items-baseline gap-3 flex-wrap">
+            <span className="opacity-80">by {topPhotographer?.name}</span>
+            <span className="opacity-40">·</span>
+            <span className="opacity-60">{top.exif.camera} · {top.exif.focal}</span>
+            <button
+              onClick={() => router.push(`/photo/${top.id}`)}
+              className="caps cursor-pointer border-b border-white/85 pb-1 ml-auto text-white"
+            >
+              View photo →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
