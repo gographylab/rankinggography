@@ -124,12 +124,18 @@ img { display: block; max-width: 100%; }
 
 .logo {
   font-weight: 600; font-size: 17px; letter-spacing: .02em;
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 12px;
 }
 .logo .mark {
-  width: 24px; height: 24px; border-radius: 50%;
-  border: 1.5px solid var(--fg);
-  display: grid; place-items: center; font-size: 10px; font-weight: 700; letter-spacing: 0;
+  width: 28px; height: 28px;
+  background-color: var(--fg);
+  -webkit-mask: url('/logo-white.png') center / contain no-repeat;
+          mask: url('/logo-white.png') center / contain no-repeat;
+  /* collapse any fallback text without zeroing currentColor */
+  font-size: 0;
+  line-height: 0;
+  text-indent: -9999px;
+  flex-shrink: 0;
 }
 .logo small { font-weight: 400; opacity: .55; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
 
