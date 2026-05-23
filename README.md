@@ -1,78 +1,95 @@
 # ranking-gography-net
 
-Photo ranking + voting platform — **"Gography Photo Awards"**.
-Domain: `ranking.gography.net`
+Photo ranking + voting platform — **"GOGRAPHY Photo Awards"**.
+Domain: `ranking.gography.net`.
 
-> Production scaffold lives in [`nextjs/`](./nextjs/). The legacy static design preview is kept at the repo root for visual reference only — it is not the deploy target.
-
----
-
-## Repo layout
-
-```
-.
-├── nextjs/                          ← Active project (Next.js 14 + App Router)
-│   ├── app/                         ← 17 routes
-│   ├── components/                  ← Nav, Footer, PhotoCard, Icons, AppProvider
-│   ├── lib/data.js                  ← Mock data — replace with Supabase queries
-│   ├── bin/setup-routes.js          ← Renames -id- → [id] on postinstall
-│   └── README.md                    ← Dev quick start
-│
-├── supabase/                        ← DB schema + migrations
-│   └── migrations/                  ← Apply in order via Supabase SQL editor or CLI
-│       ├── 0001_init_schema.sql     ← Tables, indexes, RLS policies
-│       ├── 0002_triggers.sql        ← Counters, pick_type, handle_new_user
-│       ├── 0003_materialized_views.sql ← photo_scores, photographer_stats
-│       ├── 0004_functions.sql       ← Cashback eligibility, helpers
-│       └── 0005_seed_data.sql       ← Initial categories + dev super admin
-│
-└── (root .jsx + .html + pages/ + uploads/)
-    ↑ Legacy design preview. Open `Gography Photo Awards.html` via `python -m http.server`
-       to view. Will be removed once the Next.js port reaches feature parity.
-```
-
----
+Next.js 14 (App Router) + **TypeScript** + Tailwind CSS + shadcn/ui. Premium, monochrome, Thai-first design. Mock data behind a swappable data-access layer (no backend wiring yet — schema lives in [`supabase/migrations/`](./supabase/migrations/) for when it's time).
 
 ## Quick start
 
-```powershell
-cd nextjs
-npm install              # postinstall renames -id-/-username-/--...section-- → [id]/[username]/[[...section]]
-cp .env.example .env.local   # then fill Supabase URL + keys
-npm run dev              # http://localhost:3000
+This repo uses **Node 24**. With nvm:
+
+```bash
+nvm install 24      # once
+nvm use 24
+npm install
+npm run dev         # http://localhost:3000
 ```
 
-See [`nextjs/README.md`](./nextjs/README.md) for details.
+> Fish shell users: the bundled nvm is `nvm.fish`. Run `nvm use 24` (and optionally `set --universal nvm_default_version v24.x.x`).
 
----
+## Scripts
 
-## Supabase setup
+| Script | What it does |
+|---|---|
+| `npm run dev` | Dev server |
+| `npm run build` | Production build |
+| `npm run start` | Serve the production build |
+| `npm run lint` | `next lint` |
+| `npm run typecheck` | `tsc --noEmit` (strict) |
+| `npm test` | Vitest (unit tests for pulse, data layer, utils) |
+| `npm run test:watch` | Vitest watch mode |
 
-1. Create a Supabase project (already done — paste URL + keys into `nextjs/.env.local`)
-2. Apply migrations **in order**:
-   - Dashboard: SQL Editor → paste each file from `supabase/migrations/` → Run
-   - Or CLI: `supabase db push` (after `supabase link --project-ref <ref>`)
-3. Enable Google OAuth provider in `Authentication → Providers`
-4. Add redirect URL: `http://localhost:3000/auth/callback` (dev) + `https://ranking.gography.net/auth/callback` (prod)
+## Structure
 
-The full schema spec is in the NotebookLM notebook (`LOGIC.md` section 3).
+```
+.
+├── src/
+│   ├── app/
+│   │   (marketing)/          # about, about-ranking, for-customers, hall-of-fame, ambassadors (Server Components)
+│   │   explore/ explore/[category]/
+│   │   photo/[id]/
+│   │   photographer/[username]/
+│   │   photographers/ photographers/[filter]/
+│   │   search/  login/  upload/  apply-photographer/
+│   │   me/[[...section]]/    # dashboard / photos / favorites / galleries / stats / settings
+│   │   page.tsx layout.tsx globals.css not-found.tsx
+│   ├── components/
+│   │   ui/                   # shadcn primitives, themed to the monochrome tokens
+│   │   photo/                # PhotoCard, PhotoGrid, Lightbox, ViewfinderFrame
+│   │   layout/               # Nav, RoleRibbon, Footer, SideMenu, PageCover, TweaksPanel
+│   │   home/                 # landing-page sections
+│   │   account/              # /me section components
+│   │   editorial/            # Marquee, SectionNumber, PulseCountUp
+│   │   icons/                # VoyageurMark, CrownIcon, EditorIcon, RewardIcon, PickBadge
+│   ├── lib/
+│   │   data/                 # typed mock data + the data-access layer (the swappable seam)
+│   │   types.ts              # domain types
+│   │   pulse.ts              # pulse scoring + ranking (pure)
+│   │   utils.ts              # cn, picsum, formatCount
+│   ├── hooks/                # useLocalStorage
+│   └── providers/            # AppProvider (theme / mode / persona / side menu, localStorage-backed)
+├── public/                   # static assets (logo, favicon, etc.)
+├── supabase/migrations/      # DB schema (not yet applied)
+├── docs/                     # specs, plans, handoff brief
+└── package.json / tsconfig.json / tailwind.config.ts / next.config.mjs / vitest.config.ts
+```
 
----
+## Design system
 
-## Roadmap (priority order)
+- **Tokens** live in [`src/app/globals.css`](./src/app/globals.css) (`:root` + `[data-theme="dark"]`) and are mirrored in [`tailwind.config.ts`](./tailwind.config.ts) as utilities: `bg-fg`, `text-fg-soft`, `border-rule`, `bg-cream`, `bg-tile`, `text-gold`, `font-thai`, `font-mono`.
+- Pure white/black, no gray backgrounds; warm gold `#b08e54` (`gold`) reserved for Ambassador/Voyageur cues.
+- Components use Tailwind utilities + a small set of helper classes (`.btn`, `.caps`, `.pulse`, `.rank`, `.pcard`, `.marquee`, `.snum`, …). No loose inline styles except genuinely runtime-dynamic values.
 
-| # | Step | Status |
-|---|---|---|
-| 1 | Supabase project + apply schema migrations | 🟡 schema files ready, apply pending |
-| 2 | Google OAuth → `/login` working end-to-end | ⬜ |
-| 3 | Replace `lib/data.js` with Supabase queries (page by page) | ⬜ |
-| 4 | Photographer upload flow → Supabase Storage | ⬜ |
-| 5 | Pulse score materialized view + 5-min refresh cron | ⬜ |
-| 6 | Port `/admin/*` (10 pages — not in design preview) | ⬜ |
-| 7 | Mobile responsive pass (currently desktop 1440px only) | ⬜ |
-| 8 | Production deploy to Vercel | ⬜ |
+## Previewing personas & themes
 
----
+There is no real auth yet. Use the **Tweaks panel** (bottom-right, on every page) to switch:
+
+- **Theme** — light / dark
+- **Mode** — atelier / editorial
+- **Persona** — guest / user / customer (Voyageur) / photographer
+
+These persist to `localStorage` (`gpa-prefs`) and drive the nav ribbons, `/me`, gating, etc.
+
+## Data → real backend
+
+All pages read through `@/lib/data` (`getPhotos`, `getPhoto`, `getPhotographer`, `getSeasons`, `getCommentsFor`, …). Today these return typed mock data; swapping to Supabase queries means changing **only** [`src/lib/data/`](./src/lib/data/) — pages don't touch raw data.
+
+The Supabase schema (tables, RLS, materialized views, triggers, seed data) lives in [`supabase/migrations/`](./supabase/migrations/) and is not yet applied.
+
+## Scope
+
+The 17 public/user pages of the original preview. Out of scope (for now): admin pages, real Supabase wiring/auth/storage. See [`docs/superpowers/specs/2026-05-22-gography-typescript-rebuild-design.md`](./docs/superpowers/specs/2026-05-22-gography-typescript-rebuild-design.md) and [`docs/handoff-brief.md`](./docs/handoff-brief.md) for full context.
 
 ## License
 
