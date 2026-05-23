@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GOGRAPHY — Mobile Responsive Pass</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  html, body { margin: 0; padding: 0; background: #f0eee9; font-family: 'Inter', system-ui; }
+  #root { width: 100%; min-height: 100vh; }
+  /* Thumbnail (for bundler / fallback) */
+</style>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <rect width="200" height="200" fill="#FAFAF7"/>
+    <text x="100" y="92" text-anchor="middle" font-family="Playfair Display, Georgia, serif" font-weight="700" font-size="28" fill="#000">GOGRAPHY</text>
+    <line x1="40" y1="108" x2="160" y2="108" stroke="#000" stroke-width="1"/>
+    <text x="100" y="130" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="2" fill="#b08e54">— MOBILE PASS —</text>
+  </svg>
+</template>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="design-canvas.jsx"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="components.jsx"></script>
+  <script type="text/babel" src="screens/photographer.jsx"></script>
+  <script type="text/babel" src="screens/home.jsx"></script>
+  <script type="text/babel" src="screens/about.jsx"></script>
+  <script type="text/babel" src="screens/halloffame.jsx"></script>
+  <script type="text/babel" src="screens/customers.jsx"></script>
+  <script type="text/babel" src="screens/explore.jsx"></script>
+
+  <script type="text/babel" data-presets="env,react">
+    const { useState } = React;
+    const {
+      DesignCanvas, DCSection, DCArtboard, DCPostIt,
+      PhoneFrame, TweaksPanel, useTweaks, TweakSection, TweakRadio, TweakToggle,
+      ScreenPhotographer, ScreenHome, ScreenAbout, ScreenHallOfFame, ScreenForCustomers, ScreenExplore,
+    } = window;
+
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "theme": "light",
+      "showTablet": false
+    }/*EDITMODE-END*/;
+
+    // A small tablet frame (768px wide content) for the Photographer side-by-side
+    function TabletFrame({ children, dark, label }) {
+      return (
+        <div style={{ display: 'inline-flex', flexDirection: 'column', gap: 12 }}>
+          {label && (
+            <div style={{
+              fontFamily: 'IBM Plex Mono, monospace',
+              fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase',
+              color: 'rgba(0,0,0,0.55)',
+            }}>{label}</div>
+          )}
+          <div style={{
+            width: 768, height: 1024, position: 'relative',
+            background: dark ? '#0a0a0a' : '#fff',
+            boxShadow: '0 30px 60px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.08)',
+            overflow: 'hidden',
+          }}>
+            <div style={{
+              height: 32, padding: '0 12px',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              background: dark ? '#000' : '#FAFAF7',
+              borderBottom: dark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
+              fontFamily: 'IBM Plex Mono, monospace', fontSize: 10,
+              color: dark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.55)',
+              letterSpacing: '0.06em',
+            }}>
+              <span>9:41</span>
+              <span style={{ flex: 1, textAlign: 'center' }}>gography.net</span>
+              <span>▮▮▮</span>
+            </div>
+            <div className={`gpa${dark ? ' dark' : ''}`} style={{
+              width: '100%', height: 'calc(100% - 32px)',
+              overflowY: 'auto', overflowX: 'hidden',
+              background: dark ? '#0a0a0a' : '#fff', color: dark ? '#fff' : '#000',
+            }}>
+              {children}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+      const theme = t.theme;
+      const onToggle = () => setTweak('theme', theme === 'light' ? 'dark' : 'light');
+      const phoneProps = { theme, onToggleTheme: onToggle };
+      const tabletDark = theme === 'dark';
+
+      const screens = [
+        { id: 'photog',    label: '01 / Photographer', Comp: ScreenPhotographer, post: '5-col stat strip → 2-col grid + wide pulse cell. Sparkline scales. Tabs scroll horizontally.' },
+        { id: 'home',      label: '02 / Home',         Comp: ScreenHome,         post: 'Fresh 4→1. Steps 3→1. Voyageurs become horizontal-scroll cards. Trending + Leaderboard stack.' },
+        { id: 'about',     label: '03 / About',        Comp: ScreenAbout,        post: '2-col body→1. 4-col stats→2. 3-col principles→1 with numbers. Team 2→1.' },
+        { id: 'hall',      label: '04 / Hall of Fame', Comp: ScreenHallOfFame,   post: 'Winner 1.1fr/1fr→stacked. Archive list with 92px thumbnail. Tiers 3→1.' },
+        { id: 'customers', label: '05 / For Customers', Comp: ScreenForCustomers, post: 'Rewards 3→1. Rules 4→2. Steps 3→1. CTA full-width.' },
+        { id: 'explore',   label: '06 / Explore',      Comp: ScreenExplore,      post: 'SortBlocks stay 2-col (tap-toggle). Chips horizontal scroll. Grid 3→2. Trending stacked below.' },
+      ];
+
+      return (
+        <>
+          <DesignCanvas>
+            <DCSection id="overview" title="GOGRAPHY · Mobile Responsive Pass"
+                       subtitle="Phone 375 · all priority screens · brand tokens locked">
+              {screens.map(({ id, label, Comp, post }) => (
+                <DCArtboard key={id} id={id} label={label} width={375} height={812}>
+                  <PhoneFrame dark={tabletDark}>
+                    <Comp {...phoneProps} />
+                  </PhoneFrame>
+                </DCArtboard>
+              ))}
+              <DCPostIt>
+                <strong>Read me</strong><br/>
+                Mono palette only — gold #b08e54 reserved for Voyageur/Ambassador status. Toggle theme via Tweaks. Drag artboards to reorder. Click any header to expand fullscreen.
+              </DCPostIt>
+            </DCSection>
+
+            <DCSection id="breakpoints" title="Breakpoint comparison · Photographer profile"
+                       subtitle="Top-priority screen at 375 · 768 — the 5-col stat strip is the highest-risk element">
+              <DCArtboard id="photog-375"  label="375 · Phone"  width={375}  height={1100}>
+                <PhoneFrame dark={tabletDark} h={1100}>
+                  <ScreenPhotographer {...phoneProps} />
+                </PhoneFrame>
+              </DCArtboard>
+              <DCArtboard id="photog-768" label="768 · Tablet portrait" width={768} height={1100}>
+                <TabletFrame dark={tabletDark}>
+                  <ScreenPhotographer {...phoneProps} />
+                </TabletFrame>
+              </DCArtboard>
+              <DCPostIt>
+                <strong>Stat strip recipe</strong><br/>
+                375: <code>grid-cols-2</code> with the Pulse cell <code>col-span-2</code> on row 3.<br/>
+                ≥640: <code>grid-cols-5</code>, Pulse returns to its slot.<br/>
+                No horizontal scroll at any width.
+              </DCPostIt>
+            </DCSection>
+
+            <DCSection id="spec" title="Tailwind handoff cheatsheet"
+                       subtitle="Class mappings for the refactors that matter">
+              <DCArtboard id="cheatsheet" label="Class map" width={520} height={760}>
+                <div style={{
+                  width: '100%', height: '100%', background: '#fff',
+                  padding: 24, boxSizing: 'border-box',
+                  fontFamily: 'IBM Plex Mono, monospace', fontSize: 12, lineHeight: 1.6,
+                  overflowY: 'auto',
+                  color: '#000',
+                }}>
+                  <div style={{
+                    fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 700,
+                    marginBottom: 14, letterSpacing: '-0.01em',
+                  }}>Class mappings</div>
+                  <hr style={{ border: 0, borderTop: '1px solid rgba(0,0,0,0.12)', margin: '0 0 16px' }} />
+
+                  <div style={{ color: 'rgba(0,0,0,0.55)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>Grids</div>
+                  <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontSize: 11 }}>
+{`Fresh photos
+─ grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5
+
+Steps
+─ grid-cols-1 lg:grid-cols-3
+
+Voyageurs (1.1fr 1fr)
+─ phone: flex overflow-x-auto snap-x
+─ lg:grid lg:[grid-template-columns:1.1fr_1fr]
+
+Trending + Leaderboard
+─ grid-cols-1 lg:grid-cols-[1fr_280px] gap-8
+
+Stat strip (Photographer)
+─ grid-cols-2 sm:grid-cols-5
+─ [&>:last-child]:col-span-2 sm:[&>:last-child]:col-span-1
+
+Cashback tiers
+─ grid-cols-1 md:grid-cols-3 gap-3
+
+Footer columns
+─ grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-7`}
+                  </pre>
+
+                  <div style={{ color: 'rgba(0,0,0,0.55)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', margin: '20px 0 6px' }}>Padding · Hero</div>
+                  <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontSize: 11 }}>
+{`PageCover insets
+─ left/right: 16 → md:40
+─ bottom:     24 → md:56
+
+Section padding
+─ py-10 md:py-16 lg:py-24
+
+Cover title clamp
+─ text-[clamp(34px,9vw,56px)]
+─ leading-[1.02] tracking-[-0.02em]
+─ max-w-[16ch] text-balance`}
+                  </pre>
+
+                  <div style={{ color: 'rgba(0,0,0,0.55)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', margin: '20px 0 6px' }}>Nav</div>
+                  <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontSize: 11 }}>
+{`Mobile (<768)
+─ hide: .nav-links { display: none }
+─ show: hamburger 44×44 (already in SideMenu)
+─ keep: logo · ThemeToggle · avatar
+─ h-14 px-3.5
+
+Desktop ≥768
+─ md:nav-links flex gap-7
+─ md:hide hamburger`}
+                  </pre>
+
+                  <div style={{ color: 'rgba(0,0,0,0.55)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', margin: '20px 0 6px' }}>PhotoGrid · Both modes</div>
+                  <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontSize: 11 }}>
+{`Uniform
+─ const cols = useBreakpoint(
+    { base: 1, sm: 2, lg: userCols }
+  );
+
+Masonry
+─ columns-1 sm:columns-2 lg:columns-{n}
+─ gap → column-gap`}
+                  </pre>
+
+                  <div style={{ color: 'rgba(0,0,0,0.55)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', margin: '20px 0 6px' }}>Touch · Safety</div>
+                  <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontSize: 11 }}>
+{`buttons    min-h-[44px]
+hearts     w-11 h-11
+chips      h-9 (36px) — chips OK <44 if part of scroller
+tabs       overflow-x-auto + scrollbar-hide`}
+                  </pre>
+                </div>
+              </DCArtboard>
+              <DCPostIt>
+                <strong>Migration path</strong><br/>
+                1. PageCover insets → tighten on mobile.<br/>
+                2. PhotoGrid → responsive cols.<br/>
+                3. Stat strips → grid-cols-2/sm:grid-cols-N.<br/>
+                4. Nav → hide links &lt;md, hamburger only.<br/>
+                5. Footer → 2-col phone, 4-col desktop.
+              </DCPostIt>
+            </DCSection>
+          </DesignCanvas>
+
+          <TweaksPanel title="Tweaks">
+            <TweakSection label="Display">
+              <TweakRadio
+                label="Theme"
+                value={t.theme}
+                onChange={v => setTweak('theme', v)}
+                options={[
+                  { value: 'light', label: 'Light' },
+                  { value: 'dark',  label: 'Dark' },
+                ]}
+              />
+            </TweakSection>
+          </TweaksPanel>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
