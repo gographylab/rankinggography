@@ -18,6 +18,10 @@ Thumbs.db
 .env.local
 .env.*.local
 
+# MCP server config — contains API keys (Context7, Supabase PATs, etc.)
+# Each developer maintains their own .mcp.json locally
+.mcp.json
+
 # Temp commit message files
 .commit-msg*.txt
 
