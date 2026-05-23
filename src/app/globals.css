@@ -626,3 +626,64 @@ img { display: block; max-width: 100%; }
     @apply font-sans;
   }
 }
+/* ============================================================
+   MOBILE — class-based responsive overrides
+   Targeted rules only (no attribute selectors). Per-page grids
+   use Tailwind responsive classes directly via className.
+   ============================================================ */
+
+@media (max-width: 767px) {
+  /* Wrap padding tightens */
+  .wrap, .wrap-narrow { padding: 0 16px; }
+
+  /* Nav — hide inline links, keep hamburger + logo + ThemeToggle + avatar */
+  .nav-inner { padding: 12px 16px; gap: 10px; }
+  .nav-left .nav-link,
+  .nav-right .nav-link { display: none; }
+  .nav-right { gap: 10px; }
+  .logo small { display: none; }
+  .logo { font-size: 17px; gap: 8px; letter-spacing: .03em; }
+  .logo .mark { width: 22px; height: 22px; }
+  .nav-theme-toggle { width: 46px; height: 24px; }
+  .nav-theme-toggle-knob { width: 18px; height: 18px; }
+  .nav-theme-toggle.is-dark .nav-theme-toggle-knob {
+    transform: translateY(-50%) translateX(22px);
+  }
+}
+
+@media (max-width: 380px) {
+  .nav-theme-toggle { display: none; }   /* available in SideMenu footer */
+  .logo { font-size: 15px; }
+  .logo .mark { width: 20px; height: 20px; }
+}
+
+/* Hide scrollbar utility — for horizontally scrolling tabs / chip rows */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Footer responsive — 5-col desktop, 2-col tablet, 1-col phone with brand on top */
+@media (max-width: 1023px) {
+  footer { margin-top: 80px; padding: 48px 0 32px; }
+  footer .fgrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  /* Brand block spans full width on tablet */
+  footer .fgrid > :first-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 640px) {
+  footer { margin-top: 64px; padding: 40px 0 28px; }
+  footer .fgrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px 24px;
+  }
+  footer .fgrid > :first-child { grid-column: 1 / -1; margin-bottom: 8px; }
+  footer .colophon {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 36px;
+    text-align: left;
+  }
+}
