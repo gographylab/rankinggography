@@ -7,6 +7,7 @@ import { AlltimeSection } from '@/components/home/AlltimeSection';
 import { FeaturedPhotographersSection } from '@/components/home/FeaturedPhotographersSection';
 import { VoyageursSection } from '@/components/home/VoyageursSection';
 import { Footer } from '@/components/layout/Footer';
+import { Marquee } from '@/components/editorial/Marquee';
 
 export default function LandingPage() {
   const { bannerPhotoId, heroPhotoId } = useApp();
@@ -30,6 +31,15 @@ export default function LandingPage() {
         top={top}
         bannerPhotographer={bannerPhotographer}
         topPhotographer={topPhotographer}
+      />
+      {/* Marquee — top-12 photos ticker */}
+      <Marquee
+        speedSec={70}
+        items={allPhotos.slice(0, 12).map((p, i) => ({
+          num: String(i + 1).padStart(2, '0'),
+          title: p.title,
+          by: (getPhotographer(p.by)?.name ?? p.by).toUpperCase(),
+        }))}
       />
       <LeaderboardSection allPhotos={allPhotos} voyageurUsernames={voyageurUsernames} />
       <AlltimeSection allPhotos={allPhotos} voyageurUsernames={voyageurUsernames} />

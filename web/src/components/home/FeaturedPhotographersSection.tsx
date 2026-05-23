@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import type { Photographer, Photo } from '@/lib/types';
 import { PhotographerCard } from './PhotographerCard';
+import { SectionNumber } from '@/components/editorial/SectionNumber';
 
 interface FeaturedPhotographersSectionProps {
   photographers: Photographer[];
@@ -18,9 +19,9 @@ export function FeaturedPhotographersSection({
   return (
     <section className="py-10 pb-24">
       <div className="wrap">
+        <SectionNumber n={3} label="Featured Photographers · Week 12" />
         <div className="flex justify-between items-baseline pb-7 mb-8 border-b border-[var(--rule)]">
           <div>
-            <div className="caps opacity-55 mb-3">Featured Photographers · Week 12</div>
             <h2
               className="th font-normal m-0 leading-none text-[clamp(36px,4.2vw,56px)] tracking-[-.025em]"
             >

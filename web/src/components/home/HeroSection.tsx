@@ -1,6 +1,8 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import type { Photo, Photographer } from '@/lib/types';
+import { ViewfinderFrame } from '@/components/photo/ViewfinderFrame';
+import { PulseCountUp } from '@/components/editorial/PulseCountUp';
 
 interface HeroSectionProps {
   banner: Photo;
@@ -27,7 +29,7 @@ export function HeroSection({ banner, top, bannerPhotographer, topPhotographer }
         {/* Top bar */}
         <div className="absolute top-8 left-10 right-10 flex justify-between items-baseline text-white">
           <div className="mono text-[11px] tracking-[.22em] uppercase opacity-85">
-            Gography Photo Awards
+            GOGRAPHY Photo Awards
           </div>
           <div className="mono text-[11px] tracking-[.22em] uppercase opacity-85">
             Spring 2026 · Live
@@ -70,56 +72,49 @@ export function HeroSection({ banner, top, bannerPhotographer, topPhotographer }
         </div>
       </div>
 
-      {/* Cover of the week — label */}
-      <div className="pt-20 pb-6">
-        <div className="wrap flex justify-between items-baseline pb-6">
-          <div className="caps opacity-55">Cover of the week</div>
-          <div className="mono text-[11px] tracking-[.18em] uppercase opacity-55">
-            ★ #1 Pulse {top.pulse.toFixed(0)}
+      {/* Cover of the week — viewfinder treatment on black */}
+      <div className="bg-black text-white py-20">
+        {/* Viewfinder top strip — frame/aperture/shutter metadata */}
+        <div className="wrap flex justify-between items-baseline pb-6 text-white/65">
+          <div className="caps opacity-85">Cover of the week</div>
+          <div className="mono text-[11px] tracking-[.18em] uppercase">
+            ★ #1 PULSE <PulseCountUp value={top.pulse} decimals={0} />
           </div>
         </div>
-      </div>
 
-      {/* Cover photo */}
-      <div className="pb-6">
-        <div className="wrap">
-          <div
-            className="cursor-pointer bg-[var(--tile)] overflow-hidden"
+        {/* Viewfinder frame — corner brackets only, no grid / crosshair / HUD text */}
+        <div className="wrap pb-7">
+          <ViewfinderFrame
+            showGrid={false}
+            showCrosshair={false}
+            showAF={false}
             onClick={() => router.push(`/photo/${top.id}`)}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={top.src}
               alt={top.title}
-              className="w-full h-auto block mx-auto object-contain max-h-[78vh]"
+              loading="lazy"
+              className="w-full max-h-[80vh] object-cover"
             />
-          </div>
+          </ViewfinderFrame>
         </div>
-      </div>
 
-      {/* Cover caption */}
-      <div className="pb-20">
-        <div className="wrap flex justify-between items-end gap-10">
-          <div>
-            <h2
-              className="th font-normal m-0 leading-[1.05] text-[clamp(36px,4.4vw,64px)] tracking-[-.02em]"
+        <div className="wrap">
+          <h2 className="th text-[clamp(36px,4.4vw,64px)] font-normal tracking-[-.02em] m-0 leading-[1.05] text-white">
+            &quot;{top.title}&quot;
+          </h2>
+          <div className="mono text-[12px] tracking-[.12em] uppercase mt-4 flex items-baseline gap-3 flex-wrap">
+            <span className="opacity-80">by {topPhotographer?.name}</span>
+            <span className="opacity-40">·</span>
+            <span className="opacity-60">{top.exif.camera} · {top.exif.focal}</span>
+            <button
+              onClick={() => router.push(`/photo/${top.id}`)}
+              className="caps cursor-pointer border-b border-white/85 pb-1 ml-auto text-white"
             >
-              &quot;{top.title}&quot;
-            </h2>
-            <div className="mt-4 flex gap-5 items-center caps">
-              <span className="opacity-70">by {topPhotographer?.name}</span>
-              <span className="opacity-35">·</span>
-              <span className="opacity-55">
-                {top.exif.camera} · {top.exif.focal}
-              </span>
-            </div>
+              View photo →
+            </button>
           </div>
-          <button
-            onClick={() => router.push(`/photo/${top.id}`)}
-            className="caps cursor-pointer border-b border-[var(--fg)] pb-1 shrink-0"
-          >
-            View photo →
-          </button>
         </div>
       </div>
     </section>

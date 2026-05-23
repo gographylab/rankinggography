@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Photo } from '@/lib/types';
 import { PhotoGrid } from '@/components/photo/PhotoGrid';
+import { SectionNumber } from '@/components/editorial/SectionNumber';
 import { CategoryChips } from './CategoryChips';
 
 interface LeaderboardSectionProps {
@@ -24,9 +25,9 @@ export function LeaderboardSection({ allPhotos, voyageurUsernames }: Leaderboard
   return (
     <section className="py-10 pb-20">
       <div className="wrap">
+        <SectionNumber n={1} label="Pulse Leaderboard · This week" />
         <div className="flex justify-between items-end pb-6 mb-6 border-b border-[var(--rule)]">
           <div>
-            <div className="caps opacity-55 mb-[14px]">This week</div>
             <h2 className="th text-[48px] font-normal leading-none m-0 tracking-[-.025em]">
               Pulse Leaderboard
             </h2>
