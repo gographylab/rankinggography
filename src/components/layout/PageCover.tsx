@@ -66,7 +66,7 @@ export function PageCover({
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.5)_0%,rgba(0,0,0,.15)_40%,rgba(0,0,0,.2)_60%,rgba(0,0,0,.7)_100%)]" />
 
         {/* top strip — eyebrow + spring marker */}
-        <div className="absolute top-7 left-10 right-10 flex justify-between items-baseline text-white">
+        <div className="absolute top-7 left-4 right-4 md:left-10 md:right-10 flex justify-between items-baseline text-white">
           <div className="mono text-[11px] tracking-[.22em] uppercase opacity-85">
             GOGRAPHY Photo Awards
           </div>
@@ -80,7 +80,7 @@ export function PageCover({
         {/* main text block */}
         <div
           className={cn(
-            'absolute left-10 right-10 bottom-14 text-white flex flex-col gap-5',
+            'absolute left-4 right-4 md:left-10 md:right-10 bottom-6 md:bottom-14 text-white flex flex-col gap-5',
             align === 'center' ? 'items-center text-center' : 'items-start text-left',
           )}
         >
@@ -93,7 +93,7 @@ export function PageCover({
             {title && (
               <h1
                 className={cn(
-                  'th text-[clamp(48px,6.5vw,96px)] font-light tracking-[-.03em] leading-[.95] text-white m-0',
+                  'th text-[clamp(34px,8vw,96px)] md:text-[clamp(48px,6.5vw,96px)] font-light tracking-[-.03em] leading-[.95] text-white m-0',
                   align === 'center' ? 'max-w-[20ch]' : 'max-w-[16ch]',
                 )}
               >
@@ -120,7 +120,7 @@ export function PageCover({
 
         {/* credit line — bottom right, small mono */}
         {creditLine && (
-          <div className="absolute bottom-3 right-10 text-white/55">
+          <div className="absolute bottom-3 right-4 md:right-10 text-white/55">
             <div className="mono text-[10px] tracking-[.18em] uppercase">{creditLine}</div>
           </div>
         )}
