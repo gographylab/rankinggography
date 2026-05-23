@@ -6,6 +6,7 @@ import { getPhotos, getPhotographers } from '@/lib/data';
 import type { Photo, Photographer } from '@/lib/types';
 import { PhotoGrid } from '@/components/photo/PhotoGrid';
 import { Footer } from '@/components/layout/Footer';
+import { PageCover } from '@/components/layout/PageCover';
 
 // ===== Search page (/search) =====
 // Query input + filtered results across photos and photographers
@@ -152,8 +153,19 @@ function SearchResults() {
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={<div className="wrap py-[96px]" />}>
-      <SearchResults />
-    </Suspense>
+    <>
+      <PageCover
+        photoId="p007"
+        eyebrow="Search"
+        title="Find your photo"
+        subtitle="ค้นจากชื่อภาพ ชื่อช่างภาพ สถานที่ หรือหมวดหมู่"
+        height="36vh"
+        minHeight={300}
+        maxHeight={420}
+      />
+      <Suspense fallback={<div className="wrap py-[96px]" />}>
+        <SearchResults />
+      </Suspense>
+    </>
   );
 }

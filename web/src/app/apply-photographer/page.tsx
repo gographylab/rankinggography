@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Footer } from '@/components/layout/Footer';
+import { PageCover } from '@/components/layout/PageCover';
 import type { Category } from '@/lib/types';
 
 // ---------------------------------------------------------------------------
@@ -88,22 +89,12 @@ export default function ApplyPhotographerPage() {
 
   return (
     <div className="page-fade">
-      {/* Hero */}
-      <section className="pt-16 pb-8">
-        <div className="wrap">
-          <div className="caps opacity-55 mb-[14px]">Apply as photographer</div>
-          <div
-            className="grid items-end grid-cols-[1.4fr_1fr] gap-20"
-          >
-            <h1 className="display-hero th text-[clamp(48px,6vw,88px)] m-0">
-              Submit your portfolio<br />for upload access
-            </h1>
-            <p className="th text-[15px] leading-[1.65] text-fg-soft m-0">
-              เราเปิดรับช่างภาพมือสมัครเล่นและอาชีพ — ทีม Editorial จะตรวจสอบ portfolio ของคุณก่อนอนุมัติสิทธิ์อัพโหลด (ภายใน 7 วัน)
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageCover
+        photoId="p005"
+        eyebrow="Apply"
+        title={<>Submit your portfolio<br />for upload access</>}
+        subtitle="เราเปิดรับช่างภาพมือสมัครเล่นและอาชีพ — ทีม Editorial จะตรวจสอบ portfolio ของคุณก่อนอนุมัติสิทธิ์อัพโหลด (ภายใน 7 วัน)"
+      />
 
       {/* Progress indicator */}
       <section className="py-8 border-t border-rule border-b border-rule">

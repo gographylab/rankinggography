@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { VoyageurMark } from '@/components/icons';
 import { Footer } from '@/components/layout/Footer';
 import { useApp } from '@/providers/AppProvider';
+import { PageCover } from '@/components/layout/PageCover';
 import type { Category } from '@/lib/types';
 
 // ---------------------------------------------------------------------------
@@ -194,6 +195,12 @@ export default function UploadPage() {
 
   return (
     <div className="page-fade">
+      <PageCover
+        photoId="p019"
+        eyebrow="Upload"
+        title="Submit a photo"
+        subtitle="1 ภาพต่อวัน — JPEG/PNG/WebP สูงสุด 25 MB · ภาพต้องเป็นผลงานของคุณ"
+      />
       <section className="pt-12 pb-8">
         <div className="wrap">
           <div className="flex justify-between items-baseline pb-7 border-b border-rule">

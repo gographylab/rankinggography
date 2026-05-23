@@ -1,6 +1,7 @@
 'use client';
 import { useApp } from '@/providers/AppProvider';
 import { getPhotographer, getPhotos } from '@/lib/data';
+import { PageCover } from '@/components/layout/PageCover';
 import { MeSidebar } from '@/components/account/MeSidebar';
 import { MeDashboard } from '@/components/account/MeDashboard';
 import { MePhotos } from '@/components/account/MePhotos';
@@ -45,6 +46,15 @@ export default function Page({ params }: PageProps) {
 
   return (
     <div className="page-fade">
+      <PageCover
+        photoId="p013"
+        eyebrow="Your account"
+        title="Your dashboard"
+        subtitle="ภาพของคุณ คะแนน favorites ทริปกับ GOGRAPHY — รวมที่เดียว"
+        height="38vh"
+        minHeight={300}
+        maxHeight={420}
+      />
       <div
         className="wrap grid items-start pt-12 px-10 pb-24 grid-cols-[240px_1fr] gap-14"
       >

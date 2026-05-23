@@ -1,6 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useApp } from '@/providers/AppProvider';
+import { PageCover } from '@/components/layout/PageCover';
 
 // ===== Login page (/login) =====
 // Google OAuth UI (mock) — no real auth
@@ -15,7 +16,17 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="page-fade min-h-[calc(100vh-70px)] grid place-items-center py-[64px]">
+    <div className="page-fade">
+      <PageCover
+        photoId="p004"
+        eyebrow="Sign in"
+        title={<>Sign in to vote<br />and save photos</>}
+        subtitle="ใช้ Gmail เพื่อยืนยันตัวตน — 1 บัญชี = 1 คะแนน ต่อภาพ"
+        height="44vh"
+        minHeight={360}
+        maxHeight={460}
+      />
+      <div className="grid place-items-center py-[80px]">
       <div className="max-w-[380px] w-full text-center px-[40px]">
         {/* Logo */}
         <div className="logo justify-center mb-[48px]">
@@ -51,6 +62,7 @@ export default function LoginPage() {
           <a href="#" className="border-b border-current">TERMS</a>{' '}AND{' '}
           <a href="#" className="border-b border-current">PRIVACY POLICY</a>
         </p>
+      </div>
       </div>
     </div>
   );
