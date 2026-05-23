@@ -62,6 +62,10 @@ export function SideMenu() {
       ? getPhotographer('kanthorn')?.avatar
       : getPhotographer('pim.travels')?.avatar;
 
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <>
       {/* Backdrop */}

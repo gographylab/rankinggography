@@ -26,6 +26,10 @@ export function Nav() {
     userState === 'customer' ? 'pim.travels' : 'kanthorn'
   )?.avatar;
 
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <>
       <RoleRibbon />
