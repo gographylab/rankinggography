@@ -37,7 +37,7 @@ function mapPublicPhoto(p: any, username: string) {
 }
 
 // ===== Photographer profile — /photographer/[username] =====
-// Cover-less typography-first profile; tabs: Photos / Galleries / Favorites / About
+// Cover-less typography-first profile; tabs: Photos / Favorites / About
 
 // ---------------------------------------------------------------------------
 // Sub-components
@@ -76,7 +76,6 @@ export default function PhotographerProfilePage({ params }: { params: { username
   const pathname = usePathname();
   const [photographer, setPhotographer] = useState<any>(null);
   const [myPhotos, setMyPhotos] = useState<any[]>([]);
-  const [myGalleries, setMyGalleries] = useState<any[]>([]);
   const [myFavorites, setMyFavorites] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -121,22 +120,6 @@ export default function PhotographerProfilePage({ params }: { params: { username
         
       if (photosData) {
         setMyPhotos(photosData.map((p) => mapPublicPhoto(p, userData.username)));
-      }
-
-      // Fetch galleries
-      const { data: galleriesData } = await supabase
-        .from('galleries')
-        .select('id, name, gallery_photos ( photos ( storage_url ) )')
-        .eq('user_id', userData.id)
-        .order('created_at', { ascending: false });
-        
-      if (galleriesData) {
-        setMyGalleries(galleriesData.map(g => {
-          const photos = g.gallery_photos || [];
-          // @ts-ignore
-          const coverUrl = photos[0]?.photos?.storage_url || '';
-          return { id: g.id, title: g.name, count: photos.length, cover: coverUrl };
-        }));
       }
 
       // Fetch favorites
@@ -321,9 +304,6 @@ export default function PhotographerProfilePage({ params }: { params: { username
               <TabsTrigger value="photos" className="px-0 mr-8 py-5 text-[13px] tracking-[.14em] uppercase font-medium">
                 Photos <span className="opacity-55 ml-[6px]">{myPhotos.length}</span>
               </TabsTrigger>
-              <TabsTrigger value="galleries" className="px-0 mr-8 py-5 text-[13px] tracking-[.14em] uppercase font-medium">
-                Galleries <span className="opacity-55 ml-[6px]">{myGalleries.length}</span>
-              </TabsTrigger>
               <TabsTrigger value="favorites" className="px-0 mr-8 py-5 text-[13px] tracking-[.14em] uppercase font-medium">
                 Favorites <span className="opacity-55 ml-[6px]">{myFavorites.length}</span>
               </TabsTrigger>
@@ -341,35 +321,6 @@ export default function PhotographerProfilePage({ params }: { params: { username
                   ? <PhotoGrid photos={myPhotos} cols={3} showLike />
                   : <ProfileEmpty msg="ยังไม่มีภาพในโปรไฟล์นี้" />
                 }
-              </TabsContent>
-
-              {/* Galleries tab */}
-              <TabsContent value="galleries">
-                {myGalleries.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                    {myGalleries.map((g, i) => (
-                      <div key={i} className="cursor-pointer">
-                        <div className="aspect-[4/3] bg-tile overflow-hidden">
-                          {g.cover && (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={g.cover}
-                              alt={g.title}
-                              className="w-full h-full object-cover"
-                              loading="lazy"
-                            />
-                          )}
-                        </div>
-                        <div className="mt-4 flex justify-between items-baseline">
-                          <div className="text-[18px] font-medium tracking-[-0.01em]">{g.title}</div>
-                          <span className="mono text-[11px] opacity-55">{g.count} photos</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <ProfileEmpty msg="ยังไม่มีแกลเลอรี่ในโปรไฟล์นี้" />
-                )}
               </TabsContent>
 
               {/* Favorites tab */}

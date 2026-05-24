@@ -8,7 +8,6 @@ import { MeSidebarSkeleton, MeContentSkeleton } from '@/components/account/MeSke
 import { MeDashboard } from '@/components/account/MeDashboard';
 import { MePhotos } from '@/components/account/MePhotos';
 import { MeFavorites } from '@/components/account/MeFavorites';
-import { MeGalleries, type Gallery } from '@/components/account/MeGalleries';
 import { MeStats } from '@/components/account/MeStats';
 import { MeSettings } from '@/components/account/MeSettings';
 import { MobileMe } from '@/components/mobile/MobileMe';
@@ -43,16 +42,6 @@ function mapPhoto(p: any, username: string, fallbackEmail?: string) {
   };
 }
 
-function mapGalleries(rows: any[]): Gallery[] {
-  return rows.map((g: any) => ({
-    id: g.id,
-    title: g.name,
-    isPublic: g.is_public,
-    cover: g.photos?.storage_url || '',
-    count: g.gallery_photos?.[0]?.count || 0,
-  }));
-}
-
 export default function Page({ params }: PageProps) {
   const { authUser } = useApp();
   const [section, setSection] = useState<string>(params.section?.[0] ?? 'dashboard');
@@ -82,7 +71,6 @@ export default function Page({ params }: PageProps) {
   const [myPhotos, setMyPhotos] = useState<any[]>([]);
   const [favs, setFavs] = useState<any[]>([]);
   const [favIsPublic, setFavIsPublic] = useState(false);
-  const [galleries, setGalleries] = useState<Gallery[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchPhotos = async (profileUsername: string) => {
@@ -96,23 +84,6 @@ export default function Page({ params }: PageProps) {
     setMyPhotos((photos || []).map((p: any) => mapPhoto(p, profileUsername, authUser?.email)));
   };
 
-  const fetchGalleries = async () => {
-    if (!authUser?.id) return;
-    const supabase = getSupabaseBrowserClient();
-    const { data } = await supabase
-      .from('galleries')
-      .select(`
-        id,
-        name,
-        is_public,
-        photos ( storage_url ),
-        gallery_photos ( count )
-      `)
-      .eq('user_id', authUser.id)
-      .order('created_at', { ascending: false });
-    setGalleries(mapGalleries(data || []));
-  };
-
   useEffect(() => {
     if (!authUser?.id) {
       setLoading(false);
@@ -122,7 +93,7 @@ export default function Page({ params }: PageProps) {
     const fetchData = async () => {
       const supabase = getSupabaseBrowserClient();
 
-      const [profRes, photosRes, favsRes, galleriesRes] = await Promise.all([
+      const [profRes, photosRes, favsRes] = await Promise.all([
         supabase.from('users').select('*').eq('id', authUser.id).maybeSingle(),
         supabase.from('photos').select('*').eq('photographer_id', authUser.id).order('uploaded_at', { ascending: false }),
         supabase
@@ -130,17 +101,6 @@ export default function Page({ params }: PageProps) {
           .select(`photo_id, photos (*, users!photographer_id(username))`)
           .eq('user_id', authUser.id)
           .order('favorited_at', { ascending: false }),
-        supabase
-          .from('galleries')
-          .select(`
-            id,
-            name,
-            is_public,
-            photos ( storage_url ),
-            gallery_photos ( count )
-          `)
-          .eq('user_id', authUser.id)
-          .order('created_at', { ascending: false }),
       ]);
 
       const prof = profRes.data || {
@@ -159,8 +119,6 @@ export default function Page({ params }: PageProps) {
         .map((p: any) => mapPhoto(p, p?.users?.username || ''));
       setFavs(favPhotos);
       setFavIsPublic(prof?.favorites_visibility === 'public');
-
-      setGalleries(mapGalleries(galleriesRes.data || []));
 
       setLoading(false);
     };
@@ -295,7 +253,6 @@ export default function Page({ params }: PageProps) {
     { id: 'dashboard', label: 'Dashboard', path: '/me' },
     { id: 'photos', label: 'My Photos', path: '/me/photos', count: myPhotos.length },
     { id: 'favorites', label: 'Favorites', path: '/me/favorites', count: favs.length },
-    { id: 'galleries', label: 'Galleries', path: '/me/galleries', count: galleries.length },
     { id: 'stats', label: 'Stats', path: '/me/stats' },
     { id: 'settings', label: 'Settings', path: '/me/settings' },
   ];
@@ -331,7 +288,6 @@ export default function Page({ params }: PageProps) {
             myPhotos={myPhotos}
             isVoyageur={isVoyageur}
             favoritesCount={favs.length}
-            galleriesCount={galleries.length}
           />
         )}
       </div>
@@ -382,14 +338,6 @@ export default function Page({ params }: PageProps) {
                   favs={favs}
                   isPublic={favIsPublic}
                   onToggleVisibility={handleToggleFavVisibility}
-                />
-              )}
-              {section === 'galleries' && (
-                <MeGalleries
-                  persona={persona}
-                  myPhotos={myPhotos}
-                  galleries={galleries}
-                  onGalleryCreated={fetchGalleries}
                 />
               )}
               {section === 'stats' && <MeStats persona={persona} myPhotos={myPhotos} />}
