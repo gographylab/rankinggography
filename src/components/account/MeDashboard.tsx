@@ -29,10 +29,9 @@ export function MeDashboard({ persona, isVoyageur, isPhotographer, myPhotos }: M
       </h1>
 
       {/* Stat row */}
-      <div className="grid grid-cols-5 gap-0 mt-12 border border-rule">
+      <div className="grid grid-cols-4 gap-0 mt-12 border border-rule">
         <DashStat n={myPhotos.length} l="Photos" />
         <DashStat n={totalLikes.toLocaleString()} l="Likes received" border />
-        <DashStat n={totalComments.toLocaleString()} l="Comments" border />
         <DashStat n={totalFav.toLocaleString()} l="Favorites" border />
         <DashStat n={totalPulse.toFixed(0)} l="Pulse" border />
       </div>
