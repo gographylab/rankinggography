@@ -56,7 +56,7 @@ export function ConfirmDialog({
         <div className="mt-7 flex justify-end gap-3">
           <button
             type="button"
-            className="btn"
+            className={destructive ? 'btn btn-solid' : 'btn'}
             onClick={onCancel}
             disabled={busy}
           >
@@ -64,7 +64,7 @@ export function ConfirmDialog({
           </button>
           <button
             type="button"
-            className={destructive ? 'btn btn-solid' : 'btn btn-solid'}
+            className={destructive ? 'btn' : 'btn btn-solid'}
             onClick={onConfirm}
             disabled={busy}
           >

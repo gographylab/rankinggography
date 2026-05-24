@@ -118,7 +118,14 @@ export function CommentItem({ comment, replies = [], photoId, onMutated }: Comme
         )}
 
         <div className="mt-3 flex gap-4 text-[11px] uppercase tracking-[0.12em] opacity-65">
-          <button onClick={() => setReplying((v) => !v)}>Reply</button>
+          <button
+            onClick={() => {
+              if (!authUser) { redirectIfNeeded(); return; }
+              setReplying((v) => !v);
+            }}
+          >
+            Reply
+          </button>
           {isOwn && !editing && <button onClick={() => setEditing(true)}>Edit</button>}
           {isOwn && <button onClick={onDeleteClick}>Delete</button>}
         </div>
