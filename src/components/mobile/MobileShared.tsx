@@ -283,12 +283,10 @@ export function BottomNav() {
       style={{ bottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)' }}
       aria-label="Primary navigation"
     >
-      <div
-        className="grid grid-cols-5 h-[60px] bg-bg/95 border border-rule"
-        style={{ backdropFilter: 'saturate(140%) blur(12px)', WebkitBackdropFilter: 'saturate(140%) blur(12px)' }}
-      >
+      <div className="grid grid-cols-5 h-[56px] bg-bg border border-rule">
         {slots.map((s) => {
           const isUpload = s.id === 'upload';
+          const highlight = isUpload || s.active;
           return (
             <button
               key={s.id}
@@ -297,17 +295,11 @@ export function BottomNav() {
               aria-current={s.active ? 'page' : undefined}
               className="flex flex-col items-center justify-center gap-1 min-h-[44px] transition-opacity active:opacity-60 focus-visible:outline focus-visible:outline-1 focus-visible:outline-fg focus-visible:-outline-offset-2"
             >
-              {isUpload ? (
-                <span className="grid place-items-center w-9 h-9 bg-fg text-bg">
-                  <BottomNavIcon name={s.icon} size={18} />
-                </span>
-              ) : (
-                <span className={s.active ? 'text-fg' : 'text-fg-soft'}>
-                  <BottomNavIcon name={s.icon} size={20} />
-                </span>
-              )}
+              <span className={highlight ? 'text-fg' : 'text-fg-soft'}>
+                <BottomNavIcon name={s.icon} size={20} />
+              </span>
               <span
-                className={`caps ${isUpload || s.active ? 'font-semibold text-fg' : 'text-fg-soft'}`}
+                className={`caps ${highlight ? 'font-semibold text-fg' : 'text-fg-soft'}`}
                 style={{ fontSize: 9 }}
               >
                 {s.label}
