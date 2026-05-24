@@ -8,6 +8,7 @@ import type { Category, Photo } from '@/lib/types';
 import { PhotoGrid } from '@/components/photo/PhotoGrid';
 import { Footer } from '@/components/layout/Footer';
 import { PageCover } from '@/components/layout/PageCover';
+import { MobileExplore } from '@/components/mobile/MobileExplore';
 
 // ===== Explore [category] page (/explore/landscape, /explore/portrait, /explore/bw) =====
 // Masonry grid scoped to one category + same filter controls
@@ -133,8 +134,19 @@ export default function ExploreCategoryPage({
   const coverTitle = catKey === 'BW' ? 'Black & White' : catKey;
   const coverSubtitle = `เลือกชมหมวด ${catKey === 'BW' ? 'Black & White' : catKey} — เรียงตามอันดับ ภาพล่าสุด หรือยอดโหวต`;
 
+  // Map category to MobileExplore's CAT type
+  const mobileInitial: 'All' | 'Landscape' | 'Portrait' | 'BW' =
+    catKey === 'Landscape' ? 'Landscape'
+    : catKey === 'Portrait' ? 'Portrait'
+    : catKey === 'BW' ? 'BW'
+    : 'All';
+
   return (
-    <div className="page-fade">
+    <>
+    <div className="md:hidden">
+      <MobileExplore initialCategory={mobileInitial} />
+    </div>
+    <div className="page-fade hidden md:block">
       <PageCover
         photoId={coverPhotoId}
         eyebrow="Category"
@@ -243,5 +255,6 @@ export default function ExploreCategoryPage({
 
       <Footer />
     </div>
+    </>
   );
 }
