@@ -93,6 +93,30 @@ export default function Page({ params }: PageProps) {
     fetchData();
   }, [authUser]);
 
+  // Realtime: patch own profile counts (followers / following) when the
+  // users row UPDATEs.
+  useEffect(() => {
+    if (!authUser?.id) return;
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) return;
+    const channel = supabase
+      .channel(`me-user-${authUser.id}`)
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'users', filter: `id=eq.${authUser.id}` },
+        (payload) => {
+          const next = payload.new as { followers_count?: number; following_count?: number };
+          setProfile((curr: any) => curr ? {
+            ...curr,
+            followers_count: typeof next.followers_count === 'number' ? next.followers_count : curr.followers_count,
+            following_count: typeof next.following_count === 'number' ? next.following_count : curr.following_count,
+          } : curr);
+        },
+      )
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [authUser?.id]);
+
   if (loading) return <div className="page-fade py-24 text-center opacity-50 caps">Loading dashboard...</div>;
   if (!profile) return <div className="page-fade py-24 text-center opacity-50 caps">Please sign in</div>;
 
@@ -151,6 +175,8 @@ export default function Page({ params }: PageProps) {
               isVoyageur={isVoyageur}
               isPhotographer={isPhotographer}
               myPhotos={myPhotos}
+              followers={profile.followers_count ?? 0}
+              following={profile.following_count ?? 0}
             />
           )}
           {section === 'photos' && (
