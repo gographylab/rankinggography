@@ -35,6 +35,9 @@ export function CommentSection({ photoId }: CommentSectionProps) {
       }
     }
     roots.sort((a, b) => b.created_at.localeCompare(a.created_at));
+    repliesByParent.forEach((arr) => {
+      arr.sort((a: CommentRow, b: CommentRow) => b.created_at.localeCompare(a.created_at));
+    });
     return { roots, repliesByParent };
   }, [comments]);
 
