@@ -28,6 +28,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AppProvider>
           <Nav />
           <main>{children}</main>
+<<<<<<< HEAD
+=======
+          <BottomNav />
+>>>>>>> 67e4fc2 (feat(mobile): redesign bottom nav as floating hairline card)
           <SideMenu />
           <BottomNav />
           <NotificationsListener />
