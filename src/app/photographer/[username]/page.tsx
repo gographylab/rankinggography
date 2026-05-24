@@ -1,7 +1,7 @@
 'use client';
 import { notFound, usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import type { Photo, Photographer } from '@/lib/types';
+import type { Photo } from '@/lib/types';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { PhotoGrid } from '@/components/photo/PhotoGrid';
 import { Footer } from '@/components/layout/Footer';
@@ -9,6 +9,32 @@ import { VoyageurMark, CrownIcon } from '@/components/icons';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { PageCover } from '@/components/layout/PageCover';
 import { useFollowState } from '@/hooks/useFollowState';
+
+function mapPublicPhoto(p: any, username: string) {
+  const likes = p.likes_count || 0;
+  const favorites = p.favorites_count || 0;
+  return {
+    id: p.id,
+    slug: p.id,
+    src: p.storage_url,
+    title: p.title,
+    by: username,
+    cat: p.category || 'General',
+    w: p.width || 4,
+    h: p.height || 3,
+    caption: p.caption || '',
+    exif: { camera: 'Unknown', lens: 'Unknown', iso: 100, shutter: '1/100', aperture: 'f/8', focal: '50mm' },
+    likes,
+    likes24h: 0,
+    comments: p.comments_count || 0,
+    favorites,
+    hours: 1,
+    picks: [],
+    date: p.uploaded_at,
+    pulse: likes + favorites * 2,
+    rank: 0,
+  };
+}
 
 // ===== Photographer profile — /photographer/[username] =====
 // Cover-less typography-first profile; tabs: Photos / Galleries / Favorites / About
@@ -94,17 +120,7 @@ export default function PhotographerProfilePage({ params }: { params: { username
         .order('uploaded_at', { ascending: false });
         
       if (photosData) {
-        setMyPhotos(photosData.map(p => ({
-          id: p.id,
-          slug: p.id,
-          src: p.storage_url,
-          title: p.title,
-          by: userData.username,
-          cat: p.category || 'General',
-          pulse: p.pulse_score || 0,
-          picks: [],
-          exif: { camera: 'Unknown', lens: 'Unknown', iso: 100, shutter: '1/100', aperture: 'f/8', focal: '50mm' }
-        })));
+        setMyPhotos(photosData.map((p) => mapPublicPhoto(p, userData.username)));
       }
 
       // Fetch galleries
@@ -126,30 +142,62 @@ export default function PhotographerProfilePage({ params }: { params: { username
       // Fetch favorites
       const { data: favsData } = await supabase
         .from('favorites')
-        .select('photos ( id, title, storage_url, category, pulse_score, users ( username ) )')
+        .select('photos ( id, title, storage_url, category, likes_count, favorites_count, comments_count, uploaded_at, width, height, caption, users ( username ) )')
         .eq('user_id', userData.id)
         .order('created_at', { ascending: false });
-        
+
       if (favsData) {
-        setMyFavorites(favsData.map(f => {
+        setMyFavorites(favsData.map((f) => {
           // @ts-ignore
           const p = f.photos;
           if (!p) return null;
-          return {
-            id: p.id, slug: p.id, src: p.storage_url, title: p.title,
-            // @ts-ignore
-            by: p.users?.username || 'Unknown',
-            cat: p.category || 'General', pulse: p.pulse_score || 0, picks: [],
-            exif: { camera: 'Unknown', lens: 'Unknown', iso: 100, shutter: '1/100', aperture: 'f/8', focal: '50mm' }
-          };
+          // @ts-ignore
+          const username = p.users?.username || 'Unknown';
+          return mapPublicPhoto(p, username);
         }).filter(Boolean));
       }
-      
+
       setIsLoading(false);
     };
-    
+
     fetchProfile();
   }, [params.username]);
+
+  // Realtime: patch likes_count / favorites_count / comments_count on this
+  // photographer's photos, then recompute pulse client-side so the like
+  // counter and Pulse stat update without a refetch.
+  useEffect(() => {
+    if (!photographer?.id) return;
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) return;
+
+    const channel = supabase
+      .channel(`photographer-photos-${photographer.id}`)
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'photos', filter: `photographer_id=eq.${photographer.id}` },
+        (payload) => {
+          const next = payload.new as {
+            id: string;
+            likes_count?: number;
+            favorites_count?: number;
+            comments_count?: number;
+          };
+          setMyPhotos((curr) =>
+            curr.map((p) => {
+              if (p.id !== next.id) return p;
+              const likes = typeof next.likes_count === 'number' ? next.likes_count : p.likes;
+              const favorites = typeof next.favorites_count === 'number' ? next.favorites_count : p.favorites;
+              const comments = typeof next.comments_count === 'number' ? next.comments_count : p.comments;
+              return { ...p, likes, favorites, comments, pulse: likes + favorites * 2 };
+            }),
+          );
+        },
+      )
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, [photographer?.id]);
 
   const follow = useFollowState(photographer?.id ?? null);
 
@@ -290,7 +338,7 @@ export default function PhotographerProfilePage({ params }: { params: { username
               {/* Photos tab */}
               <TabsContent value="photos">
                 {myPhotos.length > 0
-                  ? <PhotoGrid photos={myPhotos} cols={3} />
+                  ? <PhotoGrid photos={myPhotos} cols={3} showLike />
                   : <ProfileEmpty msg="ยังไม่มีภาพในโปรไฟล์นี้" />
                 }
               </TabsContent>
@@ -331,7 +379,7 @@ export default function PhotographerProfilePage({ params }: { params: { username
                     ภาพที่ {photographer.name.split(' ')[0]} เลือกบันทึกไว้ — ตั้งเป็น public โดยช่างภาพ
                   </p>
                   {myFavorites.length > 0 ? (
-                    <PhotoGrid photos={myFavorites} cols={3} />
+                    <PhotoGrid photos={myFavorites} cols={3} showLike />
                   ) : (
                     <ProfileEmpty msg="ยังไม่มีภาพที่บันทึกไว้" />
                   )}

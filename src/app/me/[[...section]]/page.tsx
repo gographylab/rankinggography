@@ -191,6 +191,39 @@ export default function Page({ params }: PageProps) {
     return () => { supabase.removeChannel(channel); };
   }, [authUser?.id]);
 
+  // Realtime: patch likes / favorites / comments counts on the user's own
+  // photos so the Dashboard stats and Pulse recompute as votes come in.
+  useEffect(() => {
+    if (!authUser?.id) return;
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) return;
+    const channel = supabase
+      .channel(`me-photos-${authUser.id}`)
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'photos', filter: `photographer_id=eq.${authUser.id}` },
+        (payload) => {
+          const next = payload.new as {
+            id: string;
+            likes_count?: number;
+            favorites_count?: number;
+            comments_count?: number;
+          };
+          setMyPhotos((curr) =>
+            curr.map((p) => {
+              if (p.id !== next.id) return p;
+              const likes = typeof next.likes_count === 'number' ? next.likes_count : p.likes;
+              const favorites = typeof next.favorites_count === 'number' ? next.favorites_count : p.favorites;
+              const comments = typeof next.comments_count === 'number' ? next.comments_count : p.comments;
+              return { ...p, likes, favorites, comments, pulse: likes + favorites * 2 };
+            }),
+          );
+        },
+      )
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [authUser?.id]);
+
   const handleToggleFavVisibility = async (next: boolean) => {
     setFavIsPublic(next);
     if (!authUser?.id) return;
