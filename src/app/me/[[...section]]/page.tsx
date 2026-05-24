@@ -38,7 +38,7 @@ function mapPhoto(p: any, username: string, fallbackEmail?: string) {
     hours: 1,
     picks: [],
     date: p.uploaded_at,
-    pulse: likes + favorites * 2,
+    pulse: likes,
     rank: 0,
   };
 }
@@ -127,7 +127,7 @@ export default function Page({ params }: PageProps) {
         supabase.from('photos').select('*').eq('photographer_id', authUser.id).order('uploaded_at', { ascending: false }),
         supabase
           .from('favorites')
-          .select(`photo_id, photos (*)`)
+          .select(`photo_id, photos (*, users!photographer_id(username))`)
           .eq('user_id', authUser.id)
           .order('favorited_at', { ascending: false }),
         supabase
@@ -155,7 +155,8 @@ export default function Page({ params }: PageProps) {
 
       const favPhotos = (favsRes.data || [])
         .map((row: any) => row.photos)
-        .filter(Boolean);
+        .filter(Boolean)
+        .map((p: any) => mapPhoto(p, p?.users?.username || ''));
       setFavs(favPhotos);
       setFavIsPublic(prof?.favorites_visibility === 'public');
 
@@ -191,6 +192,45 @@ export default function Page({ params }: PageProps) {
     return () => { supabase.removeChannel(channel); };
   }, [authUser?.id]);
 
+  // Realtime: keep /me/favorites in sync when the user favorites or
+  // unfavorites a photo from anywhere (photo detail page, another tab).
+  useEffect(() => {
+    if (!authUser?.id) return;
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) return;
+    const channel = supabase
+      .channel(`me-favorites-${authUser.id}`)
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'favorites', filter: `user_id=eq.${authUser.id}` },
+        async (payload) => {
+          const row = payload.new as { photo_id: string };
+          const { data: photo } = await supabase
+            .from('photos')
+            .select('*, users!photographer_id(username)')
+            .eq('id', row.photo_id)
+            .maybeSingle();
+          if (!photo) return;
+          const mapped = mapPhoto(photo, (photo as any)?.users?.username || '');
+          setFavs((curr) => {
+            if (curr.some((p: any) => p?.id === mapped.id)) return curr;
+            return [mapped, ...curr];
+          });
+        },
+      )
+      .on(
+        'postgres_changes',
+        { event: 'DELETE', schema: 'public', table: 'favorites', filter: `user_id=eq.${authUser.id}` },
+        (payload) => {
+          const removed = payload.old as { photo_id?: string };
+          if (!removed?.photo_id) return;
+          setFavs((curr) => curr.filter((p: any) => p?.id !== removed.photo_id));
+        },
+      )
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [authUser?.id]);
+
   // Realtime: patch likes / favorites / comments counts on the user's own
   // photos so the Dashboard stats and Pulse recompute as votes come in.
   useEffect(() => {
@@ -215,7 +255,7 @@ export default function Page({ params }: PageProps) {
               const likes = typeof next.likes_count === 'number' ? next.likes_count : p.likes;
               const favorites = typeof next.favorites_count === 'number' ? next.favorites_count : p.favorites;
               const comments = typeof next.comments_count === 'number' ? next.comments_count : p.comments;
-              return { ...p, likes, favorites, comments, pulse: likes + favorites * 2 };
+              return { ...p, likes, favorites, comments, pulse: likes };
             }),
           );
         },

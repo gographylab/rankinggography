@@ -31,7 +31,7 @@ function mapPublicPhoto(p: any, username: string) {
     hours: 1,
     picks: [],
     date: p.uploaded_at,
-    pulse: likes + favorites * 2,
+    pulse: likes,
     rank: 0,
   };
 }
@@ -189,7 +189,7 @@ export default function PhotographerProfilePage({ params }: { params: { username
               const likes = typeof next.likes_count === 'number' ? next.likes_count : p.likes;
               const favorites = typeof next.favorites_count === 'number' ? next.favorites_count : p.favorites;
               const comments = typeof next.comments_count === 'number' ? next.comments_count : p.comments;
-              return { ...p, likes, favorites, comments, pulse: likes + favorites * 2 };
+              return { ...p, likes, favorites, comments, pulse: likes };
             }),
           );
         },
