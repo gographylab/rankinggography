@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useApp } from '@/providers/AppProvider';
 import { deleteComment, updateComment, createComment, type CommentRow } from '@/lib/data/comments-db';
+import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
 
 export interface CommentItemProps {
   comment: CommentRow;
@@ -23,6 +24,7 @@ export function CommentItem({ comment, replies = [], photoId, onMutated }: Comme
   const [replying, setReplying] = useState(false);
   const [replyBody, setReplyBody] = useState('');
   const [busy, setBusy] = useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
   const redirectIfNeeded = () => {
     router.push(`/login?next=${encodeURIComponent(pathname ?? '/')}`);
@@ -58,12 +60,17 @@ export function CommentItem({ comment, replies = [], photoId, onMutated }: Comme
     }
   };
 
-  const onDelete = async () => {
+  const onDeleteClick = () => {
     if (!authUser) { redirectIfNeeded(); return; }
-    if (!confirm('Delete this comment?')) return;
+    setConfirmDeleteOpen(true);
+  };
+
+  const onConfirmDelete = async () => {
+    if (!authUser) { redirectIfNeeded(); return; }
     setBusy(true);
     const res = await deleteComment(comment.id, authUser);
     setBusy(false);
+    setConfirmDeleteOpen(false);
     if (res.kind === 'unauth') { redirectIfNeeded(); return; }
     if (res.kind === 'ok') onMutated();
   };
@@ -110,7 +117,7 @@ export function CommentItem({ comment, replies = [], photoId, onMutated }: Comme
         <div className="mt-3 flex gap-4 text-[11px] uppercase tracking-[0.12em] opacity-65">
           <button onClick={() => setReplying((v) => !v)}>Reply</button>
           {isOwn && !editing && <button onClick={() => setEditing(true)}>Edit</button>}
-          {isOwn && <button onClick={onDelete}>Delete</button>}
+          {isOwn && <button onClick={onDeleteClick}>Delete</button>}
         </div>
 
         {replying && (
@@ -134,6 +141,18 @@ export function CommentItem({ comment, replies = [], photoId, onMutated }: Comme
           </div>
         )}
       </div>
+
+      <ConfirmDialog
+        open={confirmDeleteOpen}
+        title="Delete this comment?"
+        body="This action cannot be undone."
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        destructive
+        busy={busy}
+        onConfirm={onConfirmDelete}
+        onCancel={() => setConfirmDeleteOpen(false)}
+      />
     </div>
   );
 }
