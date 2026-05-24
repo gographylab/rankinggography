@@ -187,6 +187,40 @@ export default function PhotoDetailPage({ params }: { params: { id: string } }) 
     fetchPhoto();
   }, [params.id, isUUID]);
 
+  // Realtime counts: subscribe to the photo row so likes / comments /
+  // favorites / pulse update without reloading.
+  useEffect(() => {
+    if (!isUUID) return;
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) return;
+
+    const channel = supabase
+      .channel(`photo-detail-${params.id}`)
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'photos', filter: `id=eq.${params.id}` },
+        (payload) => {
+          const next = payload.new as { likes_count?: number; comments_count?: number; favorites_count?: number };
+          setPhoto((curr) => {
+            if (!curr) return curr;
+            const likes = typeof next.likes_count === 'number' ? next.likes_count : curr.likes;
+            const comments = typeof next.comments_count === 'number' ? next.comments_count : curr.comments;
+            const favorites = typeof next.favorites_count === 'number' ? next.favorites_count : curr.favorites;
+            return {
+              ...curr,
+              likes,
+              comments,
+              favorites,
+              pulse: likes + favorites * 2,
+            };
+          });
+        }
+      )
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, [isUUID, params.id]);
+
   // Favorite toggle (local mock state)
   const [favorited, setFavorited] = useState(false);
   const favoriteCount = photo ? (favorited ? photo.favorites + 1 : photo.favorites) : 0;
