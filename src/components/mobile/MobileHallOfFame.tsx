@@ -140,18 +140,18 @@ export function MobileHallOfFame() {
       </section>
 
       {/* Tiers */}
-      <section style={{ padding: '56px 0 0', background: dark ? '#131310' : 'var(--cream)' }}>
-        <div style={{ padding: '40px 16px 0' }}>
+      <section style={{ padding: '20px 0 0', background: dark ? '#131310' : 'var(--cream)' }}>
+        <div style={{ padding: '16px 16px 0' }}>
           <MobileSectionHeader num="02 / Tiers" title="Voyageur cashback" />
           <p style={{
             fontFamily: "'Noto Sans Thai', sans-serif",
-            fontSize: 13, lineHeight: 1.6, color: 'var(--fg-soft)',
-            marginTop: 12, maxWidth: '34ch',
+            fontSize: 13, lineHeight: 1.55, color: 'var(--fg-soft)',
+            marginTop: 6, maxWidth: '34ch',
           }}>
             ผู้เข้าร่วมที่ผ่านการคัดเลือกจะได้รับส่วนแบ่งจากค่าโฆษณาฤดูกาล
           </p>
         </div>
-        <div style={{ padding: '20px 16px 40px', display: 'grid', gap: 12 }}>
+        <div style={{ padding: '12px 16px 32px', display: 'grid', gap: 10 }}>
           {tiers.map((t, i) => {
             const isTop = i === 0;
             return (
