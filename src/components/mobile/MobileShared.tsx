@@ -372,7 +372,7 @@ function usePhotoLike(photoId: string) {
 
 export function FeedCard({ photo }: { photo: any }) {
   const router = useRouter();
-  const { theme } = useApp();
+  const { theme, authUser } = useApp();
   const dark = theme === 'dark';
   const photographer = PHOTOGRAPHERS.find(p => p.username === photo.by);
   const author = photographer?.name || photo.by;
@@ -382,6 +382,8 @@ export function FeedCard({ photo }: { photo: any }) {
   const c = dark ? '#fff' : '#000';
   const { liked, toggle } = usePhotoLike(photo.id);
   const [bookmark, setBookmark] = useState(false);
+  const ownerId = photo.photographer_id || photo.photographerId || null;
+  const isOwner = !!authUser && !!ownerId && authUser.id === ownerId;
 
   return (
     <article style={{ display: 'flex', flexDirection: 'column' }}>
@@ -406,19 +408,21 @@ export function FeedCard({ photo }: { photo: any }) {
               </svg>
             </div>
           )}
-          <button onClick={(e) => { e.stopPropagation(); setBookmark(!bookmark); }} aria-label="Bookmark" style={{
-            width: 28, height: 36, padding: 0, border: 0, cursor: 'pointer',
-            background: bookmark ? '#fff' : 'rgba(255,255,255,0.92)',
-            clipPath: 'polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%)',
-            display: 'inline-flex', alignItems: 'flex-start', justifyContent: 'center',
-            paddingTop: 6,
-          }}>
-            <svg width="14" height="14" viewBox="0 0 24 24"
-              fill={bookmark ? '#b08e54' : 'none'}
-              stroke="#b08e54" strokeWidth="1.6" strokeLinejoin="round">
-              <path d="M12 2l2.9 6.5 7.1.8-5.3 4.9 1.5 7-6.2-3.6L5.8 21l1.5-7L2 9.3l7.1-.8z" />
-            </svg>
-          </button>
+          {!isOwner && (
+            <button onClick={(e) => { e.stopPropagation(); setBookmark(!bookmark); }} aria-label="Bookmark" style={{
+              width: 28, height: 36, padding: 0, border: 0, cursor: 'pointer',
+              background: bookmark ? '#fff' : 'rgba(255,255,255,0.92)',
+              clipPath: 'polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%)',
+              display: 'inline-flex', alignItems: 'flex-start', justifyContent: 'center',
+              paddingTop: 6,
+            }}>
+              <svg width="14" height="14" viewBox="0 0 24 24"
+                fill={bookmark ? '#b08e54' : 'none'}
+                stroke="#b08e54" strokeWidth="1.6" strokeLinejoin="round">
+                <path d="M12 2l2.9 6.5 7.1.8-5.3 4.9 1.5 7-6.2-3.6L5.8 21l1.5-7L2 9.3l7.1-.8z" />
+              </svg>
+            </button>
+          )}
         </div>
       </div>
 
@@ -457,17 +461,19 @@ export function FeedCard({ photo }: { photo: any }) {
             )}
           </div>
         </Link>
-        <button onClick={toggle} aria-label="Like" style={{
-          width: 36, height: 36, padding: 0, background: 'transparent',
-          border: 0, cursor: 'pointer', color: c,
-          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <svg width="22" height="20" viewBox="0 0 24 22"
-            fill={liked ? 'currentColor' : 'none'}
-            stroke="currentColor" strokeWidth="1.6">
-            <path d="M12 20s-8-5.2-8-11.4A4.6 4.6 0 0 1 12 6a4.6 4.6 0 0 1 8 2.6C20 14.8 12 20 12 20z" />
-          </svg>
-        </button>
+        {!isOwner && (
+          <button onClick={toggle} aria-label="Like" style={{
+            width: 36, height: 36, padding: 0, background: 'transparent',
+            border: 0, cursor: 'pointer', color: c,
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <svg width="22" height="20" viewBox="0 0 24 22"
+              fill={liked ? 'currentColor' : 'none'}
+              stroke="currentColor" strokeWidth="1.6">
+              <path d="M12 20s-8-5.2-8-11.4A4.6 4.6 0 0 1 12 6a4.6 4.6 0 0 1 8 2.6C20 14.8 12 20 12 20z" />
+            </svg>
+          </button>
+        )}
       </div>
     </article>
   );

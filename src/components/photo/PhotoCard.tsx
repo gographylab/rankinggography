@@ -13,6 +13,7 @@ interface PhotoCardProps {
   uniform?: boolean;
   pulseLabel?: string;
   showLike?: boolean;
+  ownerId?: string | null;
 }
 
 export function PhotoCard({
@@ -23,6 +24,7 @@ export function PhotoCard({
   uniform = false,
   pulseLabel = 'Pulse',
   showLike = false,
+  ownerId,
 }: PhotoCardProps) {
   const router = useRouter();
   const photographer = getPhotographer(photo.by);
@@ -56,7 +58,7 @@ export function PhotoCard({
             </div>
           </div>
         </div>
-        {showLike && <CardLikeButton photoId={photo.id} />}
+        {showLike && <CardLikeButton photoId={photo.id} ownerId={ownerId} />}
       </div>
       <div className="pmeta">
         <div className="flex items-baseline gap-3 flex-1 min-w-0">

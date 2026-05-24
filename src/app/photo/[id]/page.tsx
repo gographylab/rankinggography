@@ -15,6 +15,7 @@ import { CommentSection } from '@/components/photo/CommentSection';
 import { useFollowState } from '@/hooks/useFollowState';
 import { useFavoriteState } from '@/hooks/useFavoriteState';
 import { usePathname } from 'next/navigation';
+import { useApp } from '@/providers/AppProvider';
 
 // ===== Single photo detail page — /photo/[id] =====
 // Large image + sidebar (photographer, EXIF, pulse/stats, comments), like/favorite toggles, lightbox.
@@ -82,7 +83,9 @@ export default function PhotoDetailPage({ params }: { params: { id: string } }) 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const pathname = usePathname();
+  const { authUser } = useApp();
   const follow = useFollowState(photographerUserId);
+  const isOwner = !!authUser && !!photographerUserId && authUser.id === photographerUserId;
 
   useEffect(() => {
     const fetchPhoto = async () => {
@@ -322,7 +325,16 @@ export default function PhotoDetailPage({ params }: { params: { id: string } }) 
               {/* Engage strip */}
               <div className="flex gap-3 mt-8 items-center">
                 {isUUID ? (
-                  <DBLikeButton photoId={photo.id} />
+                  isOwner ? (
+                    <span className="heart" aria-label="Likes">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="13" height="13">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                      </svg>
+                      <span>{photo.likes.toLocaleString()}</span>
+                    </span>
+                  ) : (
+                    <DBLikeButton photoId={photo.id} ownerId={photographerUserId} />
+                  )
                 ) : (
                   <span className="heart" aria-label="Likes (read-only seed)">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="13" height="13">
@@ -333,8 +345,8 @@ export default function PhotoDetailPage({ params }: { params: { id: string } }) 
                 )}
 
                 {/* Favorite button — real DB toggle for UUID-keyed photos,
-                    read-only display for seed/mock IDs */}
-                {isUUID ? (
+                    read-only display for seed/mock IDs and for the photo owner */}
+                {isUUID && !isOwner ? (
                   <button
                     className={`heart${favoriteState.favorited ? ' on' : ''}`}
                     onClick={onFavoriteClick}
@@ -347,11 +359,11 @@ export default function PhotoDetailPage({ params }: { params: { id: string } }) 
                     <span>{favoriteState.count}</span>
                   </button>
                 ) : (
-                  <span className="heart" aria-label="Favorites (read-only seed)">
+                  <span className="heart" aria-label="Favorites">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="13" height="13">
                       <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" />
                     </svg>
-                    <span>{photo.favorites}</span>
+                    <span>{isUUID ? favoriteState.count : photo.favorites}</span>
                   </span>
                 )}
 
