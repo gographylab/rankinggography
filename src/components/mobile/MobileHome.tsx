@@ -14,7 +14,7 @@ export function MobileHome() {
   const router = useRouter();
   const { theme } = useApp();
   const dark = theme === 'dark';
-  const [tab, setTab] = useState('foryou');
+  const [tab, setTab] = useState('leaderboard');
 
   const fresh = PHOTOS.slice().sort((a, b) => a.hours - b.hours).slice(0, 4);
 
@@ -248,7 +248,6 @@ export function MobileHome() {
         <MobileMarquee text="★ Season 04 ★ 37 days left ★ Submit your frame ★" />
       </div>
       <MobileFooter />
-      <BottomNav active="home" />
     </div>
   );
 }

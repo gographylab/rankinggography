@@ -2,8 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useApp } from '@/providers/AppProvider';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
-import { PageCover } from '@/components/layout/PageCover';
-import { MeSidebar } from '@/components/account/MeSidebar';
+import { MeHeader } from '@/components/account/MeHeader';
 import { MeDashboard } from '@/components/account/MeDashboard';
 import { MePhotos } from '@/components/account/MePhotos';
 import { MeFavorites } from '@/components/account/MeFavorites';
@@ -120,19 +119,8 @@ export default function Page({ params }: PageProps) {
 
   return (
     <div className="page-fade">
-      <PageCover
-        photoId="p013"
-        eyebrow="Your account"
-        title="Your dashboard"
-        subtitle="ภาพของคุณ คะแนน favorites ทริปกับ GOGRAPHY — รวมที่เดียว"
-        height="38vh"
-        minHeight={300}
-        maxHeight={420}
-      />
-      <div
-        className="wrap grid items-start pt-12 px-10 pb-24 grid-cols-[240px_1fr] gap-14"
-      >
-        <MeSidebar
+      <div className="wrap pt-[40px] md:pt-[64px] pb-24">
+        <MeHeader
           persona={persona}
           isVoyageur={isVoyageur}
           isPhotographer={isPhotographer}

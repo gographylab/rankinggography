@@ -9,6 +9,7 @@ import { GlobalPopup } from '@/components/shared/GlobalPopup';
 import { CookieConsent } from '@/components/shared/CookieConsent';
 import { Toaster } from '@/components/layout/Toaster';
 import { NotificationsListener } from '@/components/layout/NotificationsListener';
+import { BottomNav } from '@/components/mobile/MobileShared';
 import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'], variable: '--font-inter', display: 'swap' });
@@ -28,6 +29,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AppProvider>
           <Nav />
           <main>{children}</main>
+          <div className="md:hidden fixed bottom-0 left-0 right-0 z-40">
+            <BottomNav />
+          </div>
           <SideMenu />
           <TweaksPanel />
           <NotificationsListener />
