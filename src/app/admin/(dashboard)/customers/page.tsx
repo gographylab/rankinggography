@@ -80,8 +80,16 @@ export default function CustomerWhitelistPage() {
         }
         
         if (inserts.length > 0) {
+          // Remove duplicate emails from the inserts array
+          const uniqueInserts = Object.values(
+            inserts.reduce((acc, current) => {
+              acc[current.email] = current;
+              return acc;
+            }, {} as Record<string, any>)
+          );
+
           const supabase = getSupabaseBrowserClient();
-          const { error } = await supabase.from('customer_whitelist').upsert(inserts, { onConflict: 'email' });
+          const { error } = await supabase.from('customer_whitelist').upsert(uniqueInserts, { onConflict: 'email' });
           if (error) throw error;
           
           alert(`Successfully imported ${inserts.length} emails!`);
