@@ -24,6 +24,7 @@ export interface NotificationRow {
   related_photo_id: string | null;
   related_user_id: string | null;
   related_url: string | null;
+  users?: { avatar_url: string | null } | null;
   body: string;
   is_read: boolean;
   created_at: string;
@@ -46,7 +47,7 @@ export async function listNotifications(userId: string, opts?: { limit?: number;
   if (!supabase) return [];
   let q = supabase
     .from('notifications')
-    .select('*')
+    .select('*, users!related_user_id(avatar_url)')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
     .limit(opts?.limit ?? 10);
