@@ -12,6 +12,8 @@ import { Lightbox } from '@/components/photo/Lightbox';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { LikeButton as DBLikeButton } from '@/components/photo/LikeButton';
 import { CommentSection } from '@/components/photo/CommentSection';
+import { useFollowState } from '@/hooks/useFollowState';
+import { usePathname } from 'next/navigation';
 
 // ===== Single photo detail page — /photo/[id] =====
 // Large image + sidebar (photographer, EXIF, pulse/stats, comments), like/favorite toggles, lightbox.
@@ -73,10 +75,13 @@ export default function PhotoDetailPage({ params }: { params: { id: string } }) 
 
   const [photo, setPhoto] = useState<Photo | null>(null);
   const [photographer, setPhotographer] = useState<Photographer | undefined>(undefined);
+  const [photographerUserId, setPhotographerUserId] = useState<string | null>(null);
   const [more, setMore] = useState<Photo[]>([]);
   const [similar, setSimilar] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const pathname = usePathname();
+  const follow = useFollowState(photographerUserId);
 
   useEffect(() => {
     const fetchPhoto = async () => {
@@ -134,7 +139,8 @@ export default function PhotoDetailPage({ params }: { params: { id: string } }) 
       };
 
       setPhoto(realPhoto);
-      
+      setPhotographerUserId(pData.photographer_id);
+
       if (uData) {
         setPhotographer({
           username: ownerName,
@@ -433,11 +439,32 @@ export default function PhotoDetailPage({ params }: { params: { id: string } }) 
                         <div className="text-[10px] tracking-[.16em] uppercase opacity-55 mt-[2px]">Photos</div>
                       </div>
                       <div>
-                        <div className="text-[18px] font-medium">{photographer.followers.toLocaleString()}</div>
+                        <div className="text-[18px] font-medium">
+                          {(isUUID ? follow.followersCount : photographer.followers).toLocaleString()}
+                        </div>
                         <div className="text-[10px] tracking-[.16em] uppercase opacity-55 mt-[2px]">Followers</div>
                       </div>
                     </div>
-                    <button className="btn btn-sm w-full mt-6 justify-center">Follow</button>
+                    {isUUID ? (
+                      follow.isSelf ? (
+                        <button className="btn btn-sm w-full mt-6 justify-center" disabled>You</button>
+                      ) : (
+                        <button
+                          className={`btn btn-sm w-full mt-6 justify-center ${follow.following ? '' : 'btn-solid'}`}
+                          onClick={async () => {
+                            const res = await follow.toggle();
+                            if (res.kind === 'unauth') {
+                              router.push(`/login?next=${encodeURIComponent(pathname ?? '/')}`);
+                            }
+                          }}
+                          disabled={follow.loading}
+                        >
+                          {follow.following ? 'Following' : 'Follow'}
+                        </button>
+                      )
+                    ) : (
+                      <button className="btn btn-sm w-full mt-6 justify-center">Follow</button>
+                    )}
                   </>
                 ) : (
                   <p className="text-[13px] opacity-55">Photographer not found</p>

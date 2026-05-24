@@ -28,9 +28,11 @@ interface MeDashboardProps {
   isVoyageur: boolean;
   isPhotographer: boolean;
   myPhotos: Photo[];
+  followers: number;
+  following: number;
 }
 
-export function MeDashboard({ persona, isVoyageur, isPhotographer, myPhotos }: MeDashboardProps) {
+export function MeDashboard({ persona, isVoyageur, isPhotographer, myPhotos, followers, following }: MeDashboardProps) {
   const router = useRouter();
   const { notifications } = useNotifications();
 
@@ -54,9 +56,12 @@ export function MeDashboard({ persona, isVoyageur, isPhotographer, myPhotos }: M
       {/* Stat row */}
       <div className="grid grid-cols-4 gap-0 mt-12 border border-rule">
         <DashStat n={myPhotos.length} l="Photos" />
+        <DashStat n={followers.toLocaleString()} l="Followers" border />
         <DashStat n={totalLikes.toLocaleString()} l="Likes received" border />
-        <DashStat n={totalFav.toLocaleString()} l="Favorites" border />
         <DashStat n={totalPulse.toFixed(0)} l="Pulse" border />
+      </div>
+      <div className="mt-3 mono text-[11px] opacity-55 tracking-[.08em]">
+        FOLLOWING {following.toLocaleString()} · FAVORITES {totalFav.toLocaleString()}
       </div>
 
       {/* Voyageur eligibility card */}
