@@ -3,7 +3,22 @@ import { useRouter } from 'next/navigation';
 import { PhotoGrid } from '@/components/photo/PhotoGrid';
 import { VoyageurMark } from '@/components/icons';
 import { DashStat, ActionCard } from './primitives';
+import { useNotifications } from '@/hooks/useNotifications';
+import { formatNotificationBody } from '@/lib/data/notifications';
 import type { Photographer, Photo } from '@/lib/types';
+
+function timeAgoThai(iso: string): string {
+  const ms = Date.now() - new Date(iso).getTime();
+  const m = Math.floor(ms / 60000);
+  if (m < 1) return 'เมื่อสักครู่';
+  if (m < 60) return `${m} นาทีที่แล้ว`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h} ชม.ที่แล้ว`;
+  const d = Math.floor(h / 24);
+  if (d === 1) return 'เมื่อวาน';
+  if (d < 7) return `${d} วันก่อน`;
+  return new Date(iso).toLocaleDateString();
+}
 
 interface MeDashboardProps {
   persona: Photographer;
@@ -14,12 +29,15 @@ interface MeDashboardProps {
 
 export function MeDashboard({ persona, isVoyageur, isPhotographer, myPhotos }: MeDashboardProps) {
   const router = useRouter();
+  const { notifications } = useNotifications();
 
   const totalLikes = myPhotos.reduce((s, p) => s + p.likes, 0);
   const totalFav = myPhotos.reduce((s, p) => s + p.favorites, 0);
   const totalComments = myPhotos.reduce((s, p) => s + p.comments, 0);
   const totalPulse = myPhotos.reduce((s, p) => s + p.pulse, 0);
   const editorPicks = myPhotos.filter((p) => p.picks.includes('editor')).length;
+
+  const recentActivity = notifications.slice(0, 7);
 
   return (
     <div>
@@ -117,32 +135,24 @@ export function MeDashboard({ persona, isVoyageur, isPhotographer, myPhotos }: M
       {/* Activity feed */}
       <div className="mt-14">
         <div className="caps opacity-55 mb-5">Recent activity</div>
-        <ul className="list-none p-0 m-0 text-[14px] leading-[1.7]">
-          {(
-            [
-              [
-                '12 นาทีที่แล้ว',
-                <>ภาพ <strong className="font-medium">&quot;Morning fog, Doi Inthanon&quot;</strong> ได้รับ 24 likes ใหม่</>,
-              ],
-              ['3 ชม.ที่แล้ว', <>Phimlapas Suwanlapa บันทึก My photos เป็น favorite</>],
-              [
-                'เมื่อวาน',
-                <>Editor&apos;s Pick: ภาพ <strong className="font-medium">&quot;His hands&quot;</strong> ติด Pulse #2</>,
-              ],
-              ['2 วันก่อน', <>Ambassador Kanthorn Aroonrat follow คุณ</>],
-            ] as [string, React.ReactNode][]
-          ).map(([time, body], i) => (
-            <li
-              key={i}
-              className="th grid gap-6 py-[14px] border-b border-rule grid-cols-[120px_1fr]"
-            >
-              <span className="mono text-[11px] opacity-55 tracking-[.08em] pt-[2px]">
-                {time.toUpperCase()}
-              </span>
-              <span>{body}</span>
-            </li>
-          ))}
-        </ul>
+        {recentActivity.length === 0 ? (
+          <div className="opacity-50 text-[13px] py-4">No recent activity yet.</div>
+        ) : (
+          <ul className="list-none p-0 m-0 text-[14px] leading-[1.7]">
+            {recentActivity.map((n) => (
+              <li
+                key={n.id}
+                className="th grid gap-6 py-[14px] border-b border-rule grid-cols-[120px_1fr] cursor-pointer hover:opacity-80"
+                onClick={() => { if (n.related_url) router.push(n.related_url); }}
+              >
+                <span className="mono text-[11px] opacity-55 tracking-[.08em] pt-[2px]">
+                  {timeAgoThai(n.created_at).toUpperCase()}
+                </span>
+                <span>{formatNotificationBody(n)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
