@@ -4,6 +4,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { MoreHorizontal, Shield, Ban, Mail } from 'lucide-react';
 
 interface StaffProps {
+  id?: string;
   name: string;
   username: string;
   avatar: string;
@@ -12,7 +13,15 @@ interface StaffProps {
   status?: string;
 }
 
-export function AdminStaffRow({ user }: { user: StaffProps }) {
+export function AdminStaffRow({ 
+  user, 
+  onEdit, 
+  onRevoke 
+}: { 
+  user: StaffProps;
+  onEdit?: (id: string) => void;
+  onRevoke?: (id: string) => void;
+}) {
   return (
     <div className="grid grid-cols-[auto_1fr_1fr_120px_120px_60px] gap-4 p-4 items-center transition-colors hover:bg-neutral-50/50 group">
       
@@ -66,11 +75,17 @@ export function AdminStaffRow({ user }: { user: StaffProps }) {
             </Button>
           } />
           <DropdownMenuContent align="end" className="rounded-none font-mono text-xs uppercase tracking-wider min-w-[160px]">
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem 
+              className="cursor-pointer"
+              onClick={() => onEdit && user.id && onEdit(user.id)}
+            >
               <Shield className="mr-2 h-3.5 w-3.5" /> Edit Role
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-700">
+            <DropdownMenuItem 
+              className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-700"
+              onClick={() => onRevoke && user.id && onRevoke(user.id)}
+            >
               <Ban className="mr-2 h-3.5 w-3.5" /> Revoke Access
             </DropdownMenuItem>
           </DropdownMenuContent>

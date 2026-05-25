@@ -100,6 +100,18 @@ export default function AdminStaffPage() {
     }
   };
 
+  const handleEdit = (id: string) => {
+    // In a real app, this would open a dialog to select a new role and hit a backend API.
+    alert('Edit Role feature will open a configuration dialog soon.');
+  };
+
+  const handleRevoke = (id: string) => {
+    if (window.confirm('Are you sure you want to revoke access for this administrator? This action cannot be undone.')) {
+      setAdminUsers((prev) => prev.filter((u) => u.id !== id));
+      alert('Access revoked successfully.');
+    }
+  };
+
   const filteredAdmins = adminUsers.filter(u => 
     u.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
     u.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -205,7 +217,12 @@ export default function AdminStaffPage() {
             <div className="p-8 text-center text-neutral-500 font-mono text-xs uppercase tracking-widest">Loading Admins...</div>
           ) : filteredAdmins.length > 0 ? (
             filteredAdmins.map((admin) => (
-              <AdminStaffRow key={admin.id} user={admin} />
+              <AdminStaffRow 
+                key={admin.id} 
+                user={admin} 
+                onEdit={handleEdit}
+                onRevoke={handleRevoke}
+              />
             ))
           ) : (
             <div className="p-8 text-center text-neutral-500 font-mono text-xs uppercase tracking-widest">No admins found</div>
