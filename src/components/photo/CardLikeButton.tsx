@@ -33,7 +33,7 @@ export function CardLikeButton({ photoId, ownerId }: CardLikeButtonProps) {
       onMouseDown={(e) => e.stopPropagation()}
       aria-label={liked ? 'Unlike' : 'Like'}
       aria-pressed={liked}
-      className={`absolute bottom-3 right-3 z-10 w-9 h-9 flex items-center justify-center backdrop-blur-sm transition-colors ${
+      className={`absolute bottom-3 right-3 z-20 w-9 h-9 flex items-center justify-center backdrop-blur-sm transition-colors ${
         liked ? 'bg-black/40 text-[#ff5d75]' : 'bg-black/40 hover:bg-black/60 text-white'
       }`}
     >
