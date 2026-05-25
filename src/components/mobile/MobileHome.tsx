@@ -9,6 +9,7 @@ import {
   MobileNav, MobileFooter, MobileMarquee, MobileSectionHeader,
   FeedTabs, BottomNav, FeedCard,
 } from './MobileShared';
+import { MasonryTile } from './MobileExplore';
 
 export function MobileHome({ 
   realPhotos = [], 
@@ -80,70 +81,9 @@ export function MobileHome({
       {/* FEED — 2-col masonry with avatar/like overlay */}
       <section style={{ padding: '8px 6px 0' }}>
         <div style={{ columnCount: 2, columnGap: 8 }}>
-          {fresh.map(p => {
-            const aspect = p.w && p.h ? `${p.w} / ${p.h}` : '4 / 5';
-            const likes = p.likes || 0;
-            const likesLabel = likes >= 1000 ? `${(likes / 1000).toFixed(1)}k` : likes;
-            return (
-              <div
-                key={p.id}
-                onClick={() => router.push(`/photo/${p.slug || p.id}`)}
-                style={{
-                  position: 'relative', breakInside: 'avoid',
-                  marginBottom: 8, cursor: 'pointer', overflow: 'hidden',
-                  background: 'var(--tile)',
-                }}
-              >
-                <div style={{ width: '100%', aspectRatio: aspect, overflow: 'hidden' }}>
-                  <img
-                    src={p.src}
-                    alt={p.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                    loading="lazy"
-                  />
-                </div>
-                <div style={{
-                  position: 'absolute', inset: 'auto 0 0 0', height: 56,
-                  background: 'linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0.25), transparent)',
-                  pointerEvents: 'none',
-                }} />
-                <div style={{
-                  position: 'absolute', left: 10, bottom: 10,
-                  display: 'flex', alignItems: 'center', gap: 7,
-                  maxWidth: 'calc(100% - 70px)',
-                }}>
-                  <div style={{
-                    width: 24, height: 24, borderRadius: '50%',
-                    overflow: 'hidden', background: 'rgba(255,255,255,0.15)',
-                    border: '1px solid rgba(255,255,255,0.3)', flexShrink: 0,
-                  }}>
-                    {p.photographerAvatar && (
-                      <img src={p.photographerAvatar} alt={p.by} style={{
-                        width: '100%', height: '100%', objectFit: 'cover',
-                      }} />
-                    )}
-                  </div>
-                  <span style={{
-                    color: '#fff', fontSize: 13, fontWeight: 500,
-                    letterSpacing: '-0.005em',
-                    whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                    textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-                  }}>{p.by}</span>
-                </div>
-                <div style={{
-                  position: 'absolute', right: 10, bottom: 10,
-                  display: 'flex', alignItems: 'center', gap: 4,
-                  color: '#fff', fontSize: 13, fontWeight: 500,
-                  textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-                }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                  </svg>
-                  <span>{likesLabel}</span>
-                </div>
-              </div>
-            );
-          })}
+          {fresh.map(p => (
+            <MasonryTile key={p.id} photo={p} />
+          ))}
         </div>
       </section>
 
@@ -304,73 +244,9 @@ export function MobileHome({
         <div style={{
           columnCount: 2, columnGap: 8, marginTop: 16,
         }}>
-          {photoLeaderboard.map(p => {
-            const aspect = p.w && p.h ? `${p.w} / ${p.h}` : '4 / 5';
-            const likes = p.likes || 0;
-            const likesLabel = likes >= 1000 ? `${(likes / 1000).toFixed(1)}k` : likes;
-            return (
-              <div
-                key={p.id}
-                onClick={() => router.push(`/photo/${p.slug || p.id}`)}
-                style={{
-                  position: 'relative', breakInside: 'avoid',
-                  marginBottom: 8, cursor: 'pointer', overflow: 'hidden',
-                  background: 'var(--tile)',
-                }}
-              >
-                <div style={{ width: '100%', aspectRatio: aspect, overflow: 'hidden' }}>
-                  <img
-                    src={p.src}
-                    alt={p.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                    loading="lazy"
-                  />
-                </div>
-                {/* Bottom gradient for legibility */}
-                <div style={{
-                  position: 'absolute', inset: 'auto 0 0 0', height: 56,
-                  background: 'linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0.25), transparent)',
-                  pointerEvents: 'none',
-                }} />
-                {/* Avatar + username — bottom-left */}
-                <div style={{
-                  position: 'absolute', left: 10, bottom: 10,
-                  display: 'flex', alignItems: 'center', gap: 7,
-                  maxWidth: 'calc(100% - 70px)',
-                }}>
-                  <div style={{
-                    width: 24, height: 24, borderRadius: '50%',
-                    overflow: 'hidden', background: 'rgba(255,255,255,0.15)',
-                    border: '1px solid rgba(255,255,255,0.3)', flexShrink: 0,
-                  }}>
-                    {p.photographerAvatar && (
-                      <img src={p.photographerAvatar} alt={p.by} style={{
-                        width: '100%', height: '100%', objectFit: 'cover',
-                      }} />
-                    )}
-                  </div>
-                  <span style={{
-                    color: '#fff', fontSize: 11, fontWeight: 500,
-                    letterSpacing: '-0.005em',
-                    whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                    textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-                  }}>{p.by}</span>
-                </div>
-                {/* Heart + count — bottom-right */}
-                <div style={{
-                  position: 'absolute', right: 6, bottom: 6,
-                  display: 'flex', alignItems: 'center', gap: 3,
-                  color: '#fff', fontSize: 11, fontWeight: 500,
-                  textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-                }}>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                  </svg>
-                  <span>{likesLabel}</span>
-                </div>
-              </div>
-            );
-          })}
+          {photoLeaderboard.map(p => (
+            <MasonryTile key={p.id} photo={p} />
+          ))}
         </div>
       </section>
 
