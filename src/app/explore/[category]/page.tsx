@@ -208,7 +208,7 @@ export default function ExploreCategoryPage({
   return (
     <>
     <div className="md:hidden">
-      <MobileExplore initialCategory={mobileInitial} />
+      <MobileExplore initialCategory={mobileInitial} dbPhotos={photos} />
     </div>
     <div className="page-fade hidden md:block">
       <PageCover
