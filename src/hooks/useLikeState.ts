@@ -61,6 +61,9 @@ export function useLikeState(photoId: string): UseLikeState {
       // Sync liked to authoritative server state; count keeps tracking realtime.
       setState((s) => ({ ...s, liked: result.liked }));
     } else {
+      if (result.kind === 'error') {
+        alert(`Could not like photo: ${result.message}`);
+      }
       setState(prev);
     }
     return result;

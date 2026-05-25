@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import type { Photo } from '@/lib/types';
 import { getPhotographer } from '@/lib/data';
 import { PickBadge } from '@/components/icons';
@@ -23,13 +23,11 @@ export function PhotoCard({
   showLike = false,
   ownerId,
 }: PhotoCardProps) {
+  const router = useRouter();
   const photographer = getPhotographer(photo.by);
 
   return (
-    <div className="pcard relative group">
-      {/* Invisible link overlay for the whole card */}
-      <Link href={`/photo/${photo.id}`} className="absolute inset-0 z-10" aria-label={`View ${photo.title}`} />
-      
+    <div className="pcard relative group" onClick={() => router.push(`/photo/${photo.id}`)}>
       <div
         className="pimg"
         style={{ aspectRatio: uniform ? '4/5' : `${photo.w}/${photo.h}` }}
