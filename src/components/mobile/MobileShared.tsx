@@ -127,7 +127,7 @@ export function FeedTabs({ active, onChange }: { active: string; onChange: (id: 
       padding: '14px 16px 12px',
       borderBottom: `1px solid ${dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`,
       background: dark ? '#0a0a0a' : '#fff',
-      position: 'sticky', top: 56, zIndex: 20,
+      position: 'sticky', top: 61, zIndex: 20,
     }}>
       {tabs.map(t => {
         const on = active === t.id;
@@ -261,6 +261,8 @@ export function BottomNav() {
     <nav
       className="md:hidden fixed inset-x-0 bottom-1 mx-4 z-40 rounded-md"
       style={{
+        background: 'var(--bg-menu, rgba(255,255,255,0.32))',
+        /* @ts-ignore */
         background: 'color-mix(in oklab, var(--bg) 32%, transparent)',
         backdropFilter: 'saturate(180%) blur(32px)',
         WebkitBackdropFilter: 'saturate(180%) blur(32px)',
