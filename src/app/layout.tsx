@@ -23,12 +23,12 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: 'GOGRAPHY Photo Awards — Ranking',
+    default: 'GOGRAPHY Ranking',
     template: '%s | GOGRAPHY Ranking'
   },
   description: 'A photography ranking platform by photographers and travellers. Discover top-tier photography from the GOGRAPHY community.',
   openGraph: {
-    title: 'GOGRAPHY Photo Awards — Ranking',
+    title: 'GOGRAPHY Ranking',
     description: 'A photography ranking platform by photographers and travellers. Discover top-tier photography from the GOGRAPHY community.',
     url: 'https://ranking.gography.net',
     siteName: 'GOGRAPHY Ranking',
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
         url: 'https://ranking.gography.net/cover-of-the-week.jpg', // Using the cover as default OG
         width: 1200,
         height: 630,
-        alt: 'GOGRAPHY Photo Awards',
+        alt: 'GOGRAPHY Ranking',
       }
     ],
     locale: 'th_TH',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'GOGRAPHY Photo Awards — Ranking',
+    title: 'GOGRAPHY Ranking',
     description: 'A photography ranking platform by photographers and travellers.',
     images: ['https://ranking.gography.net/cover-of-the-week.jpg'],
   }

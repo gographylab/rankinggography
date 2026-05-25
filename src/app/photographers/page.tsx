@@ -104,7 +104,7 @@ export default function PhotographersPage() {
         photoId="p018"
         eyebrow="Directory"
         title="All photographers"
-        subtitle="รวมช่างภาพและ Voyageurs ที่อยู่บนเวที GOGRAPHY Photo Awards — แยกตามสถานะหรือเรียงตามที่คุณต้องการ"
+        subtitle="รวมช่างภาพและ Voyageurs ที่อยู่บนเวที GOGRAPHY Ranking — แยกตามสถานะหรือเรียงตามที่คุณต้องการ"
       />
 
       {/* Filter / Sort bar */}

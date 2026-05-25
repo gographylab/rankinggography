@@ -78,7 +78,7 @@ export function MeDashboard({ persona, isVoyageur, isPhotographer, myPhotos, fol
             คุณอยู่อันดับ <strong className="font-semibold">#7</strong> ในหมวด Landscape
           </h3>
           <p className="th mt-3 text-[13px] text-fg-soft leading-[1.7] max-w-[480px]">
-            ส่งภาพอีก 5 ภาพในฤดูกาลนี้เพื่อขึ้น Top 5 · เหลือเวลา 42 วัน ก่อนปิดประกวด
+            เหลือเวลา 42 วัน ก่อนปิดประกวด
           </p>
           <button
             onClick={() => router.push('/for-customers')}
@@ -108,13 +108,13 @@ export function MeDashboard({ persona, isVoyageur, isPhotographer, myPhotos, fol
       <div className="mt-14">
         <div className="caps opacity-55 mb-5">Quick actions</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          <ActionCard title="ส่งภาพใหม่" sub="อัพได้วันละ 1 ภาพ" onClick={() => router.push('/upload')} />
+          <ActionCard title="Submit new photo" sub="1 upload per day" onClick={() => router.push('/upload')} />
           <ActionCard
-            title="ตอบความเห็น"
-            sub={`${totalComments.toLocaleString()} ความเห็นทั้งหมด`}
+            title="Reply to comments"
+            sub={`${totalComments.toLocaleString()} total comments`}
             onClick={() => router.push('/me/photos')}
           />
-          <ActionCard title="โหวต & favorite" sub="ค้นพบภาพใหม่" onClick={() => router.push('/explore')} />
+          <ActionCard title="Vote & Favorite" sub="Discover new photos" onClick={() => router.push('/explore')} />
         </div>
       </div>
 

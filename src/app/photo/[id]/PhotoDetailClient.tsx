@@ -252,8 +252,6 @@ export function PhotoDetailClient({ id }: { id: string }) {
     return <div className="min-h-screen flex items-center justify-center">404 - Photo not found in database</div>;
   }
 
-  const comments: Comment[] = isUUID ? [] : getCommentsFor(photo.id);
-
   return (
     <div className="page-fade">
       {/* Breadcrumb */}
@@ -388,37 +386,7 @@ export function PhotoDetailClient({ id }: { id: string }) {
               </div>
 
               {/* Comments */}
-              {isUUID ? (
-                <CommentSection photoId={photo.id} />
-              ) : (
-                <div className="mt-14">
-                  <SectionHeader title="Comments" eyebrow={`${comments.length} comments`} />
-                  <div className="flex flex-col gap-6">
-                    {comments.map((c: Comment, i: number) => {
-                      const cuser: Photographer | undefined = getPhotographer(c.user);
-                      return (
-                        <div key={i} className="flex gap-4 pb-6 border-b border-rule">
-                          <div className="w-9 h-9 rounded-full bg-tile overflow-hidden shrink-0">
-                            {cuser && (
-                              /* eslint-disable-next-line @next/next/no-img-element */
-                              <img src={cuser.avatar} alt="" className="w-full h-full object-cover" loading="lazy" />
-                            )}
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-baseline">
-                              <Link href={`/photographer/${c.user}`} className="text-[13px] font-medium tracking-[-0.005em]">
-                                {cuser?.name ?? c.user}
-                              </Link>
-                              <span className="mono text-[11px] opacity-50">{c.at}</span>
-                            </div>
-                            <p className="th mt-2 text-[14px] leading-[1.6]">{c.text}</p>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+              <CommentSection photoId={photo.id} />
             </div>
 
             {/* ---- Sidebar ---- */}

@@ -412,7 +412,7 @@ img { display: block; max-width: 100%; }
   }
   .marquee:hover .marquee-track { animation-play-state: paused; }
   .marquee-item {
-    display: inline-flex; align-items: baseline; gap: 12px;
+    display: inline-flex; align-items: center; gap: 12px;
     font-family: var(--mono);
     font-size: 12px;
     letter-spacing: .14em;

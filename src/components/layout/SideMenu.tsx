@@ -183,7 +183,7 @@ export function SideMenu() {
                 </button>
               </div>
             </div>
-            <div className="sidemenu-version mono">GOGRAPHY PHOTO AWARDS · 2026</div>
+            <div className="sidemenu-version mono">GOGRAPHY RANKING · 2026</div>
           </div>
         </div>
       </aside>

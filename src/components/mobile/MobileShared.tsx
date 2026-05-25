@@ -55,7 +55,7 @@ export function MobileFooter() {
         <div className="mono" style={{
           fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.6,
         }}>
-          Photo Awards · Season 04
+          Ranking · Season 04
         </div>
       </div>
     </footer>

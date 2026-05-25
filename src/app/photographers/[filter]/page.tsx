@@ -50,7 +50,7 @@ export default function PhotographersFilterPage({ params }: { params: { filter: 
     ? 'ลูกค้า GOGRAPHY ที่เคยร่วมทริปและมีภาพอยู่บนเวที'
     : filter === 'ambassadors'
     ? 'ช่างภาพรับเชิญที่ GOGRAPHY ไว้วางใจให้คัดเลือกภาพ'
-    : 'รวมช่างภาพและ Voyageurs ที่อยู่บนเวที GOGRAPHY Photo Awards';
+    : 'รวมช่างภาพและ Voyageurs ที่อยู่บนเวที GOGRAPHY Ranking';
 
   return (
     <div className="page-fade">

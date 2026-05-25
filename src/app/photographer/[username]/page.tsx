@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params: { username: string 
   if (!data) return { title: 'Photographer Not Found' };
 
   const name = data.display_name || params.username;
-  const description = data.bio || `Check out ${name}'s photography portfolio on GOGRAPHY Photo Awards.`;
+  const description = data.bio || `Check out ${name}'s photography portfolio on GOGRAPHY Ranking.`;
 
   return {
     title: name,

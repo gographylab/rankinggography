@@ -11,10 +11,10 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 
   return {
     title: data.title,
-    description: data.description || `A ${data.category} photo on Gography Photo Awards`,
+    description: data.description || `A ${data.category} photo on Gography Ranking`,
     openGraph: {
       title: data.title,
-      description: data.description || `A ${data.category} photo on Gography Photo Awards`,
+      description: data.description || `A ${data.category} photo on Gography Ranking`,
       images: [
         {
           url: data.storage_url,
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     twitter: {
       card: 'summary_large_image',
       title: data.title,
-      description: data.description || `A ${data.category} photo on Gography Photo Awards`,
+      description: data.description || `A ${data.category} photo on Gography Ranking`,
       images: [data.storage_url],
     }
   };

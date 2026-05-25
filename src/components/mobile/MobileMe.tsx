@@ -245,7 +245,7 @@ export function MobileMe({
                 <p style={{
                   fontFamily: "'Noto Sans Thai', sans-serif",
                   fontSize: 13, color: 'var(--fg-soft)', lineHeight: 1.6, marginTop: 8,
-                }}>ส่งภาพอีก 5 ภาพในฤดูกาลนี้เพื่อขึ้น Top 5 · เหลือเวลา 42 วัน</p>
+                }}>เหลือเวลา 42 วัน</p>
                 <div style={{
                   marginTop: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
                   paddingTop: 14, borderTop: '1px solid var(--rule)',
@@ -272,9 +272,9 @@ export function MobileMe({
             }}>Quick actions</div>
             <div style={{ display: 'grid', gap: 0, border: '1px solid var(--rule-strong)' }}>
               {[
-                ['ส่งภาพใหม่',     'อัพได้วันละ 1 ภาพ',     () => alert('Submit · Coming soon')],
-                ['โหวต & favorite', 'ค้นพบภาพใหม่',           () => router.push('/explore')],
-                ['ดู Hall of Fame', 'ภาพแห่งฤดูกาลทั้งหมด',  () => router.push('/hall-of-fame')],
+                ['Submit new photo','1 upload per day',       () => alert('Submit · Coming soon')],
+                ['Vote & Favorite', 'Discover new photos',    () => router.push('/explore')],
+                ['View Hall of Fame','All photos of the season',() => router.push('/hall-of-fame')],
               ].map(([t, sub, onClick], i, a) => (
                 <button key={t as string} onClick={onClick as any} style={{
                   padding: '16px 18px', textAlign: 'left',

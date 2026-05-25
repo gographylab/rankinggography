@@ -261,7 +261,7 @@ export default function UploadPage() {
       slug: slug,
       description: draft.caption,
       category: draft.cat.toLowerCase(),
-      location: draft.location,
+      location: draft.location.trim() || 'EARTH',
       camera: draft.camera,
       lens: draft.lens,
       storage_url: publicUrlData.publicUrl,
@@ -457,7 +457,7 @@ export default function UploadPage() {
                     />
                   </Field2>
 
-                  <Field2 label="สถานที่ (Location)">
+                  <Field2 label="สถานที่ (Location) (ไม่บังคับ)">
                     <input
                       className="input"
                       placeholder="เช่น Chiang Mai, Thailand"

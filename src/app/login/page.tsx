@@ -37,14 +37,10 @@ export default function LoginPage() {
             alt="Gography"
             className="w-[112px] h-[112px] object-contain"
           />
-          <div className="mono text-[10px] tracking-[.28em] uppercase opacity-45">
-            Photo Awards
+          <div className="mono text-[20px] tracking-[.28em] uppercase opacity-70">
+            Ranking
           </div>
         </div>
-
-        <p className="th text-[13px] text-center text-fg-soft leading-[1.65] mb-[24px] max-w-[32ch] mx-auto">
-          ใช้ Gmail เพื่อยืนยันตัวตน — 1 บัญชี = 1 คะแนนต่อภาพ
-        </p>
 
         <button
           onClick={handleSignIn}

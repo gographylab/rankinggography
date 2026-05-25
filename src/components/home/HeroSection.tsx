@@ -46,7 +46,7 @@ export function HeroSection({ banner, top, bannerPhotographer, topPhotographer }
         {/* Top bar */}
         <div className="absolute top-6 md:top-8 left-4 right-4 md:left-10 md:right-10 flex justify-between items-baseline text-white">
           <div className="mono text-[11px] tracking-[.22em] uppercase opacity-85">
-            GOGRAPHY Photo Awards
+            GOGRAPHY Ranking
           </div>
           <div className="mono text-[11px] tracking-[.22em] uppercase opacity-85">
             Spring 2026 · Live
