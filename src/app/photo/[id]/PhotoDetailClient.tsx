@@ -15,6 +15,7 @@ import { CommentSection } from '@/components/photo/CommentSection';
 import { useFollowState } from '@/hooks/useFollowState';
 import { useFavoriteState } from '@/hooks/useFavoriteState';
 import { usePathname } from 'next/navigation';
+import { computePulse, formatPulseDisplay, type PickType } from '@/lib/pulse-engine';
 
 // ===== Single photo detail page — /photo/[id] =====
 // Large image + sidebar (photographer, EXIF, pulse/stats, comments), like/favorite toggles, lightbox.
@@ -136,7 +137,17 @@ export function PhotoDetailClient({ id }: { id: string }) {
         picks: [],
         date: pData.uploaded_at,
         voyageurOnly: pData.voyageur_only,
-        pulse: pData.likes_count || 0,
+        pulse: computePulse({
+          likes_count: pData.likes_count || 0,
+          favorites_count: pData.favorites_count || 0,
+          comments_count: pData.comments_count || 0,
+          impressions_count: pData.impressions_count || 0,
+          uploaded_at: pData.uploaded_at,
+          pick_type: (pData.pick_type as PickType) ?? 'none',
+          has_title: !!pData.title,
+          has_category: !!pData.category,
+          has_descriptor: !!(pData.location || pData.camera || pData.lens),
+        }),
         rank: 0
       };
 
@@ -183,7 +194,17 @@ export function PhotoDetailClient({ id }: { id: string }) {
           picks: [],
           date: md.uploaded_at,
           voyageurOnly: md.voyageur_only,
-          pulse: md.likes_count || 0,
+          pulse: computePulse({
+            likes_count: md.likes_count || 0,
+            favorites_count: md.favorites_count || 0,
+            comments_count: md.comments_count || 0,
+            impressions_count: md.impressions_count || 0,
+            uploaded_at: md.uploaded_at,
+            pick_type: (md.pick_type as PickType) ?? 'none',
+            has_title: !!md.title,
+            has_category: !!md.category,
+            has_descriptor: !!(md.location || md.camera || md.lens),
+          }),
           rank: 0
         }));
         setMore(mappedMore);
@@ -219,7 +240,13 @@ export function PhotoDetailClient({ id }: { id: string }) {
               likes,
               comments,
               favorites,
-              pulse: likes,
+              pulse: computePulse({
+                likes_count: likes,
+                favorites_count: favorites,
+                comments_count: comments,
+                impressions_count: 0,
+                uploaded_at: curr.date,
+              }),
             };
           });
         }
@@ -372,7 +399,7 @@ export function PhotoDetailClient({ id }: { id: string }) {
                   <div>
                     <div className="caps opacity-55 mb-2">Pulse</div>
                     <div className="mono font-medium leading-[1] text-[48px] tracking-[-.02em]">
-                      {photo.pulse.toFixed(0)}
+                      {formatPulseDisplay(photo.pulse)}<span className="text-[24px] opacity-65">%</span>
                     </div>
                   </div>
                   <BreakdownStat label="Likes" val={photo.likes} mult="×1" />

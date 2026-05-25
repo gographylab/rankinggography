@@ -12,6 +12,7 @@ import { MeStats } from '@/components/account/MeStats';
 import { MeSettings } from '@/components/account/MeSettings';
 import { MobileMe } from '@/components/mobile/MobileMe';
 import type { Photographer } from '@/lib/types';
+import { computePulse, type PickType } from '@/lib/pulse-engine';
 
 interface PageProps {
   params: { section?: string[] };
@@ -20,6 +21,7 @@ interface PageProps {
 function mapPhoto(p: any, username: string, fallbackEmail?: string) {
   const likes = p.likes_count || 0;
   const favorites = p.favorites_count || 0;
+  const comments = p.comments_count || 0;
   return {
     id: p.id,
     slug: p.id,
@@ -33,12 +35,22 @@ function mapPhoto(p: any, username: string, fallbackEmail?: string) {
     exif: { camera: 'Unknown', lens: 'Unknown', iso: 100, shutter: '1/100', aperture: 'f/8', focal: '50mm' },
     likes,
     likes24h: 0,
-    comments: p.comments_count || 0,
+    comments,
     favorites,
     hours: 1,
     picks: [],
     date: p.uploaded_at,
-    pulse: likes,
+    pulse: computePulse({
+      likes_count: likes,
+      favorites_count: favorites,
+      comments_count: comments,
+      impressions_count: p.impressions_count || 0,
+      uploaded_at: p.uploaded_at,
+      pick_type: (p.pick_type as PickType) ?? 'none',
+      has_title: !!p.title,
+      has_category: !!p.category,
+      has_descriptor: !!(p.location || p.camera || p.lens),
+    }),
     rank: 0,
   };
 }
@@ -222,7 +234,14 @@ export default function Page({ params }: PageProps) {
               const likes = typeof next.likes_count === 'number' ? next.likes_count : p.likes;
               const favorites = typeof next.favorites_count === 'number' ? next.favorites_count : p.favorites;
               const comments = typeof next.comments_count === 'number' ? next.comments_count : p.comments;
-              return { ...p, likes, favorites, comments, pulse: likes };
+              const pulse = computePulse({
+                likes_count: likes,
+                favorites_count: favorites,
+                comments_count: comments,
+                impressions_count: 0,
+                uploaded_at: p.date,
+              });
+              return { ...p, likes, favorites, comments, pulse };
             }),
           );
         },

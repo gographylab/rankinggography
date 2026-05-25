@@ -4,6 +4,7 @@ import type { Photo } from '@/lib/types';
 import { getPhotographer } from '@/lib/data';
 import { PickBadge } from '@/components/icons';
 import { CardLikeButton } from './CardLikeButton';
+import { formatPulseDisplay } from '@/lib/pulse-engine';
 
 interface PhotoCardProps {
   photo: Photo;
@@ -51,8 +52,8 @@ export function PhotoCard({
               <span>{photo.exif?.camera || 'Unknown Camera'}</span>
             </div>
             <div className="pimg-overlay-pulse">
-              <span className="pimg-overlay-pulse-num">{(photo.pulse || 0).toFixed(0)}</span>
-              <span className="pimg-overlay-pulse-lab">PULSE</span>
+              <span className="pimg-overlay-pulse-num">{formatPulseDisplay(photo.pulse)}</span>
+              <span className="pimg-overlay-pulse-lab">%</span>
             </div>
           </div>
         </div>
@@ -74,8 +75,8 @@ export function PhotoCard({
         </div>
         <div className="shrink-0 ml-4 text-right">
           <div className="pulse">
-            <span className="big">{(photo.pulse || 0).toFixed(0)}</span>
-            <span className="lab">{pulseLabel}</span>
+            <span className="big">{formatPulseDisplay(photo.pulse)}</span>
+            <span className="lab">%</span>
           </div>
           {delta !== null && (
             <div className="mono text-[10px] text-fg-soft mt-1 tracking-[.04em]">
