@@ -1,0 +1,163 @@
+{
+  "Nav": {
+    "login": "LOGIN",
+    "hall_of_fame": "Hall of Fame",
+    "photographers": "Photographers",
+    "for_voyageurs": "For Voyageurs",
+    "about": "About"
+  },
+  "HeroSection": {
+    "headline": "Photographs<br />that tell stories",
+    "description": "A photography ranking platform by photographers and travellers — vote, discover, and help choose the photo of the season.",
+    "season_live": "{season} · Live",
+    "explore": "Explore the gallery",
+    "how_ranking_works": "How ranking works",
+    "banner_credit": "Banner: \"{title}\" by {name}",
+    "cover_of_week": "Cover of the week",
+    "by": "by {name}",
+    "view_photo": "View photo"
+  },
+  "TrendsNowSection": {
+    "title": "Trends Now",
+    "subtitle": "Past Week · Top 9",
+    "see_all": "See all",
+    "likes": "likes"
+  },
+  "LeaderboardSection": {
+    "section_label": "Leaderboard · This week",
+    "title": "Leaderboard",
+    "see_all": "See all"
+  },
+  "AlltimeSection": {
+    "section_label": "All-time · Beyond this week",
+    "title": "All-time",
+    "subtitle": "Photos older than 1 week — ranked by lifetime likes, without time decay",
+    "see_archive": "See archive"
+  },
+  "FeaturedPhotographersSection": {
+    "section_label": "Top Photographers · All time",
+    "title": "Top Photographers",
+    "view_all": "View all photographers"
+  },
+  "VoyageursSection": {
+    "title": "Travelled with us?<br />Become a Voyageur",
+    "description": "Customers who have travelled with GOGRAPHY earn <strong>Voyageur</strong> status — eligible to submit photos in a customer-only category. Each season the winner receives a 50,000 THB voucher, and the top 10 receive cashback on their next trip.",
+    "reward1_sub": "per category",
+    "program_name": "The Voyageurs Programme",
+    "exclusive": "EXCLUSIVE · VOYAGEURS ONLY",
+    "badge_sub": "PUBLIC BADGE · LIFETIME",
+    "how_to_join": "How to join Voyageurs",
+    "past_winners": "Past winners",
+    "voyageur_pick": "Voyageur Pick",
+    "how_it_works": "How it works · 3 steps",
+    "step1_title": "Get your status verified",
+    "step1_desc": "After your trip, the GOGRAPHY team will mark your account as a Voyageur within 7 days.",
+    "step2_title": "Upload photos from your trip",
+    "step2_desc": "Submit up to 1 photo per day per account. Keep submitting throughout the season (4 months).",
+    "step3_title": "Win rewards",
+    "step3_desc": "At the end of the season, the team selects the best photos per category — the winner gets a 50,000 THB voucher and the Top 10 get 3–15% cashback."
+  },
+  "CategoryChips": {
+    "all": "All",
+    "landscape": "Landscape",
+    "portrait": "Portrait",
+    "bw": "Black & White",
+    "voyageurs": "Voyageurs",
+    "open_full": "OPENS FULL CATEGORY PAGE"
+  },
+  "PhotoCard": {
+    "likes": "likes",
+    "comments": "comments",
+    "voyageur_only": "Voyageur Only",
+    "unknown_camera": "Unknown Camera"
+  },
+  "PhotographerCard": {
+    "ambassador": "Ambassador",
+    "voyageur": "Voyageur",
+    "photographer": "Photographer",
+    "you": "You",
+    "collection": "Collection",
+    "following": "Following",
+    "follow": "Follow",
+    "followers": "Followers",
+    "photos": "Photos"
+  },
+  "SideMenu": {
+    "hall_of_fame": "Hall of Fame",
+    "photographers": "Photographers",
+    "ambassadors": "Ambassadors",
+    "landscape": "Landscape",
+    "portrait": "Portrait",
+    "bw": "Black & White",
+    "ranking": "Ranking",
+    "about": "About",
+    "for_voyageurs": "For Voyageurs",
+    "registered_user": "Registered User",
+    "guest": "Guest",
+    "not_signed_in": "Not signed in",
+    "authenticated": "AUTHENTICATED",
+    "sign_in": "Sign in with Google",
+    "open_dashboard": "Open your dashboard",
+    "discover": "Discover",
+    "categories": "Categories",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "sign_out": "Sign out"
+  },
+  "MobileShared": {
+    "leaderboard": "Leaderboard",
+    "trends_now": "Trends Now",
+    "home": "Home",
+    "explore": "Explore",
+    "search": "Search",
+    "pulse": "Pulse",
+    "upload": "Upload",
+    "favorites": "Favorites",
+    "me": "Me",
+    "sign_in": "Sign in"
+  },
+  "MobileHome": {
+    "season_banner": "Season 04 · 37 days left",
+    "stats_frames": "Frames",
+    "stats_photographers": "Photographers",
+    "stats_seasons": "Seasons",
+    "stats_days_left": "Days left",
+    "how_it_works_num": "How it works",
+    "how_it_works_title": "Three steps. One season.",
+    "step": "STEP",
+    "step1_title": "Submit your frame",
+    "step1_desc": "Upload up to 12 photos per season. Tag location and category.",
+    "step2_title": "Earn pulse",
+    "step2_desc": "Likes × 1, likes 24h × 3, curation bonus. Time-decayed.",
+    "step3_title": "Win the season",
+    "step3_desc": "Highest pulse across all categories takes Season Winner.",
+    "voyageurs_num": "Voyageurs",
+    "voyageurs_title": "On the road this season",
+    "all": "All",
+    "pulse": "Pulse",
+    "become_voyageur": "Become a Voyageur",
+    "leaderboard_num": "Leaderboard",
+    "leaderboard_title": "Pulse this week",
+    "see_all": "See all"
+  },
+  "Notifications": {
+    "title": "Notifications",
+    "mark_all_read": "Mark all read",
+    "no_notifications": "No notifications yet.",
+    "liked_your_photo": "liked your photo",
+    "favorited_your_photo": "favorited your photo",
+    "commented_on_your_photo": "commented on your photo",
+    "replied_to_your_comment": "replied to your comment",
+    "started_following_you": "started following you",
+    "someone_liked": "Someone liked your photo",
+    "someone_favorited": "Someone favorited your photo",
+    "someone_commented": "Someone commented on your photo",
+    "someone_replied": "Someone replied to your comment",
+    "someone_followed": "Someone started following you",
+    "seconds_ago": "s ago",
+    "minutes_ago": "m ago",
+    "hours_ago": "h ago",
+    "days_ago": "d ago"
+  }
+}

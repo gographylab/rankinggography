@@ -1,0 +1,163 @@
+{
+  "Nav": {
+    "login": "เข้าสู่ระบบ",
+    "hall_of_fame": "หอเกียรติยศ",
+    "photographers": "ช่างภาพ",
+    "for_voyageurs": "สำหรับลูกค้า",
+    "about": "เกี่ยวกับเรา"
+  },
+  "HeroSection": {
+    "headline": "ภาพถ่าย<br />ที่เล่าเรื่องราว",
+    "description": "แพลตฟอร์มจัดอันดับภาพถ่ายโดยช่างภาพและนักเดินทาง — โหวต ค้นพบ และร่วมเลือกภาพถ่ายแห่งฤดูกาล",
+    "season_live": "{season} · แข่งขันอยู่",
+    "explore": "เข้าชมแกลเลอรี่",
+    "how_ranking_works": "ระบบจัดอันดับทำงานอย่างไร",
+    "banner_credit": "ภาพปก: \"{title}\" โดย {name}",
+    "cover_of_week": "สุดยอดภาพถ่ายประจำสัปดาห์",
+    "by": "โดย {name}",
+    "view_photo": "ดูรูปภาพ"
+  },
+  "TrendsNowSection": {
+    "title": "กำลังมาแรง",
+    "subtitle": "สัปดาห์ที่ผ่านมา · ท็อป 9",
+    "see_all": "ดูทั้งหมด",
+    "likes": "ถูกใจ"
+  },
+  "LeaderboardSection": {
+    "section_label": "ตารางคะแนน · สัปดาห์นี้",
+    "title": "Leaderboard",
+    "see_all": "ดูทั้งหมด"
+  },
+  "AlltimeSection": {
+    "section_label": "ตลอดกาล · นานกว่า 1 สัปดาห์",
+    "title": "All-time",
+    "subtitle": "ภาพถ่ายที่อายุเกิน 1 สัปดาห์ — จัดอันดับด้วยยอดไลก์ตลอดกาล (ไม่หักคะแนนตามกาลเวลา)",
+    "see_archive": "ดูคลังภาพ"
+  },
+  "FeaturedPhotographersSection": {
+    "section_label": "ช่างภาพยอดเยี่ยม · ตลอดกาล",
+    "title": "ช่างภาพยอดเยี่ยม",
+    "view_all": "ดูช่างภาพทั้งหมด"
+  },
+  "VoyageursSection": {
+    "title": "เคยร่วมเดินทางกับเรา?<br />มาเป็น Voyageur สิ",
+    "description": "ลูกค้าที่เคยเดินทางกับ GOGRAPHY จะได้รับสถานะ <strong>Voyageur</strong> — มีสิทธิ์ส่งภาพในหมวดหมู่พิเศษสำหรับลูกค้าเท่านั้น ทุกฤดูกาลผู้ชนะจะได้รับ Voucher มูลค่า 50,000 บาท และ Top 10 จะได้รับ Cashback สำหรับทริปถัดไป",
+    "reward1_sub": "ต่อหมวด",
+    "program_name": "The Voyageurs Programme",
+    "exclusive": "สิทธิพิเศษ · เฉพาะ VOYAGEUR",
+    "badge_sub": "PUBLIC BADGE · ตลอดชีพ",
+    "how_to_join": "วิธีเข้าร่วม Voyageurs",
+    "past_winners": "ผู้ชนะที่ผ่านมา",
+    "voyageur_pick": "Voyageur Pick",
+    "how_it_works": "ขั้นตอนการเข้าร่วม · 3 ขั้นตอน",
+    "step1_title": "รับการยืนยันสถานะ",
+    "step1_desc": "หลังจบทริป ทีม GOGRAPHY จะ mark บัญชีของคุณเป็น Voyageur ภายใน 7 วัน",
+    "step2_title": "อัพโหลดภาพจากทริป",
+    "step2_desc": "ส่งได้วันละ 1 รูปต่อบัญชี · ส่งสะสมต่อเนื่องตลอดฤดูกาล (4 เดือน)",
+    "step3_title": "ลุ้นรางวัล",
+    "step3_desc": "ปลายฤดูกาล ทีมงานเลือกภาพดีที่สุดต่อหมวด — ผู้ชนะรับ Voucher 50,000 บาท และ Top 10 ได้รับ Cashback 3–15%"
+  },
+  "CategoryChips": {
+    "all": "ทั้งหมด",
+    "landscape": "ภาพทิวทัศน์",
+    "portrait": "บุคคล",
+    "bw": "ขาวดำ",
+    "voyageurs": "ลูกค้าทัวร์",
+    "open_full": "เปิดหน้าหมวดหมู่เต็มรูปแบบ"
+  },
+  "PhotoCard": {
+    "likes": "ถูกใจ",
+    "comments": "ความคิดเห็น",
+    "voyageur_only": "เฉพาะลูกค้าทัวร์",
+    "unknown_camera": "ไม่ระบุกล้อง"
+  },
+  "PhotographerCard": {
+    "ambassador": "Ambassador",
+    "voyageur": "Voyageur",
+    "photographer": "ช่างภาพ",
+    "you": "คุณ",
+    "collection": "คอลเลกชัน",
+    "following": "กำลังติดตาม",
+    "follow": "ติดตาม",
+    "followers": "ผู้ติดตาม",
+    "photos": "รูปภาพ"
+  },
+  "SideMenu": {
+    "hall_of_fame": "หอเกียรติยศ",
+    "photographers": "ช่างภาพ",
+    "ambassadors": "แบรนด์แอมบาสเดอร์",
+    "landscape": "ภาพทิวทัศน์",
+    "portrait": "บุคคล",
+    "bw": "ขาวดำ",
+    "ranking": "ระบบจัดอันดับ",
+    "about": "เกี่ยวกับเรา",
+    "for_voyageurs": "สำหรับลูกค้าทัวร์",
+    "registered_user": "ผู้ใช้ทั่วไป",
+    "guest": "ผู้เยี่ยมชม",
+    "not_signed_in": "ยังไม่ได้เข้าสู่ระบบ",
+    "authenticated": "เข้าสู่ระบบแล้ว",
+    "sign_in": "เข้าสู่ระบบด้วย Google",
+    "open_dashboard": "ไปที่แดชบอร์ดของคุณ",
+    "discover": "ค้นพบ",
+    "categories": "หมวดหมู่",
+    "theme": "ธีม",
+    "light": "สว่าง",
+    "dark": "มืด",
+    "sign_out": "ออกจากระบบ"
+  },
+  "MobileShared": {
+    "leaderboard": "ตารางคะแนน",
+    "trends_now": "กำลังมาแรง",
+    "home": "หน้าแรก",
+    "explore": "ค้นพบ",
+    "search": "ค้นหา",
+    "pulse": "คะแนน",
+    "upload": "อัปโหลด",
+    "favorites": "ชื่นชอบ",
+    "me": "ฉัน",
+    "sign_in": "เข้าสู่ระบบ"
+  },
+  "MobileHome": {
+    "season_banner": "ฤดูกาล 04 · เหลืออีก 37 วัน",
+    "stats_frames": "ภาพถ่าย",
+    "stats_photographers": "ช่างภาพ",
+    "stats_seasons": "ฤดูกาล",
+    "stats_days_left": "วันคงเหลือ",
+    "how_it_works_num": "ขั้นตอนการเข้าร่วม",
+    "how_it_works_title": "3 ขั้นตอน ง่ายๆ",
+    "step": "ขั้นตอน",
+    "step1_title": "ส่งภาพของคุณ",
+    "step1_desc": "อัปโหลดได้สูงสุด 12 รูปต่อฤดูกาล พร้อมระบุสถานที่และหมวดหมู่",
+    "step2_title": "สะสมคะแนน",
+    "step2_desc": "ยอดไลก์ x 1, ไลก์ใน 24 ชม. x 3, และโบนัสจากทีมงาน (มีการลดทอนตามเวลา)",
+    "step3_title": "ผู้ชนะในฤดูกาล",
+    "step3_desc": "ผู้ที่ได้คะแนนรวมสูงสุดในทุกหมวดหมู่จะเป็นผู้ชนะ",
+    "voyageurs_num": "ลูกค้าทัวร์",
+    "voyageurs_title": "ช่างภาพที่เดินทางกับเรา",
+    "all": "ทั้งหมด",
+    "pulse": "คะแนน",
+    "become_voyageur": "ร่วมเป็นลูกค้าทัวร์",
+    "leaderboard_num": "ตารางคะแนน",
+    "leaderboard_title": "คะแนนสัปดาห์นี้",
+    "see_all": "ดูทั้งหมด"
+  },
+  "Notifications": {
+    "title": "การแจ้งเตือน",
+    "mark_all_read": "อ่านแล้วทั้งหมด",
+    "no_notifications": "ยังไม่มีการแจ้งเตือน",
+    "liked_your_photo": "ถูกใจรูปภาพของคุณ",
+    "favorited_your_photo": "ชื่นชอบรูปภาพของคุณ",
+    "commented_on_your_photo": "แสดงความคิดเห็นในรูปภาพของคุณ",
+    "replied_to_your_comment": "ตอบกลับความคิดเห็นของคุณ",
+    "started_following_you": "เริ่มติดตามคุณ",
+    "someone_liked": "มีคนถูกใจรูปภาพของคุณ",
+    "someone_favorited": "มีคนชื่นชอบรูปภาพของคุณ",
+    "someone_commented": "มีคนแสดงความคิดเห็นในรูปภาพของคุณ",
+    "someone_replied": "มีคนตอบกลับความคิดเห็นของคุณ",
+    "someone_followed": "มีคนเริ่มติดตามคุณ",
+    "seconds_ago": " วินาทีที่แล้ว",
+    "minutes_ago": " นาทีที่แล้ว",
+    "hours_ago": " ชม. ที่แล้ว",
+    "days_ago": " วันที่แล้ว"
+  }
+}
