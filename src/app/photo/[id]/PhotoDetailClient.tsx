@@ -17,6 +17,7 @@ import { useFavoriteState } from '@/hooks/useFavoriteState';
 import { usePathname } from 'next/navigation';
 import { computePulse, type PickType } from '@/lib/pulse-engine';
 import { ConfirmDialog } from '@/components/shared/ConfirmDialog';
+import { useTranslations } from 'next-intl';
 
 // ===== Single photo detail page — /photo/[id] =====
 // Large image + sidebar (photographer, EXIF, pulse/stats, comments), like/favorite toggles, lightbox.
@@ -75,6 +76,7 @@ function BreakdownStat({ label, val, mult }: BreakdownStatProps) {
 export function PhotoDetailClient({ id }: { id: string }) {
   const params = { id };
   const router = useRouter();
+  const t = useTranslations('PhotoDetail');
   
   // We will track if this photo came from the DB to enable DB-specific features (likes, comments, realtime)
   const [isDbPhoto, setIsDbPhoto] = useState(false);
@@ -298,16 +300,16 @@ export function PhotoDetailClient({ id }: { id: string }) {
       <div className="py-5 border-b border-rule">
         <div className="wrap mono flex flex-col md:flex-row justify-between gap-3 md:gap-0 text-[11px] tracking-[.14em] uppercase opacity-65">
           <div className="flex items-center flex-wrap gap-y-2">
-            <Link href="/explore" className="opacity-70 shrink-0">Explore</Link>
+            <Link href="/explore" className="opacity-70 shrink-0">{t('explore')}</Link>
             <span className="opacity-35 mx-2 md:mx-3 shrink-0">/</span>
             <Link href={`/explore/${catSlug}`} className="opacity-70 shrink-0">{photo.cat}</Link>
             <span className="opacity-35 mx-2 md:mx-3 shrink-0">/</span>
             <span className="truncate max-w-[120px] md:max-w-[200px]" title={photo.id}>{photo.id}</span>
           </div>
           <div className="flex flex-wrap items-center gap-y-2">
-            <span><span className="opacity-55">Rank</span> #{String(photo.rank).padStart(3, '0')}</span>
+            <span><span className="opacity-55">{t('rank')}</span> #{String(photo.rank).padStart(3, '0')}</span>
             <span className="opacity-35 mx-2 md:mx-3">·</span>
-            <span><span className="opacity-55">Posted</span> {new Date(photo.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+            <span><span className="opacity-55">{t('posted')}</span> {new Date(photo.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
           </div>
         </div>
       </div>
@@ -406,14 +408,14 @@ export function PhotoDetailClient({ id }: { id: string }) {
                   className="heart" 
                   onClick={handleCopyLink}
                 >
-                  {copied ? 'Copied!' : 'Copy link'}
+                  {copied ? t('copied') : t('copy_link')}
                 </button>
                 <button 
                   className="heart"
                   onClick={handleReport}
                   disabled={reportDone}
                 >
-                  {reportDone ? 'Reported' : 'Report'}
+                  {reportDone ? t('reported') : t('report')}
                 </button>
               </div>
 
@@ -421,16 +423,16 @@ export function PhotoDetailClient({ id }: { id: string }) {
               <div className="mt-10 md:mt-14 py-6 md:py-8 border-t border-rule border-b border-rule">
                 <div className="grid gap-4 md:gap-8 items-baseline grid-cols-2 md:grid-cols-4">
                   <div>
-                    <div className="caps opacity-55 mb-2">Likes</div>
+                    <div className="caps opacity-55 mb-2">{t('likes')}</div>
                     <div className="mono font-medium leading-[1] text-[48px] tracking-[-.02em]">
                       {photo.likes}
                     </div>
                   </div>
-                  <BreakdownStat label="Favorites" val={photo.favorites} />
-                  <BreakdownStat label="Comments" val={photo.comments} />
+                  <BreakdownStat label={t('favorites')} val={photo.favorites} />
+                  <BreakdownStat label={t('comments')} val={photo.comments} />
                   <BreakdownStat
-                    label="Curation"
-                    val={photo.picks.length === 2 ? 'Both' : photo.picks.length === 1 ? '1 pick' : '—'}
+                    label={t('curation')}
+                    val={photo.picks.length === 2 ? t('curation_both') : photo.picks.length === 1 ? t('curation_1pick') : '—'}
                   />
                 </div>
               </div>
@@ -471,18 +473,18 @@ export function PhotoDetailClient({ id }: { id: string }) {
                     <div className="mono flex gap-6 mt-5">
                       <div>
                         <div className="text-[18px] font-medium">{photographer.photos}</div>
-                        <div className="text-[10px] tracking-[.16em] uppercase opacity-55 mt-[2px]">Photos</div>
+                        <div className="text-[10px] tracking-[.16em] uppercase opacity-55 mt-[2px]">{t('photos')}</div>
                       </div>
                       <div>
                         <div className="text-[18px] font-medium">
                           {(isDbPhoto ? follow.followersCount : photographer.followers).toLocaleString()}
                         </div>
-                        <div className="text-[10px] tracking-[.16em] uppercase opacity-55 mt-[2px]">Followers</div>
+                        <div className="text-[10px] tracking-[.16em] uppercase opacity-55 mt-[2px]">{t('followers')}</div>
                       </div>
                     </div>
                     {isDbPhoto ? (
                       follow.isSelf ? (
-                        <button className="btn btn-sm w-full mt-6 justify-center" disabled>You</button>
+                        <button className="btn btn-sm w-full mt-6 justify-center" disabled>{t('you')}</button>
                       ) : (
                         <button
                           className={`btn btn-sm w-full mt-6 justify-center ${follow.following ? '' : 'btn-solid'}`}
@@ -494,31 +496,31 @@ export function PhotoDetailClient({ id }: { id: string }) {
                           }}
                           disabled={follow.loading}
                         >
-                          {follow.following ? 'Following' : 'Follow'}
+                          {follow.following ? t('following') : t('follow')}
                         </button>
                       )
                     ) : (
-                      <button className="btn btn-sm w-full mt-6 justify-center">Follow</button>
+                      <button className="btn btn-sm w-full mt-6 justify-center">{t('follow')}</button>
                     )}
                   </>
                 ) : (
-                  <p className="text-[13px] opacity-55">Photographer not found</p>
+                  <p className="text-[13px] opacity-55">{t('photographer_not_found')}</p>
                 )}
               </div>
 
               {/* EXIF */}
               <div className="py-7 border-b border-rule">
-                <div className="caps opacity-55 mb-4">Capture</div>
+                <div className="caps opacity-55 mb-4">{t('capture')}</div>
                 <table className="w-full text-[12px] mono border-collapse">
                   <tbody>
                     {(
                       [
-                        ['Camera', photo.exif.camera],
-                        ['Lens', photo.exif.lens],
-                        ['ISO', String(photo.exif.iso)],
-                        ['Aperture', photo.exif.aperture],
-                        ['Shutter', photo.exif.shutter],
-                        ['Focal', photo.exif.focal],
+                        [t('camera'), photo.exif.camera],
+                        [t('lens'), photo.exif.lens],
+                        [t('iso'), String(photo.exif.iso)],
+                        [t('aperture'), photo.exif.aperture],
+                        [t('shutter'), photo.exif.shutter],
+                        [t('focal'), photo.exif.focal],
                       ] as [string, string][]
                     ).map(([k, v]) => (
                       <tr key={k}>
@@ -534,7 +536,7 @@ export function PhotoDetailClient({ id }: { id: string }) {
               {more.length > 0 && photographer && (
                 <div className="py-7">
                   <div className="caps opacity-55 mb-4">
-                    More from {photographer.name.split(' ')[0]}
+                    {t('more_from', { name: photographer.name.split(' ')[0] })}
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     {more.map((p: Photo) => (
@@ -566,10 +568,10 @@ export function PhotoDetailClient({ id }: { id: string }) {
       <section className="py-10 pb-20 rule-top">
         <div className="wrap">
           <SectionHeader
-            title="In the same vein"
-            eyebrow={`More ${photo.cat}`}
+            title={t('in_the_same_vein')}
+            eyebrow={t('more_cat', { cat: photo.cat })}
             link={`/explore/${catSlug}`}
-            linkLabel="See category"
+            linkLabel={t('see_category')}
           />
           <PhotoGrid photos={similar} cols={3} />
         </div>
@@ -587,9 +589,9 @@ export function PhotoDetailClient({ id }: { id: string }) {
       {/* Report Dialog */}
       <ConfirmDialog
         open={reportOpen}
-        title="Report this photo?"
-        body="If you find this photo inappropriate, offensive, or infringing on copyrights, let us know. Our moderation team will review it shortly."
-        confirmLabel="Submit Report"
+        title={t('report_photo_title')}
+        body={t('report_photo_body')}
+        confirmLabel={t('submit_report')}
         onConfirm={() => {
           setReportOpen(false);
           setReportDone(true);

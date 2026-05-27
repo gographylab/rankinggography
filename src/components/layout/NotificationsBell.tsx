@@ -6,7 +6,7 @@ import { formatNotificationBody } from '@/lib/data/notifications';
 
 import { useTranslations } from 'next-intl';
 
-function TranslatedTimeAgo({ iso }: { iso: string }) {
+export function TranslatedTimeAgo({ iso }: { iso: string }) {
   const t = useTranslations('Notifications');
   const ms = Date.now() - new Date(iso).getTime();
   const s = Math.floor(ms / 1000);
@@ -19,7 +19,7 @@ function TranslatedTimeAgo({ iso }: { iso: string }) {
   return <>{d}{t('days_ago')}</>;
 }
 
-function TranslatedNotificationBody({ body }: { body: string }) {
+export function TranslatedNotificationBody({ body }: { body: string }) {
   const t = useTranslations('Notifications');
   if (!body) return null;
   if (body.endsWith('liked your photo')) {
