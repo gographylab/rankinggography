@@ -289,16 +289,14 @@ export function PhotoDetailClient({ id }: { id: string }) {
     }
   };
 
-  // Double-tap to like (IG-style); single tap still opens the lightbox.
+  // Double-tap to like (IG-style). Single tap does nothing.
   const [heartBurst, setHeartBurst] = useState(0);
   const lastTapRef = useRef(0);
-  const tapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const onImageTap = () => {
-    if (!isDbPhoto) { setLightboxOpen(true); return; }
+    if (!isDbPhoto) return;
     const now = Date.now();
     if (now - lastTapRef.current < 300) {
       lastTapRef.current = 0;
-      if (tapTimerRef.current) { clearTimeout(tapTimerRef.current); tapTimerRef.current = null; }
       if (!likeState.liked) {
         likeState.toggle().then((res) => {
           if (res.kind === 'unauth') router.push(`/login?next=${encodeURIComponent(pathname ?? '/')}`);
@@ -307,11 +305,6 @@ export function PhotoDetailClient({ id }: { id: string }) {
       setHeartBurst((b) => b + 1);
     } else {
       lastTapRef.current = now;
-      if (tapTimerRef.current) clearTimeout(tapTimerRef.current);
-      tapTimerRef.current = setTimeout(() => {
-        setLightboxOpen(true);
-        tapTimerRef.current = null;
-      }, 280);
     }
   };
 
@@ -353,9 +346,9 @@ export function PhotoDetailClient({ id }: { id: string }) {
 
             {/* ---- Main column ---- */}
             <div>
-              {/* Photo image — tap to open lightbox, double-tap to like */}
+              {/* Photo image — double-tap to like */}
               <div
-                className="relative bg-tile cursor-zoom-in overflow-hidden select-none"
+                className="relative bg-tile overflow-hidden select-none"
                 onClick={onImageTap}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
