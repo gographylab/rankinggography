@@ -8,6 +8,8 @@ import { useTranslations } from 'next-intl';
 import { MobileFooter } from './MobileShared';
 import { MeSettings } from '../account/MeSettings';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import { getPresignedUploadUrl } from '@/app/actions/r2-upload';
+import { convertToWebP } from '@/lib/imageConvert';
 
 type SectionKey = 'dashboard' | 'photos' | 'favorites' | 'stats' | 'settings';
 
@@ -58,17 +60,19 @@ export function MobileMe({
     setUploading(true);
 
     try {
+      const webpFile = await convertToWebP(file);
       const supabase = getSupabaseBrowserClient();
-      const fileExt = file.name.split('.').pop()?.toLowerCase() || 'jpg';
-      const fileName = `${type}s/${authUser.id}-${Date.now()}.${fileExt}`;
+      const fileName = `${type}s/${authUser.id}-${Date.now()}.webp`;
 
-      const { error: uploadError } = await supabase.storage
-        .from('photos')
-        .upload(fileName, file, { upsert: true });
-      if (uploadError) throw uploadError;
+      const { success, url, publicUrl, error: uploadError } = await getPresignedUploadUrl(fileName, 'image/webp');
+      if (!success || !url || !publicUrl) throw new Error(uploadError || 'Failed to get upload URL');
 
-      const { data: pub } = supabase.storage.from('photos').getPublicUrl(fileName);
-      const publicUrl = pub.publicUrl;
+      const uploadRes = await fetch(url, {
+        method: 'PUT',
+        body: webpFile,
+        headers: { 'Content-Type': 'image/webp' },
+      });
+      if (!uploadRes.ok) throw new Error('Upload failed: ' + uploadRes.statusText);
 
       const column = type === 'avatar' ? 'avatar_url' : 'cover_url';
       const { error: updateError } = await supabase
